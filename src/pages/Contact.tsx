@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Layout } from '@/components/layout/Layout';
+import { useContent } from '@/context/ContentContext';
 import { Mail, MapPin, Phone, Send, Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const Contact = () => {
+  const { content } = useContent();
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
@@ -68,8 +70,8 @@ const Contact = () => {
                     <div>
                       <h3 className="font-semibold mb-1">Location</h3>
                       <p className="text-muted-foreground">
-                        Federal College of Education,<br />
-                        Kano, Nigeria
+                        {content.contact.locationDetail},<br />
+                        {content.contact.location}
                       </p>
                     </div>
                   </div>
@@ -80,7 +82,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold mb-1">Email</h3>
-                      <p className="text-muted-foreground">info@amtayfc.com</p>
+                      <p className="text-muted-foreground">{content.contact.email}</p>
                     </div>
                   </div>
 
@@ -90,7 +92,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold mb-1">Phone</h3>
-                      <p className="text-muted-foreground">+234 XXX XXX XXXX</p>
+                      <p className="text-muted-foreground">{content.contact.phone}</p>
                     </div>
                   </div>
                 </div>
@@ -216,8 +218,8 @@ const Contact = () => {
         <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-amtay-blue/5 to-amtay-royal/5">
           <div className="text-center">
             <MapPin className="w-16 h-16 text-amtay-blue mx-auto mb-4" />
-            <p className="text-lg font-semibold text-foreground">Kano, Nigeria</p>
-            <p className="text-muted-foreground">Federal College of Education</p>
+            <p className="text-lg font-semibold text-foreground">{content.contact.location}</p>
+            <p className="text-muted-foreground">{content.contact.locationDetail}</p>
           </div>
         </div>
       </section>

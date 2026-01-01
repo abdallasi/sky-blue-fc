@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Layout } from '@/components/layout/Layout';
 import { useContent } from '@/context/ContentContext';
-import { Save, RotateCcw, ChevronDown, ChevronRight } from 'lucide-react';
+import { Save, RotateCcw, ChevronDown, ChevronRight, Upload, X, Image } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const CMS = () => {
@@ -9,6 +9,8 @@ const CMS = () => {
   const { toast } = useToast();
   const [activeSection, setActiveSection] = useState<string | null>('hero');
   const [localContent, setLocalContent] = useState(content);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [currentImageField, setCurrentImageField] = useState<string | null>(null);
 
   const handleSave = () => {
     updateContent(localContent);
@@ -39,17 +41,62 @@ const CMS = () => {
     });
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && currentImageField) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        updateField(`images.${currentImageField}`, reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+    setCurrentImageField(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const triggerImageUpload = (fieldName: string) => {
+    setCurrentImageField(fieldName);
+    fileInputRef.current?.click();
+  };
+
+  const removeImage = (fieldName: string) => {
+    updateField(`images.${fieldName}`, undefined);
+  };
+
   const sections = [
     { id: 'hero', label: 'Hero Section' },
     { id: 'stats', label: 'Statistics' },
     { id: 'snapshot', label: 'Club Snapshot' },
     { id: 'visionMission', label: 'Vision & Mission' },
     { id: 'about', label: 'About Page' },
+    { id: 'milestones', label: 'Milestones' },
+    { id: 'facilities', label: 'Facilities' },
+    { id: 'management', label: 'Management Team' },
+    { id: 'players', label: 'Players' },
+    { id: 'academy', label: 'Academy' },
     { id: 'contact', label: 'Contact Info' },
+    { id: 'images', label: 'Images & Media' },
+  ];
+
+  const imageFields = [
+    { key: 'heroBackground', label: 'Hero Background' },
+    { key: 'founderPhoto', label: 'Founder Photo' },
+    { key: 'academyHero', label: 'Academy Hero Image' },
+    { key: 'teamHero', label: 'Team Hero Image' },
   ];
 
   return (
     <Layout>
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleImageUpload}
+        accept="image/*"
+        className="hidden"
+      />
+
       <section className="pt-32 pb-20 bg-gradient-hero text-white">
         <div className="container-premium">
           <h1 className="heading-hero max-w-4xl mb-4">Content Management</h1>
@@ -175,6 +222,22 @@ const CMS = () => {
                             rows={4}
                           />
                         </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Achievements</label>
+                          {localContent.snapshot.achievements.map((achievement, index) => (
+                            <input
+                              key={index}
+                              type="text"
+                              value={achievement}
+                              onChange={(e) => {
+                                const newAchievements = [...localContent.snapshot.achievements];
+                                newAchievements[index] = e.target.value;
+                                updateField('snapshot.achievements', newAchievements);
+                              }}
+                              className="w-full px-4 py-3 rounded-xl border border-border bg-background mb-2"
+                            />
+                          ))}
+                        </div>
                       </>
                     )}
 
@@ -210,6 +273,24 @@ const CMS = () => {
                     {section.id === 'about' && (
                       <>
                         <div>
+                          <label className="block text-sm font-medium mb-2">Hero Title</label>
+                          <input
+                            type="text"
+                            value={localContent.about.heroTitle}
+                            onChange={(e) => updateField('about.heroTitle', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Hero Subtitle</label>
+                          <textarea
+                            value={localContent.about.heroSubtitle}
+                            onChange={(e) => updateField('about.heroSubtitle', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                            rows={2}
+                          />
+                        </div>
+                        <div>
                           <label className="block text-sm font-medium mb-2">Founder Name</label>
                           <input
                             type="text"
@@ -225,6 +306,248 @@ const CMS = () => {
                             onChange={(e) => updateField('about.founderBio', e.target.value)}
                             className="w-full px-4 py-3 rounded-xl border border-border bg-background"
                             rows={4}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Story Paragraphs</label>
+                          {localContent.about.storyParagraphs.map((para, index) => (
+                            <textarea
+                              key={index}
+                              value={para}
+                              onChange={(e) => {
+                                const newParas = [...localContent.about.storyParagraphs];
+                                newParas[index] = e.target.value;
+                                updateField('about.storyParagraphs', newParas);
+                              }}
+                              className="w-full px-4 py-3 rounded-xl border border-border bg-background mb-2"
+                              rows={3}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    )}
+
+                    {section.id === 'milestones' && localContent.milestones.map((milestone, index) => (
+                      <div key={index} className="p-4 border border-border rounded-xl space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-2">Year</label>
+                            <input
+                              type="text"
+                              value={milestone.year}
+                              onChange={(e) => {
+                                const newMilestones = [...localContent.milestones];
+                                newMilestones[index] = { ...milestone, year: e.target.value };
+                                updateField('milestones', newMilestones);
+                              }}
+                              className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-2">Title</label>
+                            <input
+                              type="text"
+                              value={milestone.title}
+                              onChange={(e) => {
+                                const newMilestones = [...localContent.milestones];
+                                newMilestones[index] = { ...milestone, title: e.target.value };
+                                updateField('milestones', newMilestones);
+                              }}
+                              className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Description</label>
+                          <input
+                            type="text"
+                            value={milestone.description}
+                            onChange={(e) => {
+                              const newMilestones = [...localContent.milestones];
+                              newMilestones[index] = { ...milestone, description: e.target.value };
+                              updateField('milestones', newMilestones);
+                            }}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                      </div>
+                    ))}
+
+                    {section.id === 'facilities' && localContent.facilities.map((facility, index) => (
+                      <div key={index} className="p-4 border border-border rounded-xl space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-2">Name</label>
+                            <input
+                              type="text"
+                              value={facility.name}
+                              onChange={(e) => {
+                                const newFacilities = [...localContent.facilities];
+                                newFacilities[index] = { ...facility, name: e.target.value };
+                                updateField('facilities', newFacilities);
+                              }}
+                              className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-2">Location</label>
+                            <input
+                              type="text"
+                              value={facility.location}
+                              onChange={(e) => {
+                                const newFacilities = [...localContent.facilities];
+                                newFacilities[index] = { ...facility, location: e.target.value };
+                                updateField('facilities', newFacilities);
+                              }}
+                              className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Description</label>
+                          <input
+                            type="text"
+                            value={facility.description}
+                            onChange={(e) => {
+                              const newFacilities = [...localContent.facilities];
+                              newFacilities[index] = { ...facility, description: e.target.value };
+                              updateField('facilities', newFacilities);
+                            }}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                      </div>
+                    ))}
+
+                    {section.id === 'management' && localContent.management.map((member, index) => (
+                      <div key={index} className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Name</label>
+                          <input
+                            type="text"
+                            value={member.name}
+                            onChange={(e) => {
+                              const newManagement = [...localContent.management];
+                              newManagement[index] = { ...member, name: e.target.value };
+                              updateField('management', newManagement);
+                            }}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Role</label>
+                          <input
+                            type="text"
+                            value={member.role}
+                            onChange={(e) => {
+                              const newManagement = [...localContent.management];
+                              newManagement[index] = { ...member, role: e.target.value };
+                              updateField('management', newManagement);
+                            }}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                      </div>
+                    ))}
+
+                    {section.id === 'players' && (
+                      <>
+                        <h3 className="font-bold text-lg">Starting XI</h3>
+                        {localContent.startingXI.map((player, index) => (
+                          <div key={index} className="grid grid-cols-4 gap-4 p-4 border border-border rounded-xl">
+                            <div>
+                              <label className="block text-sm font-medium mb-2">#</label>
+                              <input
+                                type="number"
+                                value={player.number}
+                                onChange={(e) => {
+                                  const newPlayers = [...localContent.startingXI];
+                                  newPlayers[index] = { ...player, number: parseInt(e.target.value) };
+                                  updateField('startingXI', newPlayers);
+                                }}
+                                className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium mb-2">Name</label>
+                              <input
+                                type="text"
+                                value={player.name}
+                                onChange={(e) => {
+                                  const newPlayers = [...localContent.startingXI];
+                                  newPlayers[index] = { ...player, name: e.target.value };
+                                  updateField('startingXI', newPlayers);
+                                }}
+                                className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium mb-2">Position</label>
+                              <input
+                                type="text"
+                                value={player.position}
+                                onChange={(e) => {
+                                  const newPlayers = [...localContent.startingXI];
+                                  newPlayers[index] = { ...player, position: e.target.value };
+                                  updateField('startingXI', newPlayers);
+                                }}
+                                className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium mb-2">Role</label>
+                              <input
+                                type="text"
+                                value={player.role || ''}
+                                onChange={(e) => {
+                                  const newPlayers = [...localContent.startingXI];
+                                  newPlayers[index] = { ...player, role: e.target.value };
+                                  updateField('startingXI', newPlayers);
+                                }}
+                                className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </>
+                    )}
+
+                    {section.id === 'academy' && (
+                      <>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Hero Title</label>
+                          <input
+                            type="text"
+                            value={localContent.academy.heroTitle}
+                            onChange={(e) => updateField('academy.heroTitle', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Hero Subtitle</label>
+                          <textarea
+                            value={localContent.academy.heroSubtitle}
+                            onChange={(e) => updateField('academy.heroSubtitle', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                            rows={2}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Philosophy</label>
+                          <textarea
+                            value={localContent.academy.philosophy}
+                            onChange={(e) => updateField('academy.philosophy', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                            rows={4}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Success Highlight</label>
+                          <textarea
+                            value={localContent.academy.successHighlight}
+                            onChange={(e) => updateField('academy.successHighlight', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                            rows={3}
                           />
                         </div>
                       </>
@@ -259,7 +582,49 @@ const CMS = () => {
                             className="w-full px-4 py-3 rounded-xl border border-border bg-background"
                           />
                         </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Location Detail</label>
+                          <input
+                            type="text"
+                            value={localContent.contact.locationDetail}
+                            onChange={(e) => updateField('contact.locationDetail', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
                       </>
+                    )}
+
+                    {section.id === 'images' && (
+                      <div className="space-y-6">
+                        {imageFields.map((field) => (
+                          <div key={field.key} className="p-4 border border-border rounded-xl">
+                            <label className="block text-sm font-medium mb-4">{field.label}</label>
+                            {localContent.images[field.key as keyof typeof localContent.images] ? (
+                              <div className="relative">
+                                <img
+                                  src={localContent.images[field.key as keyof typeof localContent.images]}
+                                  alt={field.label}
+                                  className="w-full h-48 object-cover rounded-xl"
+                                />
+                                <button
+                                  onClick={() => removeImage(field.key)}
+                                  className="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                                >
+                                  <X className="w-4 h-4" />
+                                </button>
+                              </div>
+                            ) : (
+                              <button
+                                onClick={() => triggerImageUpload(field.key)}
+                                className="w-full h-48 border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center gap-2 hover:bg-muted/50 transition-colors"
+                              >
+                                <Upload className="w-8 h-8 text-muted-foreground" />
+                                <span className="text-muted-foreground">Click to upload image</span>
+                              </button>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     )}
                   </div>
                 )}
