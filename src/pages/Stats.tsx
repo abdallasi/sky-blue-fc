@@ -1,13 +1,9 @@
 import { Layout } from '@/components/layout/Layout';
+import { useContent } from '@/context/ContentContext';
 import { Shield, Zap, Trophy, TrendingUp, Target, BarChart3 } from 'lucide-react';
 
-const mainStats = [
-  { value: '310', label: 'Clean Sheets', icon: Shield, description: 'Defensive excellence' },
-  { value: '120', label: 'Match Unbeaten Streak', icon: Zap, description: 'Dominant run' },
-  { value: '98', label: 'Championships Won', icon: Trophy, description: 'Winners mentality' },
-  { value: '68%', label: 'Win Rate', icon: TrendingUp, description: 'Consistent success' },
-  { value: '298', label: 'Total Goals Scored', icon: Target, description: 'Attacking power' },
-];
+const statIcons = [Shield, Zap, Trophy, TrendingUp, Target];
+const statDescriptions = ['Defensive excellence', 'Dominant run', 'Winners mentality', 'Consistent success', 'Attacking power'];
 
 const seasonBreakdown = [
   { season: '2023/24', wins: 24, draws: 6, losses: 4, goalsFor: 72, goalsAgainst: 18 },
@@ -15,6 +11,14 @@ const seasonBreakdown = [
 ];
 
 const Stats = () => {
+  const { content } = useContent();
+
+  const mainStats = content.stats.map((stat, index) => ({
+    ...stat,
+    icon: statIcons[index] || Target,
+    description: statDescriptions[index] || '',
+  }));
+
   return (
     <Layout>
       {/* Hero Section */}

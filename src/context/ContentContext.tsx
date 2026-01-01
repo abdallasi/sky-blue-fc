@@ -89,6 +89,15 @@ export interface ContactInfo {
   locationDetail: string;
 }
 
+export interface ImageAssets {
+  heroBackground?: string;
+  founderPhoto?: string;
+  academyHero?: string;
+  teamHero?: string;
+  statsHero?: string;
+  contactHero?: string;
+}
+
 export interface SiteContent {
   hero: HeroContent;
   stats: StatItem[];
@@ -104,6 +113,7 @@ export interface SiteContent {
   academy: AcademyContent;
   pathway: PathwayStep[];
   contact: ContactInfo;
+  images: ImageAssets;
 }
 
 const defaultContent: SiteContent = {
@@ -224,7 +234,8 @@ const defaultContent: SiteContent = {
     phone: '+234 XXX XXX XXXX',
     location: 'Kano, Nigeria',
     locationDetail: 'Federal College of Education'
-  }
+  },
+  images: {}
 };
 
 interface ContentContextType {

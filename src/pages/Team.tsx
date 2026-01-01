@@ -1,49 +1,25 @@
 import { Layout } from '@/components/layout/Layout';
-import { User, Shield, Users } from 'lucide-react';
+import { useContent } from '@/context/ContentContext';
+import { User, Shield, Star } from 'lucide-react';
 
-const management = [
-  { name: 'Mustapha Musty', role: 'Team Manager' },
-  { name: 'Barr. Adam', role: 'Legal Advisor' },
-  { name: 'Abubakar Habule', role: 'Technical Director & Coach' },
-  { name: 'Abdulraheem Bashir', role: 'General Secretary' },
-  { name: 'Umar Malami', role: 'Captain' },
-  { name: 'Philimon Oliver', role: 'Assistant Captain' },
-];
-
-const startingXI = [
-  { number: 1, name: 'Mikel', position: 'GK', role: 'Goalkeeper' },
-  { number: 2, name: 'Ibrahim Pepe', position: 'RB', role: 'Right Back' },
-  { number: 3, name: 'Abdallah Barriser', position: 'CB', role: 'Centre Back' },
-  { number: 4, name: 'Umara', position: 'CB', role: 'Centre Back', captain: true },
-  { number: 5, name: 'Alkasim Kabo', position: 'LB', role: 'Left Back' },
-  { number: 6, name: 'Nafiu Champion', position: 'DM', role: 'Defensive Midfielder' },
-  { number: 7, name: 'Wasilu', position: 'CM', role: 'Central Midfielder' },
-  { number: 8, name: 'ZA Boy', position: 'CM', role: 'Central Midfielder' },
-  { number: 9, name: 'Aliyu Goma', position: 'RW', role: 'Right Wing' },
-  { number: 10, name: 'Hassan Dembele', position: 'ST', role: 'Striker' },
-  { number: 11, name: 'Al Qasim Bakabo', position: 'LW', role: 'Left Wing' },
-];
-
-const extendedSquad = [
-  { number: 12, name: 'Abul Onana', position: 'GK' },
-  { number: 13, name: 'Abdallah Barrister', position: 'DF' },
-  { number: 14, name: 'Sulaiman Bachirawa', position: 'DF' },
-  { number: 15, name: 'Ali Me Kaji', position: 'MF' },
-  { number: 16, name: 'Abibu', position: 'MF' },
-  { number: 17, name: 'Dan Kishiya', position: 'FW' },
-  { number: 18, name: 'Warleed', position: 'FW' },
-];
-
-const notablePlayers = [
-  { name: 'Umar Malami Ahmad', age: 19, position: 'LB', matches: 210, goals: 10, assists: 61 },
-  { name: 'Aliyu Goma', age: 17, position: 'MF', matches: 199, goals: 11, assists: 7 },
-  { name: 'Ahmadu Abdulmumin', age: 23, position: 'MF', matches: 143, goals: 9, assists: 13 },
-  { name: 'Michael Bartholomew Paul', age: 19, position: 'MF', matches: 232, goals: 45, assists: 23 },
-  { name: "Nafi'u Muhammad Usman", age: 19, position: 'LB', matches: 192, goals: 40, assists: 18 },
-  { name: 'Aliyu Muhammad Jamo', age: 19, position: 'MF', matches: 203, goals: 55, assists: 25 },
-];
+const positionColors: Record<string, string> = {
+  GK: 'bg-amber-500/20 text-amber-600',
+  DF: 'bg-emerald-500/20 text-emerald-600',
+  RB: 'bg-emerald-500/20 text-emerald-600',
+  LB: 'bg-emerald-500/20 text-emerald-600',
+  CB: 'bg-emerald-500/20 text-emerald-600',
+  MF: 'bg-sky-500/20 text-sky-600',
+  CM: 'bg-sky-500/20 text-sky-600',
+  DM: 'bg-sky-500/20 text-sky-600',
+  FW: 'bg-rose-500/20 text-rose-600',
+  RW: 'bg-rose-500/20 text-rose-600',
+  LW: 'bg-rose-500/20 text-rose-600',
+  ST: 'bg-rose-500/20 text-rose-600',
+};
 
 const Team = () => {
+  const { content } = useContent();
+
   return (
     <Layout>
       {/* Hero Section */}
@@ -53,16 +29,16 @@ const Team = () => {
         </div>
         <div className="container-premium relative">
           <span className="text-label text-amtay-royal">The Squad</span>
-          <h1 className="heading-hero max-w-4xl mt-4 mb-6">
-            Meet AMTAY FC
+          <h1 className="heading-hero max-w-4xl mt-4 mb-6 animate-fade-in">
+            Meet the Team
           </h1>
-          <p className="text-xl text-white/80 max-w-2xl">
-            The players, coaches, and management driving our rise to the top.
+          <p className="text-xl text-white/80 max-w-2xl animate-fade-in" style={{ animationDelay: '0.1s' }}>
+            The dedicated players and management driving AMTAY FC's success.
           </p>
         </div>
       </section>
 
-      {/* Management */}
+      {/* Management Team */}
       <section className="section-padding">
         <div className="container-premium">
           <div className="text-center mb-16">
@@ -71,15 +47,13 @@ const Team = () => {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {management.map((person, index) => (
-              <div key={index} className="card-premium flex items-center gap-4">
-                <div className="w-14 h-14 rounded-full bg-amtay-blue/10 flex items-center justify-center">
-                  <User className="w-7 h-7 text-amtay-blue" />
+            {content.management.map((member, index) => (
+              <div key={index} className="card-premium text-center group">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-amtay-blue to-amtay-midnight flex items-center justify-center mx-auto mb-4">
+                  <User className="w-10 h-10 text-white" />
                 </div>
-                <div>
-                  <h3 className="font-bold">{person.name}</h3>
-                  <p className="text-sm text-muted-foreground">{person.role}</p>
-                </div>
+                <h3 className="font-bold text-lg mb-1">{member.name}</h3>
+                <p className="text-amtay-royal font-medium">{member.role}</p>
               </div>
             ))}
           </div>
@@ -94,22 +68,27 @@ const Team = () => {
             <h2 className="heading-section mt-2">Starting XI</h2>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-            {startingXI.map((player) => (
-              <div key={player.number} className="card-premium text-center relative">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {content.startingXI.map((player, index) => (
+              <div key={index} className="card-premium group relative overflow-hidden">
                 {player.captain && (
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-amber-400 rounded-full flex items-center justify-center">
-                    <span className="text-xs font-bold text-amber-900">C</span>
+                  <div className="absolute top-4 right-4">
+                    <div className="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center">
+                      <span className="text-xs font-bold text-white">C</span>
+                    </div>
                   </div>
                 )}
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amtay-blue to-amtay-midnight flex items-center justify-center mx-auto mb-3">
-                  <span className="text-2xl font-black text-white">{player.number}</span>
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amtay-blue to-amtay-midnight flex items-center justify-center">
+                    <span className="text-2xl font-black text-white">{player.number}</span>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg">{player.name}</h3>
+                    <span className={`text-xs font-semibold px-2 py-1 rounded-full ${positionColors[player.position] || 'bg-muted'}`}>
+                      {player.role || player.position}
+                    </span>
+                  </div>
                 </div>
-                <h3 className="font-bold text-sm mb-1">{player.name}</h3>
-                <span className="inline-block px-2 py-1 bg-amtay-blue/10 text-amtay-blue text-xs font-semibold rounded-full">
-                  {player.position}
-                </span>
-                <p className="text-xs text-muted-foreground mt-2">{player.role}</p>
               </div>
             ))}
           </div>
@@ -124,12 +103,18 @@ const Team = () => {
             <h2 className="heading-section mt-2">Extended Squad</h2>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4">
-            {extendedSquad.map((player) => (
-              <div key={player.number} className="p-4 rounded-xl bg-accent/50 text-center">
-                <div className="text-2xl font-black text-amtay-blue mb-1">{player.number}</div>
-                <h3 className="font-semibold text-sm mb-1">{player.name}</h3>
-                <span className="text-xs text-muted-foreground">{player.position}</span>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {content.extendedSquad.map((player, index) => (
+              <div key={index} className="flex items-center gap-4 p-4 rounded-2xl bg-muted/50 hover:bg-muted transition-colors">
+                <div className="w-12 h-12 rounded-xl bg-amtay-blue/10 flex items-center justify-center">
+                  <span className="text-lg font-bold text-amtay-blue">{player.number}</span>
+                </div>
+                <div>
+                  <h3 className="font-semibold">{player.name}</h3>
+                  <span className={`text-xs font-medium ${positionColors[player.position] || 'text-muted-foreground'}`}>
+                    {player.position}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
@@ -145,20 +130,20 @@ const Team = () => {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {notablePlayers.map((player, index) => (
-              <div 
-                key={index} 
-                className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 group hover:bg-white/10 transition-colors"
-              >
+            {content.notablePlayers.map((player, index) => (
+              <div key={index} className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-6 hover:bg-white/10 transition-all group">
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h3 className="font-bold text-lg">{player.name}</h3>
-                    <p className="text-white/60 text-sm">{player.age} years old • {player.position}</p>
+                    <h3 className="font-bold text-xl mb-1">{player.name}</h3>
+                    <div className="flex items-center gap-2 text-white/60 text-sm">
+                      <span>{player.age} years</span>
+                      <span>•</span>
+                      <span className="text-amtay-royal font-medium">{player.position}</span>
+                    </div>
                   </div>
-                  <Shield className="w-6 h-6 text-amtay-royal" />
+                  <Star className="w-6 h-6 text-amber-400" />
                 </div>
-                
-                <div className="grid grid-cols-3 gap-4 mt-6">
+                <div className="grid grid-cols-3 gap-4 pt-4 border-t border-white/10">
                   <div className="text-center">
                     <div className="text-2xl font-black">{player.matches}</div>
                     <div className="text-xs text-white/60 uppercase">Matches</div>
