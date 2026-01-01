@@ -1,71 +1,81 @@
-import { CheckCircle2 } from 'lucide-react';
-
-const achievements = [
-  'Promotion to the Kano State Premier League',
-  'Strong performance in the Ahlan League',
-  'Four players invited to Nigeria\'s U-17 screening',
-  'Rapid growth and national-level visibility',
-];
+import { CheckCircle2, Sparkles } from 'lucide-react';
+import { useContent } from '@/context/ContentContext';
 
 export const ClubSnapshot = () => {
+  const { content } = useContent();
+  const { snapshot } = content;
+
   return (
-    <section className="section-padding">
-      <div className="container-premium">
+    <section className="section-padding relative overflow-hidden">
+      {/* Subtle Background Decoration */}
+      <div className="absolute top-1/2 right-0 w-[600px] h-[600px] bg-[hsl(var(--royal-blue))]/5 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/2" />
+      
+      <div className="container-premium relative">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Content */}
-          <div className="order-2 lg:order-1">
-            <span className="text-label">Our Story</span>
-            <h2 className="heading-section mt-2 mb-6">
-              A Club Built for{' '}
-              <span className="text-gradient-blue">Excellence</span>
+          <div>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent mb-6">
+              <Sparkles className="w-4 h-4 text-[hsl(var(--royal-blue))]" />
+              <span className="text-sm font-medium text-[hsl(var(--primary-blue))]">Est. 2023</span>
+            </div>
+            
+            <h2 className="heading-section mb-6">
+              {snapshot.headline}
             </h2>
-            <p className="text-body mb-8">
-              AMTAY FC is one of Kano's fastest-rising football institutions. Built in 2023 
-              with a mission to develop young athletes, the club has earned recognition for 
-              its professionalism, dominance, and player development approach.
+            
+            <p className="text-body text-lg mb-10">
+              {snapshot.description}
             </p>
 
-            {/* Achievements Grid */}
-            <div className="grid sm:grid-cols-2 gap-4">
-              {achievements.map((achievement, index) => (
-                <div
-                  key={index}
-                  className="flex items-start gap-3 p-4 rounded-xl bg-accent/50 hover:bg-accent transition-colors"
+            {/* Achievements */}
+            <div className="space-y-4">
+              {snapshot.achievements.map((achievement, index) => (
+                <div 
+                  key={index} 
+                  className="flex items-start gap-4 p-4 rounded-2xl bg-accent/50 hover:bg-accent transition-colors group"
                 >
-                  <CheckCircle2 className="w-5 h-5 text-amtay-royal shrink-0 mt-0.5" />
-                  <span className="text-sm font-medium text-foreground">{achievement}</span>
+                  <div className="w-8 h-8 rounded-full bg-[hsl(var(--primary-blue))]/10 flex items-center justify-center shrink-0 group-hover:bg-[hsl(var(--primary-blue))] transition-colors">
+                    <CheckCircle2 className="w-4 h-4 text-[hsl(var(--primary-blue))] group-hover:text-white transition-colors" />
+                  </div>
+                  <p className="text-foreground font-medium leading-relaxed">{achievement}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Visual Element */}
-          <div className="order-1 lg:order-2 relative">
-            <div className="aspect-square relative">
-              {/* Background Decoration */}
-              <div className="absolute inset-0 bg-gradient-to-br from-amtay-blue/10 to-amtay-royal/5 rounded-3xl" />
-              
-              {/* Main Card */}
-              <div className="absolute inset-8 bg-gradient-hero rounded-2xl shadow-2xl flex items-center justify-center">
-                <div className="text-center text-white">
-                  <div className="w-24 h-24 rounded-2xl bg-white text-amtay-blue flex items-center justify-center font-black text-5xl mx-auto mb-6 shadow-xl">
-                    A
+          {/* Visual Card */}
+          <div className="relative">
+            <div className="relative rounded-3xl bg-gradient-to-br from-[hsl(var(--primary-blue))] via-[hsl(var(--royal-blue))] to-[hsl(var(--midnight-blue))] p-1">
+              <div className="rounded-[22px] bg-gradient-to-br from-white to-accent p-10">
+                <div className="aspect-square flex items-center justify-center relative">
+                  {/* Background Pattern */}
+                  <div 
+                    className="absolute inset-0 opacity-5"
+                    style={{
+                      backgroundImage: `radial-gradient(circle at 2px 2px, hsl(var(--primary-blue)) 1px, transparent 0)`,
+                      backgroundSize: '24px 24px'
+                    }}
+                  />
+                  
+                  <div className="text-center relative">
+                    <div className="w-32 h-32 rounded-3xl bg-gradient-to-br from-[hsl(var(--primary-blue))] to-[hsl(var(--midnight-blue))] flex items-center justify-center mx-auto mb-8 shadow-2xl">
+                      <span className="text-5xl font-black text-white">A</span>
+                    </div>
+                    <h3 className="text-3xl font-black text-foreground mb-2">AMTAY FC</h3>
+                    <p className="text-muted-foreground font-medium">Kano, Nigeria</p>
+                    <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 text-emerald-600">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                      <span className="text-sm font-semibold">Premier League</span>
+                    </div>
                   </div>
-                  <div className="font-bold text-2xl tracking-tight">AMTAY FC</div>
-                  <div className="text-white/70 text-sm mt-1">Est. 2023 • Kano, Nigeria</div>
                 </div>
               </div>
-
-              {/* Floating Stats Cards */}
-              <div className="absolute -right-4 top-1/4 bg-white rounded-xl shadow-xl p-4 animate-float">
-                <div className="text-2xl font-black text-amtay-blue">68%</div>
-                <div className="text-xs text-muted-foreground">Win Rate</div>
-              </div>
-
-              <div className="absolute -left-4 bottom-1/4 bg-white rounded-xl shadow-xl p-4 animate-float" style={{ animationDelay: '1s' }}>
-                <div className="text-2xl font-black text-amtay-blue">2023</div>
-                <div className="text-xs text-muted-foreground">Founded</div>
-              </div>
+            </div>
+            
+            {/* Floating Badge */}
+            <div className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-xl p-4 border border-border">
+              <div className="text-3xl font-black text-[hsl(var(--royal-blue))]">2023</div>
+              <div className="text-xs text-muted-foreground font-medium">Founded</div>
             </div>
           </div>
         </div>
