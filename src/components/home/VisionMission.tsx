@@ -1,61 +1,67 @@
-import { Eye, Target, Users, Trophy, Star } from 'lucide-react';
+import { Eye, Target, ArrowRight } from 'lucide-react';
+import { useContent } from '@/context/ContentContext';
 
 export const VisionMission = () => {
-  return (
-    <section className="section-padding bg-amtay-midnight text-white relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-amtay-royal/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-white/5 rounded-full blur-3xl" />
-      </div>
+  const { content } = useContent();
+  const { visionMission } = content;
 
-      <div className="container-premium relative">
+  return (
+    <section className="section-padding bg-gradient-to-b from-muted/50 to-background">
+      <div className="container-premium">
         <div className="text-center mb-16">
-          <span className="text-label text-amtay-royal">Our Purpose</span>
-          <h2 className="heading-section mt-2">Vision & Mission</h2>
+          <span className="text-label">Purpose</span>
+          <h2 className="heading-section mt-3">Vision & Mission</h2>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Vision Card */}
-          <div className="relative group">
-            <div className="absolute inset-0 bg-gradient-to-br from-amtay-royal/20 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 lg:p-10 h-full">
-              <div className="w-16 h-16 rounded-2xl bg-amtay-royal/20 flex items-center justify-center mb-6">
-                <Eye className="w-8 h-8 text-amtay-royal" />
+          <div className="group relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--primary-blue))] to-[hsl(var(--midnight-blue))] rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="relative card-premium h-full group-hover:bg-transparent group-hover:text-white transition-all duration-300">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-[hsl(var(--primary-blue))]/10 group-hover:bg-white/10 flex items-center justify-center transition-colors">
+                  <Eye className="w-7 h-7 text-[hsl(var(--primary-blue))] group-hover:text-white transition-colors" />
+                </div>
+                <h3 className="text-2xl font-bold">Vision</h3>
               </div>
-              <h3 className="text-2xl font-bold mb-4">Our Vision</h3>
-              <p className="text-white/70 leading-relaxed text-lg">
-                To become Nigeria's leading football club in talent development, 
-                professionalism, and community impact.
+              
+              <p className="text-lg leading-relaxed text-muted-foreground group-hover:text-white/80 transition-colors">
+                {visionMission.vision}
               </p>
+              
+              <div className="mt-8 flex items-center gap-2 text-[hsl(var(--royal-blue))] group-hover:text-white/70 transition-colors">
+                <span className="text-sm font-semibold uppercase tracking-wider">Our Purpose</span>
+                <ArrowRight className="w-4 h-4" />
+              </div>
             </div>
           </div>
 
           {/* Mission Card */}
-          <div className="relative group">
-            <div className="absolute inset-0 bg-gradient-to-br from-amtay-royal/20 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 lg:p-10 h-full">
-              <div className="w-16 h-16 rounded-2xl bg-amtay-royal/20 flex items-center justify-center mb-6">
-                <Target className="w-8 h-8 text-amtay-royal" />
+          <div className="group relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--royal-blue))] to-[hsl(var(--primary-blue))] rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="relative card-premium h-full group-hover:bg-transparent group-hover:text-white transition-all duration-300">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-[hsl(var(--royal-blue))]/10 group-hover:bg-white/10 flex items-center justify-center transition-colors">
+                  <Target className="w-7 h-7 text-[hsl(var(--royal-blue))] group-hover:text-white transition-colors" />
+                </div>
+                <h3 className="text-2xl font-bold">Mission</h3>
               </div>
-              <h3 className="text-2xl font-bold mb-6">Our Mission</h3>
+              
               <ul className="space-y-4">
-                {[
-                  { icon: Users, text: 'Develop young football talent' },
-                  { icon: Trophy, text: 'Achieve excellence in national & international competitions' },
-                  { icon: Star, text: 'Inspire pride in fans and the community' },
-                ].map((item, index) => {
-                  const Icon = item.icon;
-                  return (
-                    <li key={index} className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
-                        <Icon className="w-5 h-5 text-amtay-royal" />
-                      </div>
-                      <span className="text-white/80">{item.text}</span>
-                    </li>
-                  );
-                })}
+                {visionMission.mission.map((item, index) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full bg-[hsl(var(--royal-blue))]/10 group-hover:bg-white/10 flex items-center justify-center shrink-0 mt-0.5 transition-colors">
+                      <span className="text-xs font-bold text-[hsl(var(--royal-blue))] group-hover:text-white transition-colors">{index + 1}</span>
+                    </div>
+                    <span className="text-muted-foreground group-hover:text-white/80 transition-colors">{item}</span>
+                  </li>
+                ))}
               </ul>
+              
+              <div className="mt-8 flex items-center gap-2 text-[hsl(var(--royal-blue))] group-hover:text-white/70 transition-colors">
+                <span className="text-sm font-semibold uppercase tracking-wider">Our Goals</span>
+                <ArrowRight className="w-4 h-4" />
+              </div>
             </div>
           </div>
         </div>
