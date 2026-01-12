@@ -247,10 +247,18 @@ interface ContentContextType {
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
 const STORAGE_KEY = 'amtay-fc-content';
+const CONTENT_VERSION = 2; // Increment to force content refresh
 
 export const ContentProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [content, setContent] = useState<SiteContent>(() => {
     if (typeof window !== 'undefined') {
+      const savedVersion = localStorage.getItem(STORAGE_KEY + '-version');
+      // Clear cache if version changed
+      if (savedVersion !== String(CONTENT_VERSION)) {
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.setItem(STORAGE_KEY + '-version', String(CONTENT_VERSION));
+        return defaultContent;
+      }
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         try {
