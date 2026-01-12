@@ -122,7 +122,7 @@ const defaultContent: SiteContent = {
     subheadline: "A rising professional club from Kano, built to develop young talent and compete at the highest levels.",
     button1: "Meet the Squad",
     button2: "Our Vision",
-    badge: "Kano State Premier League"
+    badge: "International League"
   },
   stats: [
     { value: '310', label: 'Clean Sheets' },
@@ -135,7 +135,7 @@ const defaultContent: SiteContent = {
     headline: "A Club Built for Excellence.",
     description: "AMTAY FC is one of Kano's fastest-rising football institutions. Built in 2023 with a mission to develop young athletes, the club has earned recognition for its professionalism, dominance, and player development approach.",
     achievements: [
-      "Promotion to the Kano State Premier League",
+      "Promotion to the International League",
       "Strong performance in the Ahlan League",
       "Four players invited to Nigeria's U-17 screening at the Abuja Goal Project Stadium",
       "Rapid growth and national-level visibility"
@@ -156,7 +156,7 @@ const defaultContent: SiteContent = {
     storyParagraphs: [
       "AMTAY FC was founded in 2023 by Engr. Dr. Abdulwahab Tayyeb, a visionary leader, philanthropist, and football enthusiast committed to youth empowerment.",
       "Established to identify, train, and elevate young players, the club quickly gained recognition for its strong performances in the Kano Ahlan League.",
-      "With disciplined management and a clear philosophy, the club earned a deserved promotion to the Kano State Premier League—marking a major milestone in its mission to shape the next generation of Nigerian stars."
+      "With disciplined management and a clear philosophy, the club earned a deserved promotion to the International League—marking a major milestone in its mission to shape the next generation of Nigerian stars."
     ],
     founderName: "Engr. Dr. Abdulwahab Tayyeb",
     founderTitle: "Founder & Chairman",
@@ -167,7 +167,7 @@ const defaultContent: SiteContent = {
     { year: '2023', title: 'Ahlan League Debut', description: 'First competitive season in Kano Ahlan League' },
     { year: '2023', title: 'National Recognition', description: '4 players invited to Nigeria U-17 screening' },
     { year: '2024', title: 'League Champions', description: 'Recognized as top team in the league' },
-    { year: '2024', title: 'Premier League', description: 'Promotion to Kano State Premier League' },
+    { year: '2024', title: 'International League', description: 'Promotion to International League' },
   ],
   facilities: [
     { name: 'Training Ground', location: 'Federal College of Education, Kano', description: 'Professional-grade training facilities' },
