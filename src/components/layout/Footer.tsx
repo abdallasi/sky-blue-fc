@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Mail, MapPin, Phone, Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
 import { useContent } from '@/context/ContentContext';
+import amtayLogo from '@/assets/amtay-logo.png';
 
 export const Footer = () => {
   const { content } = useContent();
@@ -13,9 +14,11 @@ export const Footer = () => {
           {/* Brand */}
           <div className="space-y-6">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-white text-[hsl(var(--primary-blue))] flex items-center justify-center font-black text-xl shadow-lg">
-                A
-              </div>
+              <img 
+                src={amtayLogo} 
+                alt="AMTAY FC Logo" 
+                className="w-14 h-14 object-contain"
+              />
               <div>
                 <div className="font-bold text-xl tracking-tight">AMTAY FC</div>
                 <div className="text-white/50 text-sm">Est. 2023</div>

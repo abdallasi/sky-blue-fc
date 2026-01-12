@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import amtayLogo from '@/assets/amtay-logo.png';
 
 const navLinks = [
   { name: 'Home', href: '/' },
@@ -40,13 +41,11 @@ export const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className={`w-11 h-11 rounded-xl flex items-center justify-center font-black text-lg transition-all duration-200 ${
-              scrolled 
-                ? 'bg-gradient-to-br from-[hsl(var(--primary-blue))] to-[hsl(var(--midnight-blue))] text-white shadow-lg shadow-[hsl(var(--primary-blue))]/20' 
-                : 'bg-white text-[hsl(var(--primary-blue))] shadow-lg'
-            } group-hover:scale-105`}>
-              A
-            </div>
+            <img 
+              src={amtayLogo} 
+              alt="AMTAY FC Logo" 
+              className="w-12 h-12 object-contain transition-transform duration-200 group-hover:scale-105"
+            />
             <span className={`font-bold text-xl tracking-tight transition-colors duration-200 ${
               scrolled ? 'text-foreground' : 'text-white'
             }`}>
