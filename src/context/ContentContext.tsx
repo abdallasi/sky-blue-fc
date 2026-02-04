@@ -118,8 +118,8 @@ export interface SiteContent {
 
 const defaultContent: SiteContent = {
   hero: {
-    headline: "AMTAY FC — The Future of Elite Football.",
-    subheadline: "A rising professional club from Kano, built to develop young talent and compete at the highest levels.",
+    headline: "AMTAY FC — Fast. Fierce. Unstoppable.",
+    subheadline: "From Kano to National Stardom: Developing Nigeria's future football legends.",
     button1: "Meet the Squad",
     button2: "Our Vision",
     badge: "International League"
@@ -247,7 +247,7 @@ interface ContentContextType {
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
 const STORAGE_KEY = 'amtay-fc-content';
-const CONTENT_VERSION = 2; // Increment to force content refresh
+const CONTENT_VERSION = 3; // Increment to force content refresh
 
 export const ContentProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [content, setContent] = useState<SiteContent>(() => {
