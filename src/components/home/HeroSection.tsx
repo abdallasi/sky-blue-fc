@@ -2,36 +2,44 @@ import { Link } from 'react-router-dom';
 import { ChevronRight, Play, Zap } from 'lucide-react';
 import { useContent } from '@/context/ContentContext';
 import { useCountUp } from '@/hooks/useCountUp';
-
-const AnimatedStat = ({ value, label, delay }: { value: string; label: string; delay: number }) => {
+const AnimatedStat = ({
+  value,
+  label,
+  delay
+}: {
+  value: string;
+  label: string;
+  delay: number;
+}) => {
   // Extract numeric value and suffix
   const numericMatch = value.match(/^(\d+)/);
   const numericValue = numericMatch ? parseInt(numericMatch[1]) : 0;
   const suffix = value.replace(/^\d+/, '');
-  
-  const { formattedCount, ref } = useCountUp({
+  const {
+    formattedCount,
+    ref
+  } = useCountUp({
     end: numericValue,
     duration: 2000,
     delay,
-    suffix,
+    suffix
   });
-
-  return (
-    <div className="text-center group" ref={ref as React.RefObject<HTMLDivElement>}>
+  return <div className="text-center group" ref={ref as React.RefObject<HTMLDivElement>}>
       <div className="text-3xl sm:text-4xl lg:text-5xl font-black mb-2 group-hover:text-[hsl(var(--electric-cyan))] transition-colors duration-300">
         {formattedCount}
       </div>
       <div className="text-xs text-white/50 uppercase tracking-[0.2em] font-semibold">{label}</div>
-    </div>
-  );
+    </div>;
 };
-
 export const HeroSection = () => {
-  const { content } = useContent();
-  const { hero, stats } = content;
-
-  return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+  const {
+    content
+  } = useContent();
+  const {
+    hero,
+    stats
+  } = content;
+  return <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Dynamic Background Gradient */}
       <div className="absolute inset-0 bg-gradient-hero-dynamic" />
       
@@ -39,25 +47,28 @@ export const HeroSection = () => {
       <div className="absolute inset-0 overflow-hidden">
         {/* Large floating orbs */}
         <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-[hsl(var(--royal-blue))]/20 rounded-full blur-[150px] animate-float" />
-        <div className="absolute bottom-1/3 left-1/6 w-[400px] h-[400px] bg-[hsl(var(--electric-cyan))]/10 rounded-full blur-[120px] animate-float" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 right-1/3 w-[350px] h-[350px] bg-[hsl(var(--primary-blue))]/15 rounded-full blur-[100px] animate-float" style={{ animationDelay: '4s' }} />
+        <div className="absolute bottom-1/3 left-1/6 w-[400px] h-[400px] bg-[hsl(var(--electric-cyan))]/10 rounded-full blur-[120px] animate-float" style={{
+        animationDelay: '2s'
+      }} />
+        <div className="absolute top-1/2 right-1/3 w-[350px] h-[350px] bg-[hsl(var(--primary-blue))]/15 rounded-full blur-[100px] animate-float" style={{
+        animationDelay: '4s'
+      }} />
         
         {/* Motion blur effect lines */}
         <div className="absolute top-1/4 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[hsl(var(--electric-cyan))]/20 to-transparent animate-shimmer" />
-        <div className="absolute top-2/3 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-2/3 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" style={{
+        animationDelay: '1s'
+      }} />
       </div>
 
       {/* Noise Texture Overlay */}
       <div className="absolute inset-0 bg-noise opacity-50" />
 
       {/* Grid Pattern */}
-      <div 
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.2) 1px, transparent 0)`,
-          backgroundSize: '50px 50px'
-        }}
-      />
+      <div className="absolute inset-0 opacity-[0.03]" style={{
+      backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.2) 1px, transparent 0)`,
+      backgroundSize: '50px 50px'
+    }} />
 
       <div className="relative container-premium text-center text-white py-32">
         {/* Badge with Neon Effect */}
@@ -69,14 +80,14 @@ export const HeroSection = () => {
 
         {/* Main Headline - Aggressive Typography */}
         <h1 className="heading-hero max-w-5xl mx-auto mb-8 animate-fade-up-delay-1">
-          <span className="block">AMTAY FC —</span>
-          <span className="block mt-2">
-            <span className="relative">
+          <span className="block">AMTAY FC  - </span>
+          <span className="block mt-2">Fast
+.  Fierce. Unstoppable.<span className="relative">
               Fast
               <span className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-[hsl(var(--electric-cyan))] to-transparent rounded-full" />
             </span>
             . Fierce. 
-            <span className="text-gradient-cyan">Unstoppable</span>.
+            <span className="text-gradient-cyan"> Unstoppable</span>.
           </span>
         </h1>
 
@@ -106,13 +117,17 @@ export const HeroSection = () => {
         </div>
 
         {/* Punchy Copy Line */}
-        <p className="mt-12 text-white/40 text-sm font-medium tracking-wide animate-fade-up" style={{ animationDelay: '1s' }}>
+        <p className="mt-12 text-white/40 text-sm font-medium tracking-wide animate-fade-up" style={{
+        animationDelay: '1s'
+      }}>
           120 matches unbeaten. 298 goals. And we're only getting started.
         </p>
       </div>
 
       {/* Scroll Indicator with Neon Glow */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-fade-up" style={{ animationDelay: '1.2s' }}>
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-fade-up" style={{
+      animationDelay: '1.2s'
+    }}>
         <div className="w-7 h-12 rounded-full border-2 border-white/20 flex items-start justify-center p-2 hover:border-[hsl(var(--electric-cyan))]/50 transition-colors group">
           <div className="w-1.5 h-3 bg-white/60 rounded-full animate-bounce group-hover:bg-[hsl(var(--electric-cyan))] transition-colors" />
         </div>
@@ -120,6 +135,5 @@ export const HeroSection = () => {
 
       {/* Bottom Gradient Fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
-    </section>
-  );
+    </section>;
 };
