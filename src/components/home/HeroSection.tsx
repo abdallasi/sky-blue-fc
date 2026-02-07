@@ -81,8 +81,8 @@ export const HeroSection = () => {
         {/* Main Headline - Aggressive Typography */}
         <h1 className="heading-hero max-w-5xl mx-auto mb-8 animate-fade-up-delay-1">
           <span className="block">AMTAY FC   </span>
-          <span className="block mt-2">Fierce. Unstoppable. Fast 
-         
+          <span className="block mt-2">Fierce. Unstoppable. Fast </span>
+      
         </h1>
 
         {/* Sub-headline */}
