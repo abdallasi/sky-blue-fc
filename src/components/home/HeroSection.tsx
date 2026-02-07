@@ -81,13 +81,13 @@ export const HeroSection = () => {
         {/* Main Headline - Aggressive Typography */}
         <h1 className="heading-hero max-w-5xl mx-auto mb-8 animate-fade-up-delay-1">
           <span className="block">AMTAY FC  - </span>
-          <span className="block mt-2">Fast . Fierce. Unstoppable. Fast
+          <span className="block mt-2">Fast . Fierce. Unstoppable. Fast . Fast
 . <span className="relative">
               Fast
               <span className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-[hsl(var(--electric-cyan))] to-transparent rounded-full" />
             </span>
             . Fierce. 
-            <span className="text-gradient-cyan"> Unstoppable</span>.
+            .
           </span>
         </h1>
 
