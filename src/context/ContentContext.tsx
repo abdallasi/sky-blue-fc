@@ -247,22 +247,35 @@ interface ContentContextType {
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
 const STORAGE_KEY = 'amtay-fc-content';
-const CONTENT_VERSION = 3; // Increment to force content refresh
+
+// Deep merge utility: preserves new default keys while keeping user-edited values
+const deepMerge = (defaults: any, overrides: any): any => {
+  const result = { ...defaults };
+  for (const key of Object.keys(overrides)) {
+    if (
+      result[key] &&
+      typeof result[key] === 'object' &&
+      !Array.isArray(result[key]) &&
+      typeof overrides[key] === 'object' &&
+      !Array.isArray(overrides[key])
+    ) {
+      result[key] = deepMerge(result[key], overrides[key]);
+    } else {
+      result[key] = overrides[key];
+    }
+  }
+  return result;
+};
 
 export const ContentProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [content, setContent] = useState<SiteContent>(() => {
     if (typeof window !== 'undefined') {
-      const savedVersion = localStorage.getItem(STORAGE_KEY + '-version');
-      // Clear cache if version changed
-      if (savedVersion !== String(CONTENT_VERSION)) {
-        localStorage.removeItem(STORAGE_KEY);
-        localStorage.setItem(STORAGE_KEY + '-version', String(CONTENT_VERSION));
-        return defaultContent;
-      }
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         try {
-          return { ...defaultContent, ...JSON.parse(saved) };
+          // Deep merge: saved CMS values override defaults, but new default keys are preserved
+          const parsed = JSON.parse(saved);
+          return deepMerge(defaultContent, parsed);
         } catch {
           return defaultContent;
         }
