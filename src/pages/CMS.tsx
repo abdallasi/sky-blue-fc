@@ -327,135 +327,108 @@ const CMS = () => {
                       </>
                     )}
 
-                    {section.id === 'milestones' && localContent.milestones.map((milestone, index) => (
-                      <div key={index} className="p-4 border border-border rounded-xl space-y-4">
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <label className="block text-sm font-medium mb-2">Year</label>
-                            <input
-                              type="text"
-                              value={milestone.year}
-                              onChange={(e) => {
-                                const newMilestones = [...localContent.milestones];
-                                newMilestones[index] = { ...milestone, year: e.target.value };
-                                updateField('milestones', newMilestones);
-                              }}
-                              className="w-full px-4 py-3 rounded-xl border border-border bg-background"
-                            />
+                    {section.id === 'milestones' && (
+                      <>
+                        {localContent.milestones.map((milestone, index) => (
+                          <div key={index} className="flex items-end gap-4 p-4 border border-border rounded-xl">
+                            <div className="w-24">
+                              <label className="block text-sm font-medium mb-2">Year</label>
+                              <input type="text" value={milestone.year} onChange={(e) => { const nm = [...localContent.milestones]; nm[index] = { ...milestone, year: e.target.value }; updateField('milestones', nm); }} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                            </div>
+                            <div className="flex-1">
+                              <label className="block text-sm font-medium mb-2">Title</label>
+                              <input type="text" value={milestone.title} onChange={(e) => { const nm = [...localContent.milestones]; nm[index] = { ...milestone, title: e.target.value }; updateField('milestones', nm); }} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                            </div>
+                            <div className="flex-1">
+                              <label className="block text-sm font-medium mb-2">Description</label>
+                              <input type="text" value={milestone.description} onChange={(e) => { const nm = [...localContent.milestones]; nm[index] = { ...milestone, description: e.target.value }; updateField('milestones', nm); }} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                            </div>
+                            <button onClick={() => updateField('milestones', localContent.milestones.filter((_, i) => i !== index))} className="px-3 py-3 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors"><X className="w-4 h-4" /></button>
                           </div>
-                          <div>
-                            <label className="block text-sm font-medium mb-2">Title</label>
-                            <input
-                              type="text"
-                              value={milestone.title}
-                              onChange={(e) => {
-                                const newMilestones = [...localContent.milestones];
-                                newMilestones[index] = { ...milestone, title: e.target.value };
-                                updateField('milestones', newMilestones);
-                              }}
-                              className="w-full px-4 py-3 rounded-xl border border-border bg-background"
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium mb-2">Description</label>
-                          <input
-                            type="text"
-                            value={milestone.description}
-                            onChange={(e) => {
-                              const newMilestones = [...localContent.milestones];
-                              newMilestones[index] = { ...milestone, description: e.target.value };
-                              updateField('milestones', newMilestones);
-                            }}
-                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
-                          />
-                        </div>
-                      </div>
-                    ))}
+                        ))}
+                        <button onClick={() => updateField('milestones', [...localContent.milestones, { year: '', title: '', description: '' }])} className="w-full py-3 rounded-xl border-2 border-dashed border-border hover:bg-muted/50 transition-colors text-sm font-medium text-muted-foreground">+ Add Milestone</button>
+                      </>
+                    )}
 
-                    {section.id === 'facilities' && localContent.facilities.map((facility, index) => (
-                      <div key={index} className="p-4 border border-border rounded-xl space-y-4">
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <label className="block text-sm font-medium mb-2">Name</label>
-                            <input
-                              type="text"
-                              value={facility.name}
-                              onChange={(e) => {
-                                const newFacilities = [...localContent.facilities];
-                                newFacilities[index] = { ...facility, name: e.target.value };
-                                updateField('facilities', newFacilities);
-                              }}
-                              className="w-full px-4 py-3 rounded-xl border border-border bg-background"
-                            />
+                    {section.id === 'facilities' && (
+                      <>
+                        {localContent.facilities.map((facility, index) => (
+                          <div key={index} className="flex items-end gap-4 p-4 border border-border rounded-xl">
+                            <div className="flex-1">
+                              <label className="block text-sm font-medium mb-2">Name</label>
+                              <input type="text" value={facility.name} onChange={(e) => { const nf = [...localContent.facilities]; nf[index] = { ...facility, name: e.target.value }; updateField('facilities', nf); }} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                            </div>
+                            <div className="flex-1">
+                              <label className="block text-sm font-medium mb-2">Location</label>
+                              <input type="text" value={facility.location} onChange={(e) => { const nf = [...localContent.facilities]; nf[index] = { ...facility, location: e.target.value }; updateField('facilities', nf); }} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                            </div>
+                            <div className="flex-1">
+                              <label className="block text-sm font-medium mb-2">Description</label>
+                              <input type="text" value={facility.description} onChange={(e) => { const nf = [...localContent.facilities]; nf[index] = { ...facility, description: e.target.value }; updateField('facilities', nf); }} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                            </div>
+                            <button onClick={() => updateField('facilities', localContent.facilities.filter((_, i) => i !== index))} className="px-3 py-3 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors"><X className="w-4 h-4" /></button>
                           </div>
-                          <div>
-                            <label className="block text-sm font-medium mb-2">Location</label>
-                            <input
-                              type="text"
-                              value={facility.location}
-                              onChange={(e) => {
-                                const newFacilities = [...localContent.facilities];
-                                newFacilities[index] = { ...facility, location: e.target.value };
-                                updateField('facilities', newFacilities);
-                              }}
-                              className="w-full px-4 py-3 rounded-xl border border-border bg-background"
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium mb-2">Description</label>
-                          <input
-                            type="text"
-                            value={facility.description}
-                            onChange={(e) => {
-                              const newFacilities = [...localContent.facilities];
-                              newFacilities[index] = { ...facility, description: e.target.value };
-                              updateField('facilities', newFacilities);
-                            }}
-                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
-                          />
-                        </div>
-                      </div>
-                    ))}
+                        ))}
+                        <button onClick={() => updateField('facilities', [...localContent.facilities, { name: '', location: '', description: '' }])} className="w-full py-3 rounded-xl border-2 border-dashed border-border hover:bg-muted/50 transition-colors text-sm font-medium text-muted-foreground">+ Add Facility</button>
+                      </>
+                    )}
 
-                    {section.id === 'management' && localContent.management.map((member, index) => (
-                      <div key={index} className="grid grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium mb-2">Name</label>
-                          <input
-                            type="text"
-                            value={member.name}
-                            onChange={(e) => {
-                              const newManagement = [...localContent.management];
-                              newManagement[index] = { ...member, name: e.target.value };
-                              updateField('management', newManagement);
-                            }}
-                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium mb-2">Role</label>
-                          <input
-                            type="text"
-                            value={member.role}
-                            onChange={(e) => {
-                              const newManagement = [...localContent.management];
-                              newManagement[index] = { ...member, role: e.target.value };
-                              updateField('management', newManagement);
-                            }}
-                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
-                          />
-                        </div>
-                      </div>
-                    ))}
+                    {section.id === 'management' && (
+                      <>
+                        {localContent.management.map((member, index) => (
+                          <div key={index} className="flex items-end gap-4 p-4 border border-border rounded-xl">
+                            <div className="flex-1">
+                              <label className="block text-sm font-medium mb-2">Name</label>
+                              <input
+                                type="text"
+                                value={member.name}
+                                onChange={(e) => {
+                                  const newManagement = [...localContent.management];
+                                  newManagement[index] = { ...member, name: e.target.value };
+                                  updateField('management', newManagement);
+                                }}
+                                className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <label className="block text-sm font-medium mb-2">Role</label>
+                              <input
+                                type="text"
+                                value={member.role}
+                                onChange={(e) => {
+                                  const newManagement = [...localContent.management];
+                                  newManagement[index] = { ...member, role: e.target.value };
+                                  updateField('management', newManagement);
+                                }}
+                                className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                              />
+                            </div>
+                            <button
+                              onClick={() => {
+                                const newManagement = localContent.management.filter((_, i) => i !== index);
+                                updateField('management', newManagement);
+                              }}
+                              className="px-3 py-3 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+                        <button
+                          onClick={() => updateField('management', [...localContent.management, { name: '', role: '' }])}
+                          className="w-full py-3 rounded-xl border-2 border-dashed border-border hover:bg-muted/50 transition-colors text-sm font-medium text-muted-foreground"
+                        >
+                          + Add Team Member
+                        </button>
+                      </>
+                    )}
 
                     {section.id === 'players' && (
                       <>
                         <h3 className="font-bold text-lg">Starting XI</h3>
                         {localContent.startingXI.map((player, index) => (
-                          <div key={index} className="grid grid-cols-4 gap-4 p-4 border border-border rounded-xl">
-                            <div>
+                          <div key={index} className="flex items-end gap-4 p-4 border border-border rounded-xl">
+                            <div className="w-16">
                               <label className="block text-sm font-medium mb-2">#</label>
                               <input
                                 type="number"
@@ -468,7 +441,7 @@ const CMS = () => {
                                 className="w-full px-4 py-3 rounded-xl border border-border bg-background"
                               />
                             </div>
-                            <div>
+                            <div className="flex-1">
                               <label className="block text-sm font-medium mb-2">Name</label>
                               <input
                                 type="text"
@@ -481,8 +454,8 @@ const CMS = () => {
                                 className="w-full px-4 py-3 rounded-xl border border-border bg-background"
                               />
                             </div>
-                            <div>
-                              <label className="block text-sm font-medium mb-2">Position</label>
+                            <div className="w-20">
+                              <label className="block text-sm font-medium mb-2">Pos</label>
                               <input
                                 type="text"
                                 value={player.position}
@@ -494,7 +467,7 @@ const CMS = () => {
                                 className="w-full px-4 py-3 rounded-xl border border-border bg-background"
                               />
                             </div>
-                            <div>
+                            <div className="flex-1">
                               <label className="block text-sm font-medium mb-2">Role</label>
                               <input
                                 type="text"
@@ -507,8 +480,141 @@ const CMS = () => {
                                 className="w-full px-4 py-3 rounded-xl border border-border bg-background"
                               />
                             </div>
+                            <button
+                              onClick={() => {
+                                const newPlayers = localContent.startingXI.filter((_, i) => i !== index);
+                                updateField('startingXI', newPlayers);
+                              }}
+                              className="px-3 py-3 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
                           </div>
                         ))}
+                        <button
+                          onClick={() => updateField('startingXI', [...localContent.startingXI, { number: localContent.startingXI.length + 1, name: '', position: '', role: '' }])}
+                          className="w-full py-3 rounded-xl border-2 border-dashed border-border hover:bg-muted/50 transition-colors text-sm font-medium text-muted-foreground"
+                        >
+                          + Add Player to Starting XI
+                        </button>
+
+                        <h3 className="font-bold text-lg mt-8">Extended Squad</h3>
+                        {localContent.extendedSquad.map((player, index) => (
+                          <div key={index} className="flex items-end gap-4 p-4 border border-border rounded-xl">
+                            <div className="w-16">
+                              <label className="block text-sm font-medium mb-2">#</label>
+                              <input
+                                type="number"
+                                value={player.number}
+                                onChange={(e) => {
+                                  const newPlayers = [...localContent.extendedSquad];
+                                  newPlayers[index] = { ...player, number: parseInt(e.target.value) };
+                                  updateField('extendedSquad', newPlayers);
+                                }}
+                                className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <label className="block text-sm font-medium mb-2">Name</label>
+                              <input
+                                type="text"
+                                value={player.name}
+                                onChange={(e) => {
+                                  const newPlayers = [...localContent.extendedSquad];
+                                  newPlayers[index] = { ...player, name: e.target.value };
+                                  updateField('extendedSquad', newPlayers);
+                                }}
+                                className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                              />
+                            </div>
+                            <div className="w-20">
+                              <label className="block text-sm font-medium mb-2">Pos</label>
+                              <input
+                                type="text"
+                                value={player.position}
+                                onChange={(e) => {
+                                  const newPlayers = [...localContent.extendedSquad];
+                                  newPlayers[index] = { ...player, position: e.target.value };
+                                  updateField('extendedSquad', newPlayers);
+                                }}
+                                className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                              />
+                            </div>
+                            <button
+                              onClick={() => {
+                                const newPlayers = localContent.extendedSquad.filter((_, i) => i !== index);
+                                updateField('extendedSquad', newPlayers);
+                              }}
+                              className="px-3 py-3 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+                        <button
+                          onClick={() => updateField('extendedSquad', [...localContent.extendedSquad, { number: localContent.extendedSquad.length + 12, name: '', position: '' }])}
+                          className="w-full py-3 rounded-xl border-2 border-dashed border-border hover:bg-muted/50 transition-colors text-sm font-medium text-muted-foreground"
+                        >
+                          + Add Player to Extended Squad
+                        </button>
+
+                        <h3 className="font-bold text-lg mt-8">Notable Players</h3>
+                        {localContent.notablePlayers.map((player, index) => (
+                          <div key={index} className="p-4 border border-border rounded-xl space-y-4">
+                            <div className="flex items-end gap-4">
+                              <div className="flex-1">
+                                <label className="block text-sm font-medium mb-2">Name</label>
+                                <input
+                                  type="text"
+                                  value={player.name}
+                                  onChange={(e) => {
+                                    const np = [...localContent.notablePlayers];
+                                    np[index] = { ...player, name: e.target.value };
+                                    updateField('notablePlayers', np);
+                                  }}
+                                  className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                                />
+                              </div>
+                              <button
+                                onClick={() => {
+                                  const np = localContent.notablePlayers.filter((_, i) => i !== index);
+                                  updateField('notablePlayers', np);
+                                }}
+                                className="px-3 py-3 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                            <div className="grid grid-cols-5 gap-4">
+                              <div>
+                                <label className="block text-sm font-medium mb-2">Age</label>
+                                <input type="number" value={player.age} onChange={(e) => { const np = [...localContent.notablePlayers]; np[index] = { ...player, age: parseInt(e.target.value) }; updateField('notablePlayers', np); }} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                              </div>
+                              <div>
+                                <label className="block text-sm font-medium mb-2">Pos</label>
+                                <input type="text" value={player.position} onChange={(e) => { const np = [...localContent.notablePlayers]; np[index] = { ...player, position: e.target.value }; updateField('notablePlayers', np); }} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                              </div>
+                              <div>
+                                <label className="block text-sm font-medium mb-2">Matches</label>
+                                <input type="number" value={player.matches} onChange={(e) => { const np = [...localContent.notablePlayers]; np[index] = { ...player, matches: parseInt(e.target.value) }; updateField('notablePlayers', np); }} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                              </div>
+                              <div>
+                                <label className="block text-sm font-medium mb-2">Goals</label>
+                                <input type="number" value={player.goals} onChange={(e) => { const np = [...localContent.notablePlayers]; np[index] = { ...player, goals: parseInt(e.target.value) }; updateField('notablePlayers', np); }} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                              </div>
+                              <div>
+                                <label className="block text-sm font-medium mb-2">Assists</label>
+                                <input type="number" value={player.assists} onChange={(e) => { const np = [...localContent.notablePlayers]; np[index] = { ...player, assists: parseInt(e.target.value) }; updateField('notablePlayers', np); }} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                        <button
+                          onClick={() => updateField('notablePlayers', [...localContent.notablePlayers, { name: '', age: 18, position: '', matches: 0, goals: 0, assists: 0 }])}
+                          className="w-full py-3 rounded-xl border-2 border-dashed border-border hover:bg-muted/50 transition-colors text-sm font-medium text-muted-foreground"
+                        >
+                          + Add Notable Player
+                        </button>
                       </>
                     )}
 
