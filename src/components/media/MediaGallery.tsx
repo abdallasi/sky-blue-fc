@@ -27,16 +27,17 @@ const placeholderItems: GalleryItem[] = [
   { id: '9', src: '/placeholder.svg', alt: 'Pre-match huddle', category: 'Matches', caption: 'Team unity before kickoff' },
 ];
 
-export const MediaGallery = ({ items = placeholderItems, categories }: MediaGalleryProps) => {
+export const MediaGallery = ({ items, categories }: MediaGalleryProps) => {
+  const displayItems = items.length > 0 ? items : placeholderItems;
   const [activeFilter, setActiveFilter] = useState('All');
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [compact, setCompact] = useState(false);
   const gridAnim = useScrollAnimation({ threshold: 0.1 });
 
-  const allCategories = categories || ['All', ...Array.from(new Set(items.map(i => i.category)))];
+  const allCategories = categories || ['All', ...Array.from(new Set(displayItems.map(i => i.category)))];
   if (!allCategories.includes('All')) allCategories.unshift('All');
 
-  const filtered = activeFilter === 'All' ? items : items.filter(i => i.category === activeFilter);
+  const filtered = activeFilter === 'All' ? displayItems : displayItems.filter(i => i.category === activeFilter);
 
   const openViewer = (index: number) => setSelectedIndex(index);
   const closeViewer = () => setSelectedIndex(null);

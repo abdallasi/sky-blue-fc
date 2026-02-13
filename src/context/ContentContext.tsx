@@ -89,6 +89,14 @@ export interface ContactInfo {
   locationDetail: string;
 }
 
+export interface GalleryImage {
+  id: string;
+  src: string;
+  alt: string;
+  category: string;
+  caption?: string;
+}
+
 export interface ImageAssets {
   heroBackground?: string;
   founderPhoto?: string;
@@ -96,6 +104,8 @@ export interface ImageAssets {
   teamHero?: string;
   statsHero?: string;
   contactHero?: string;
+  aboutStoryImages?: string[];
+  galleryImages?: GalleryImage[];
 }
 
 export interface SiteContent {
