@@ -72,9 +72,22 @@ const About = () => {
               </div>
             </div>
             <div className={`relative transition-all duration-1000 delay-300 ${storyAnim.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}>
-              <div className="aspect-square rounded-3xl bg-gradient-to-br from-[hsl(var(--primary-blue))]/10 to-[hsl(var(--royal-blue))]/10 flex items-center justify-center overflow-hidden">
-                <Award className="w-32 h-32 text-[hsl(var(--primary-blue))]/30" />
-              </div>
+              {content.images.aboutStoryImages && content.images.aboutStoryImages.length > 0 ? (
+                <div className="grid grid-cols-2 gap-4">
+                  {content.images.aboutStoryImages.map((src, index) => (
+                    <img
+                      key={index}
+                      src={src}
+                      alt={`Club story ${index + 1}`}
+                      className={`rounded-2xl object-cover w-full ${index === 0 ? 'col-span-2 aspect-video' : 'aspect-square'}`}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="aspect-square rounded-3xl bg-gradient-to-br from-[hsl(var(--primary-blue))]/10 to-[hsl(var(--royal-blue))]/10 flex items-center justify-center overflow-hidden">
+                  <Award className="w-32 h-32 text-[hsl(var(--primary-blue))]/30" />
+                </div>
+              )}
               <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-gradient-to-br from-[hsl(var(--royal-blue))] to-[hsl(var(--primary-blue))] rounded-3xl blur-2xl opacity-20" />
             </div>
           </div>

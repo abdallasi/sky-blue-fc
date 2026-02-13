@@ -46,7 +46,23 @@ const CMS = () => {
     if (file && currentImageField) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        updateField(`images.${currentImageField}`, reader.result as string);
+        const dataUrl = reader.result as string;
+        if (currentImageField === '__aboutStory') {
+          const current = localContent.images.aboutStoryImages || [];
+          updateField('images.aboutStoryImages', [...current, dataUrl]);
+        } else if (currentImageField === '__gallery') {
+          const current = localContent.images.galleryImages || [];
+          const newItem = {
+            id: Date.now().toString(),
+            src: dataUrl,
+            alt: file.name.replace(/\.[^/.]+$/, ''),
+            category: 'General',
+            caption: '',
+          };
+          updateField('images.galleryImages', [...current, newItem]);
+        } else {
+          updateField(`images.${currentImageField}`, dataUrl);
+        }
       };
       reader.readAsDataURL(file);
     }
@@ -702,34 +718,125 @@ const CMS = () => {
 
                     {section.id === 'images' && (
                       <div className="space-y-6">
-                        {imageFields.map((field) => (
-                          <div key={field.key} className="p-4 border border-border rounded-xl">
-                            <label className="block text-sm font-medium mb-4">{field.label}</label>
-                            {localContent.images[field.key as keyof typeof localContent.images] ? (
-                              <div className="relative">
-                                <img
-                                  src={localContent.images[field.key as keyof typeof localContent.images]}
-                                  alt={field.label}
-                                  className="w-full h-48 object-cover rounded-xl"
-                                />
+                        {imageFields.map((field) => {
+                          const imgVal = localContent.images[field.key as keyof typeof localContent.images];
+                          const isString = typeof imgVal === 'string';
+                          return (
+                            <div key={field.key} className="p-4 border border-border rounded-xl">
+                              <label className="block text-sm font-medium mb-4">{field.label}</label>
+                              {isString && imgVal ? (
+                                <div className="relative">
+                                  <img src={imgVal} alt={field.label} className="w-full h-48 object-cover rounded-xl" />
+                                  <button onClick={() => removeImage(field.key)} className="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors">
+                                    <X className="w-4 h-4" />
+                                  </button>
+                                </div>
+                              ) : (
+                                <button onClick={() => triggerImageUpload(field.key)} className="w-full h-48 border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center gap-2 hover:bg-muted/50 transition-colors">
+                                  <Upload className="w-8 h-8 text-muted-foreground" />
+                                  <span className="text-muted-foreground">Click to upload image</span>
+                                </button>
+                              )}
+                            </div>
+                          );
+                        })}
+
+                        {/* About Story Images */}
+                        <div className="p-4 border border-border rounded-xl">
+                          <label className="block text-sm font-medium mb-4">About Us / Club Story Images</label>
+                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-4">
+                            {(localContent.images.aboutStoryImages || []).map((src, index) => (
+                              <div key={index} className="relative group">
+                                <img src={src} alt={`Story ${index + 1}`} className="w-full h-32 object-cover rounded-xl" />
                                 <button
-                                  onClick={() => removeImage(field.key)}
-                                  className="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                                  onClick={() => {
+                                    const newImages = (localContent.images.aboutStoryImages || []).filter((_, i) => i !== index);
+                                    updateField('images.aboutStoryImages', newImages);
+                                  }}
+                                  className="absolute top-2 right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                                >
+                                  <X className="w-3 h-3" />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                          <button
+                            onClick={() => {
+                              setCurrentImageField('__aboutStory');
+                              fileInputRef.current?.click();
+                            }}
+                            className="w-full py-3 rounded-xl border-2 border-dashed border-border hover:bg-muted/50 transition-colors text-sm font-medium text-muted-foreground flex items-center justify-center gap-2"
+                          >
+                            <Upload className="w-4 h-4" /> Add Story Image
+                          </button>
+                        </div>
+
+                        {/* Gallery Images */}
+                        <div className="p-4 border border-border rounded-xl">
+                          <label className="block text-sm font-medium mb-4">Gallery Images</label>
+                          <div className="space-y-4 mb-4">
+                            {(localContent.images.galleryImages || []).map((item, index) => (
+                              <div key={item.id} className="flex items-start gap-4 p-3 border border-border rounded-xl">
+                                <img src={item.src} alt={item.alt} className="w-20 h-20 object-cover rounded-lg shrink-0" />
+                                <div className="flex-1 space-y-2">
+                                  <input
+                                    type="text"
+                                    value={item.alt}
+                                    placeholder="Image title"
+                                    onChange={(e) => {
+                                      const ng = [...(localContent.images.galleryImages || [])];
+                                      ng[index] = { ...item, alt: e.target.value };
+                                      updateField('images.galleryImages', ng);
+                                    }}
+                                    className="w-full px-3 py-2 rounded-lg border border-border bg-background text-sm"
+                                  />
+                                  <div className="flex gap-2">
+                                    <input
+                                      type="text"
+                                      value={item.category}
+                                      placeholder="Category"
+                                      onChange={(e) => {
+                                        const ng = [...(localContent.images.galleryImages || [])];
+                                        ng[index] = { ...item, category: e.target.value };
+                                        updateField('images.galleryImages', ng);
+                                      }}
+                                      className="flex-1 px-3 py-2 rounded-lg border border-border bg-background text-sm"
+                                    />
+                                    <input
+                                      type="text"
+                                      value={item.caption || ''}
+                                      placeholder="Caption"
+                                      onChange={(e) => {
+                                        const ng = [...(localContent.images.galleryImages || [])];
+                                        ng[index] = { ...item, caption: e.target.value };
+                                        updateField('images.galleryImages', ng);
+                                      }}
+                                      className="flex-1 px-3 py-2 rounded-lg border border-border bg-background text-sm"
+                                    />
+                                  </div>
+                                </div>
+                                <button
+                                  onClick={() => {
+                                    const ng = (localContent.images.galleryImages || []).filter((_, i) => i !== index);
+                                    updateField('images.galleryImages', ng);
+                                  }}
+                                  className="px-2 py-2 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors shrink-0"
                                 >
                                   <X className="w-4 h-4" />
                                 </button>
                               </div>
-                            ) : (
-                              <button
-                                onClick={() => triggerImageUpload(field.key)}
-                                className="w-full h-48 border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center gap-2 hover:bg-muted/50 transition-colors"
-                              >
-                                <Upload className="w-8 h-8 text-muted-foreground" />
-                                <span className="text-muted-foreground">Click to upload image</span>
-                              </button>
-                            )}
+                            ))}
                           </div>
-                        ))}
+                          <button
+                            onClick={() => {
+                              setCurrentImageField('__gallery');
+                              fileInputRef.current?.click();
+                            }}
+                            className="w-full py-3 rounded-xl border-2 border-dashed border-border hover:bg-muted/50 transition-colors text-sm font-medium text-muted-foreground flex items-center justify-center gap-2"
+                          >
+                            <Upload className="w-4 h-4" /> Add Gallery Image
+                          </button>
+                        </div>
                       </div>
                     )}
                   </div>

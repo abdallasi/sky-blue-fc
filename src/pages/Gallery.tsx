@@ -1,7 +1,17 @@
 import { Layout } from '@/components/layout/Layout';
 import { MediaGallery } from '@/components/media/MediaGallery';
+import { useContent } from '@/context/ContentContext';
 
 const Gallery = () => {
+  const { content } = useContent();
+  const galleryItems = (content.images.galleryImages || []).map(item => ({
+    id: item.id,
+    src: item.src,
+    alt: item.alt,
+    category: item.category,
+    caption: item.caption,
+  }));
+
   return (
     <Layout>
       {/* Hero Section */}
@@ -24,7 +34,7 @@ const Gallery = () => {
 
       <section className="section-padding">
         <div className="container-premium">
-          <MediaGallery items={[]} />
+          <MediaGallery items={galleryItems.length > 0 ? galleryItems : []} />
         </div>
       </section>
     </Layout>
