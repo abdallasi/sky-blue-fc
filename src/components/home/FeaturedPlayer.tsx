@@ -1,6 +1,8 @@
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
-import { Trophy, Target } from 'lucide-react';
+import { Trophy, Target, PlayCircle } from 'lucide-react';
 import buhariAsset from '@/assets/buhari-shaho.jpg.asset.json';
+import { useContent } from '@/context/ContentContext';
+import { getYouTubeEmbedUrl } from '@/lib/youtube';
 
 const matches = [
   { goals: 2, opponent: 'Sumaila Strikers FC' },
@@ -11,6 +13,10 @@ const matches = [
 
 export const FeaturedPlayer = () => {
   const anim = useScrollAnimation({ threshold: 0.15 });
+  const { content } = useContent();
+  const heroImg = content.images.featuredPlayerImage || buhariAsset.url;
+  const videos = (content.videos || []).filter((v) => v.placement === 'featuredPlayer');
+
 
   return (
     <section className="section-padding bg-[hsl(var(--midnight-blue))] text-white relative overflow-hidden">
