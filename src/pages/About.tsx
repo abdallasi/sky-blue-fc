@@ -3,6 +3,7 @@ import { useContent } from '@/context/ContentContext';
 import { Award, Building, Calendar, MapPin, User, Quote } from 'lucide-react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { useCountUp } from '@/hooks/useCountUp';
+import { PresidentMessage } from '@/components/about/PresidentMessage';
 
 const AnimatedMilestone = ({ milestone, index }: { milestone: { year: string; title: string; description: string }; index: number }) => {
   const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
@@ -122,7 +123,7 @@ const About = () => {
             </div>
             <div className={`order-1 lg:order-2 transition-all duration-1000 delay-200 ${founderAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
               <span className="text-label-blue">Leadership</span>
-              <h2 className="heading-section mt-2 mb-4">Founder & Chairman</h2>
+              <h2 className="heading-section mt-2 mb-4">{content.about.founderTitle}</h2>
               <h3 className="text-2xl font-bold text-[hsl(var(--primary-blue))] mb-6">{content.about.founderName}</h3>
               <p className="text-lg text-muted-foreground leading-relaxed">
                 {content.about.founderBio}
@@ -131,6 +132,10 @@ const About = () => {
           </div>
         </div>
       </section>
+
+      {/* President's Message */}
+      <PresidentMessage />
+
 
       {/* Milestones Timeline */}
       <section className="section-padding">

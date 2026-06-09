@@ -2,6 +2,7 @@ import { Layout } from '@/components/layout/Layout';
 import { HeroSection } from '@/components/home/HeroSection';
 import { StatsSlider } from '@/components/home/StatsSlider';
 import { ClubSnapshot } from '@/components/home/ClubSnapshot';
+import { FeaturedPlayer } from '@/components/home/FeaturedPlayer';
 import { VisionMission } from '@/components/home/VisionMission';
 import { CTASection } from '@/components/home/CTASection';
 
@@ -11,6 +12,7 @@ const Index = () => {
       <HeroSection />
       <StatsSlider />
       <ClubSnapshot />
+      <FeaturedPlayer />
       <VisionMission />
       <CTASection />
     </Layout>
