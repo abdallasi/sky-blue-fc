@@ -94,6 +94,7 @@ const CMS = () => {
     { id: 'academy', label: 'Academy' },
     { id: 'contact', label: 'Contact Info' },
     { id: 'images', label: 'Images & Media' },
+    { id: 'videos', label: 'Videos (YouTube)' },
   ];
 
   const imageFields = [
@@ -101,7 +102,10 @@ const CMS = () => {
     { key: 'founderPhoto', label: 'Founder Photo' },
     { key: 'academyHero', label: 'Academy Hero Image' },
     { key: 'teamHero', label: 'Team Hero Image' },
+    { key: 'featuredPlayerImage', label: 'Featured Player Image (Home — Buhari Shaho)' },
+    { key: 'presidentMessageImage', label: "President's Message Image (About Page)" },
   ];
+
 
   return (
     <Layout>
