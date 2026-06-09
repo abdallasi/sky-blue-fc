@@ -1,9 +1,13 @@
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { Quote } from 'lucide-react';
 import presidentAsset from '@/assets/president-message.jpg.asset.json';
+import { useContent } from '@/context/ContentContext';
 
 export const PresidentMessage = () => {
   const anim = useScrollAnimation({ threshold: 0.15 });
+  const { content } = useContent();
+  const img = content.images.presidentMessageImage || presidentAsset.url;
+
 
   return (
     <section className="section-padding bg-gradient-to-br from-[hsl(var(--midnight-blue))] via-[hsl(var(--primary-blue))] to-[hsl(var(--midnight-blue))] text-white relative overflow-hidden">
@@ -21,7 +25,7 @@ export const PresidentMessage = () => {
           <div className={`lg:col-span-2 transition-all duration-1000 ${anim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <div className="rounded-3xl overflow-hidden shadow-2xl shadow-black/40 ring-1 ring-white/10">
               <img
-                src={presidentAsset.url}
+                src={img}
                 alt="A Message of Appreciation from the President — Engr. Muhammad T. Abdulwahab"
                 className="w-full h-auto object-cover"
                 loading="lazy"

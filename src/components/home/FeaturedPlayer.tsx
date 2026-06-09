@@ -1,6 +1,8 @@
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
-import { Trophy, Target } from 'lucide-react';
+import { Trophy, Target, PlayCircle } from 'lucide-react';
 import buhariAsset from '@/assets/buhari-shaho.jpg.asset.json';
+import { useContent } from '@/context/ContentContext';
+import { getYouTubeEmbedUrl } from '@/lib/youtube';
 
 const matches = [
   { goals: 2, opponent: 'Sumaila Strikers FC' },
@@ -11,6 +13,10 @@ const matches = [
 
 export const FeaturedPlayer = () => {
   const anim = useScrollAnimation({ threshold: 0.15 });
+  const { content } = useContent();
+  const heroImg = content.images.featuredPlayerImage || buhariAsset.url;
+  const videos = (content.videos || []).filter((v) => v.placement === 'featuredPlayer');
+
 
   return (
     <section className="section-padding bg-[hsl(var(--midnight-blue))] text-white relative overflow-hidden">
@@ -28,7 +34,7 @@ export const FeaturedPlayer = () => {
           <div className={`transition-all duration-1000 ${anim.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
             <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-[hsl(var(--royal-blue))]/30 group">
               <img
-                src={buhariAsset.url}
+                src={heroImg}
                 alt="Buhari Sahi Shaho — NLO Top Performer"
                 className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700"
                 loading="lazy"
@@ -74,7 +80,40 @@ export const FeaturedPlayer = () => {
             </blockquote>
           </div>
         </div>
+
+        {videos.length > 0 && (
+          <div className="mt-16">
+            <div className="flex items-center gap-2 mb-6 justify-center">
+              <PlayCircle className="w-5 h-5 text-[hsl(var(--electric-cyan))]" />
+              <span className="text-label">Match Highlights</span>
+            </div>
+            <div className={`grid ${videos.length > 1 ? 'md:grid-cols-2' : 'md:grid-cols-1'} gap-6 max-w-5xl mx-auto`}>
+              {videos.map((v) => {
+                const embed = getYouTubeEmbedUrl(v.url);
+                if (!embed) return null;
+                return (
+                  <div key={v.id} className="rounded-2xl overflow-hidden shadow-2xl shadow-black/40 ring-1 ring-white/10 bg-black">
+                    <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+                      <iframe
+                        src={embed}
+                        title={v.title}
+                        loading="lazy"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                        className="absolute inset-0 w-full h-full"
+                      />
+                    </div>
+                    {v.title && (
+                      <div className="px-4 py-3 text-sm text-white/80">{v.title}</div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
+
     </section>
   );
 };

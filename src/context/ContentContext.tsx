@@ -104,11 +104,21 @@ export interface ImageAssets {
   teamHero?: string;
   statsHero?: string;
   contactHero?: string;
+  featuredPlayerImage?: string;
+  presidentMessageImage?: string;
   aboutStoryImages?: string[];
   galleryImages?: GalleryImage[];
 }
 
+export interface VideoItem {
+  id: string;
+  title: string;
+  url: string;
+  placement: 'featuredPlayer' | 'about' | 'gallery' | 'home';
+}
+
 export interface SiteContent {
+
   hero: HeroContent;
   stats: StatItem[];
   snapshot: SnapshotContent;
@@ -124,7 +134,9 @@ export interface SiteContent {
   pathway: PathwayStep[];
   contact: ContactInfo;
   images: ImageAssets;
+  videos: VideoItem[];
 }
+
 
 const defaultContent: SiteContent = {
   hero: {
@@ -248,7 +260,12 @@ const defaultContent: SiteContent = {
     location: 'Kano, Nigeria',
     locationDetail: 'Federal College of Education'
   },
-  images: {}
+  images: {},
+  videos: [
+    { id: 'vid-sumaila-1', title: 'AMTAY FC vs Sumaila Strikers — Highlights', url: 'https://youtu.be/gxw8X7LQ1u0', placement: 'featuredPlayer' },
+    { id: 'vid-sumaila-2', title: 'AMTAY FC vs Sumaila Strikers — Match Moments', url: 'https://youtu.be/mQVuwPbfpHs', placement: 'featuredPlayer' },
+  ],
+
 };
 
 interface ContentContextType {
