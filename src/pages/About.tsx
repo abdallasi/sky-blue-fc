@@ -123,7 +123,7 @@ const About = () => {
             </div>
             <div className={`order-1 lg:order-2 transition-all duration-1000 delay-200 ${founderAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
               <span className="text-label-blue">Leadership</span>
-              <h2 className="heading-section mt-2 mb-4">Founder & Chairman</h2>
+              <h2 className="heading-section mt-2 mb-4">{content.about.founderTitle}</h2>
               <h3 className="text-2xl font-bold text-[hsl(var(--primary-blue))] mb-6">{content.about.founderName}</h3>
               <p className="text-lg text-muted-foreground leading-relaxed">
                 {content.about.founderBio}
