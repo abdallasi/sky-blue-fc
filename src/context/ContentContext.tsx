@@ -104,11 +104,21 @@ export interface ImageAssets {
   teamHero?: string;
   statsHero?: string;
   contactHero?: string;
+  featuredPlayerImage?: string;
+  presidentMessageImage?: string;
   aboutStoryImages?: string[];
   galleryImages?: GalleryImage[];
 }
 
+export interface VideoItem {
+  id: string;
+  title: string;
+  url: string;
+  placement: 'featuredPlayer' | 'about' | 'gallery' | 'home';
+}
+
 export interface SiteContent {
+
   hero: HeroContent;
   stats: StatItem[];
   snapshot: SnapshotContent;
