@@ -168,9 +168,9 @@ const defaultContent: SiteContent = {
       "Established to identify, train, and elevate young players, the club quickly gained recognition for its strong performances in the Kano Ahlan League.",
       "With disciplined management and a clear philosophy, the club earned a deserved promotion to the International League—marking a major milestone in its mission to shape the next generation of Nigerian stars."
     ],
-    founderName: "Engr. Dr. Abdulwahab Tayyeb",
-    founderTitle: "Founder & Chairman",
-    founderBio: "A visionary engineer and philanthropist, Dr. Abdulwahab Tayyeb created AMTAY FC to empower youth through structured football development. His commitment to community upliftment and excellence has shaped the club's identity and its rapidly rising status among Nigeria's most promising football institutions."
+    founderName: "Engr. Muhammad T. Abdulwahab",
+    founderTitle: "Founder & President",
+    founderBio: "A visionary engineer and philanthropist, Engr. Muhammad T. Abdulwahab created AMTAY FC to empower youth through structured football development. His commitment to community upliftment and excellence has shaped the club's identity and its rapidly rising status among Nigeria's most promising football institutions."
   },
   milestones: [
     { year: '2023', title: 'Club Founded', description: 'AMTAY FC established by Engr. Dr. Abdulwahab Tayyeb' },
