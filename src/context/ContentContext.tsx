@@ -134,7 +134,9 @@ export interface SiteContent {
   pathway: PathwayStep[];
   contact: ContactInfo;
   images: ImageAssets;
+  videos: VideoItem[];
 }
+
 
 const defaultContent: SiteContent = {
   hero: {
