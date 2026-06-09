@@ -3,6 +3,7 @@ import { useContent } from '@/context/ContentContext';
 import { Award, Building, Calendar, MapPin, User, Quote } from 'lucide-react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { useCountUp } from '@/hooks/useCountUp';
+import { PresidentMessage } from '@/components/about/PresidentMessage';
 
 const AnimatedMilestone = ({ milestone, index }: { milestone: { year: string; title: string; description: string }; index: number }) => {
   const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
@@ -131,6 +132,10 @@ const About = () => {
           </div>
         </div>
       </section>
+
+      {/* President's Message */}
+      <PresidentMessage />
+
 
       {/* Milestones Timeline */}
       <section className="section-padding">
