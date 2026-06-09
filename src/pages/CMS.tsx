@@ -843,6 +843,79 @@ const CMS = () => {
                         </div>
                       </div>
                     )}
+
+                    {section.id === 'videos' && (
+                      <div className="space-y-4">
+                        <p className="text-sm text-muted-foreground">Paste any YouTube URL (youtu.be / youtube.com). Choose where it appears on the site.</p>
+                        {(localContent.videos || []).map((video, index) => (
+                          <div key={video.id} className="p-4 border border-border rounded-xl space-y-3">
+                            <div className="flex justify-between items-center">
+                              <span className="font-semibold text-sm">Video {index + 1}</span>
+                              <button
+                                onClick={() => {
+                                  const nv = (localContent.videos || []).filter((_, i) => i !== index);
+                                  updateField('videos', nv);
+                                }}
+                                className="px-2 py-1 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium mb-2">Title</label>
+                              <input
+                                type="text"
+                                value={video.title}
+                                onChange={(e) => {
+                                  const nv = [...(localContent.videos || [])];
+                                  nv[index] = { ...video, title: e.target.value };
+                                  updateField('videos', nv);
+                                }}
+                                className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium mb-2">YouTube URL</label>
+                              <input
+                                type="text"
+                                value={video.url}
+                                placeholder="https://youtu.be/..."
+                                onChange={(e) => {
+                                  const nv = [...(localContent.videos || [])];
+                                  nv[index] = { ...video, url: e.target.value };
+                                  updateField('videos', nv);
+                                }}
+                                className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium mb-2">Placement</label>
+                              <select
+                                value={video.placement}
+                                onChange={(e) => {
+                                  const nv = [...(localContent.videos || [])];
+                                  nv[index] = { ...video, placement: e.target.value as any };
+                                  updateField('videos', nv);
+                                }}
+                                className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                              >
+                                <option value="featuredPlayer">Home — Featured Player section</option>
+                                <option value="home">Home — General</option>
+                                <option value="about">About page</option>
+                                <option value="gallery">Gallery page</option>
+                              </select>
+                            </div>
+                          </div>
+                        ))}
+                        <button
+                          onClick={() => updateField('videos', [...(localContent.videos || []), { id: Date.now().toString(), title: '', url: '', placement: 'featuredPlayer' }])}
+                          className="w-full py-3 rounded-xl border-2 border-dashed border-border hover:bg-muted/50 transition-colors text-sm font-medium text-muted-foreground"
+                        >
+                          + Add Video
+                        </button>
+                      </div>
+                    )}
+
                   </div>
                 )}
               </div>
