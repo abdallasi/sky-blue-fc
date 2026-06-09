@@ -164,7 +164,7 @@ const defaultContent: SiteContent = {
     heroSubtitle: "From humble beginnings to national recognition, discover the journey of AMTAY FC.",
     storyTitle: "Our Club Story",
     storyParagraphs: [
-      "AMTAY FC was founded in 2023 by Engr. Dr. Abdulwahab Tayyeb, a visionary leader, philanthropist, and football enthusiast committed to youth empowerment.",
+      "AMTAY FC was founded in 2023 by Engr. Muhammad T. Abdulwahab, a visionary leader, philanthropist, and football enthusiast committed to youth empowerment.",
       "Established to identify, train, and elevate young players, the club quickly gained recognition for its strong performances in the Kano Ahlan League.",
       "With disciplined management and a clear philosophy, the club earned a deserved promotion to the International League—marking a major milestone in its mission to shape the next generation of Nigerian stars."
     ],
@@ -173,7 +173,7 @@ const defaultContent: SiteContent = {
     founderBio: "A visionary engineer and philanthropist, Engr. Muhammad T. Abdulwahab created AMTAY FC to empower youth through structured football development. His commitment to community upliftment and excellence has shaped the club's identity and its rapidly rising status among Nigeria's most promising football institutions."
   },
   milestones: [
-    { year: '2023', title: 'Club Founded', description: 'AMTAY FC established by Engr. Dr. Abdulwahab Tayyeb' },
+    { year: '2023', title: 'Club Founded', description: 'AMTAY FC established by Engr. Muhammad T. Abdulwahab' },
     { year: '2023', title: 'Ahlan League Debut', description: 'First competitive season in Kano Ahlan League' },
     { year: '2023', title: 'National Recognition', description: '4 players invited to Nigeria U-17 screening' },
     { year: '2024', title: 'League Champions', description: 'Recognized as top team in the league' },
@@ -186,7 +186,7 @@ const defaultContent: SiteContent = {
     { name: 'Medical Recovery Hub', location: 'Integrated Care Facility', description: 'Free recovery and rehabilitation' },
   ],
   management: [
-    { name: 'Engr. Dr. Muhd Tayyeb', role: 'President' },
+    { name: 'Engr. Muhammad T. Abdulwahab', role: 'President' },
     { name: 'Auwal T. Tahir', role: 'Team Secretary & Media Team' },
     { name: 'Barr. Bashir Adam', role: 'Legal Advisor' },
     { name: 'Abubakar Nuhu Muhammad', role: 'Financial Secretary' },
