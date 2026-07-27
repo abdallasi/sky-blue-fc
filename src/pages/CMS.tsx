@@ -1,27 +1,90 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
 import { useContent } from '@/context/ContentContext';
-import { Save, RotateCcw, ChevronDown, ChevronRight, Upload, X, Image } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { Save, RotateCcw, ChevronDown, ChevronRight, Upload, X, Image, Rocket, Eye, EyeOff, Loader2, Lock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const CMS = () => {
-  const { content, updateContent, resetContent } = useContent();
+  const {
+    draft,
+    loading,
+    isPublished,
+    publishedAt,
+    draftUpdatedAt,
+    previewMode,
+    setPreviewMode,
+    saveDraft,
+    publish,
+    unpublish,
+    resetContent,
+  } = useContent();
+  const { user, isEditor, isAdmin, loading: authLoading, signOut } = useAuth();
   const { toast } = useToast();
   const [activeSection, setActiveSection] = useState<string | null>('hero');
-  const [localContent, setLocalContent] = useState(content);
+  const [localContent, setLocalContent] = useState(draft);
+  const [dirty, setDirty] = useState(false);
+  const [busy, setBusy] = useState<null | 'save' | 'publish' | 'unpublish' | 'reset'>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [currentImageField, setCurrentImageField] = useState<string | null>(null);
 
-  const handleSave = () => {
-    updateContent(localContent);
-    toast({ title: 'Changes saved!', description: 'Your content has been updated.' });
+  // Keep the editor in sync with the database draft until the user edits something
+  useEffect(() => {
+    if (!dirty) setLocalContent(draft);
+  }, [draft, dirty]);
+
+  const handleSave = async () => {
+    setBusy('save');
+    try {
+      await saveDraft(localContent);
+      setDirty(false);
+      toast({ title: 'Draft saved', description: 'Saved to the database. Not live until you publish.' });
+    } catch (e: any) {
+      toast({ title: 'Save failed', description: e.message, variant: 'destructive' });
+    } finally {
+      setBusy(null);
+    }
   };
 
-  const handleReset = () => {
-    resetContent();
-    setLocalContent(content);
-    toast({ title: 'Content reset', description: 'All content has been restored to defaults.' });
+  const handlePublish = async () => {
+    setBusy('publish');
+    try {
+      await publish(localContent);
+      setDirty(false);
+      toast({ title: 'Published live', description: 'Content is now live on every device.' });
+    } catch (e: any) {
+      toast({ title: 'Publish failed', description: e.message, variant: 'destructive' });
+    } finally {
+      setBusy(null);
+    }
   };
+
+  const handleUnpublish = async () => {
+    setBusy('unpublish');
+    try {
+      await unpublish();
+      toast({ title: 'Unpublished', description: 'The live site fell back to built-in defaults.' });
+    } catch (e: any) {
+      toast({ title: 'Unpublish failed', description: e.message, variant: 'destructive' });
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const handleReset = async () => {
+    setBusy('reset');
+    try {
+      await resetContent();
+      setDirty(false);
+      toast({ title: 'Draft reset', description: 'Draft restored to defaults. Publish to apply it live.' });
+    } catch (e: any) {
+      toast({ title: 'Reset failed', description: e.message, variant: 'destructive' });
+    } finally {
+      setBusy(null);
+    }
+  };
+
 
   const toggleSection = (section: string) => {
     setActiveSection(activeSection === section ? null : section);
