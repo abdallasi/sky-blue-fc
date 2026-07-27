@@ -24,15 +24,19 @@ const CMS = () => {
   const { toast } = useToast();
   const [activeSection, setActiveSection] = useState<string | null>('hero');
   const [localContent, setLocalContent] = useState(draft);
-  const [dirty, setDirty] = useState(false);
   const [busy, setBusy] = useState<null | 'save' | 'publish' | 'unpublish' | 'reset'>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [currentImageField, setCurrentImageField] = useState<string | null>(null);
 
-  // Keep the editor in sync with the database draft until the user edits something
+  const draftKey = JSON.stringify(draft);
+  const dirty = JSON.stringify(localContent) !== draftKey;
+  const setDirty = (_v: boolean) => {};
+
+  // Adopt the database draft whenever it changes (initial load or another editor's save)
   useEffect(() => {
-    if (!dirty) setLocalContent(draft);
-  }, [draft, dirty]);
+    setLocalContent(JSON.parse(draftKey));
+  }, [draftKey]);
+
 
   const handleSave = async () => {
     setBusy('save');
