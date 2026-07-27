@@ -173,6 +173,38 @@ const CMS = () => {
     { key: 'presidentMessageImage', label: "President's Message Image (About Page)" },
   ];
 
+  if (authLoading || loading) {
+    return (
+      <Layout>
+        <div className="min-h-[70vh] flex items-center justify-center">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      </Layout>
+    );
+  }
+
+  if (!user || !isEditor) {
+    return (
+      <Layout>
+        <div className="min-h-[70vh] flex items-center justify-center px-6">
+          <div className="max-w-md w-full text-center border border-border rounded-2xl p-10">
+            <Lock className="w-8 h-8 mx-auto mb-4 text-primary" />
+            <h1 className="text-2xl font-bold mb-2">Restricted area</h1>
+            <p className="text-muted-foreground mb-6">
+              {user
+                ? 'Your account does not have content management access. Ask an administrator to grant you the editor or admin role.'
+                : 'Sign in with your management account to edit website content.'}
+            </p>
+            {user ? (
+              <button onClick={signOut} className="btn-primary">Sign out</button>
+            ) : (
+              <Link to="/auth" className="btn-primary inline-flex">Sign in</Link>
+            )}
+          </div>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -187,20 +219,59 @@ const CMS = () => {
       <section className="pt-32 pb-20 bg-gradient-hero text-white">
         <div className="container-premium">
           <h1 className="heading-hero max-w-4xl mb-4">Content Management</h1>
-          <p className="text-xl text-white/80">Edit all website content below.</p>
+          <p className="text-xl text-white/80">Edit all website content below. Changes go live globally when you publish.</p>
         </div>
       </section>
 
       <section className="section-padding">
         <div className="container-premium max-w-4xl">
-          <div className="flex gap-4 mb-8">
-            <button onClick={handleSave} className="btn-primary flex items-center gap-2">
-              <Save className="w-4 h-4" /> Save All Changes
-            </button>
-            <button onClick={handleReset} className="px-6 py-3 rounded-lg border border-border hover:bg-muted transition-colors flex items-center gap-2">
-              <RotateCcw className="w-4 h-4" /> Reset to Default
-            </button>
+          <div className="mb-8 p-5 rounded-2xl border border-border bg-muted/40">
+            <div className="flex flex-wrap items-center gap-3 mb-4 text-sm">
+              <span className={`px-3 py-1 rounded-full font-semibold ${dirty ? 'bg-amber-500/15 text-amber-600' : 'bg-emerald-500/15 text-emerald-600'}`}>
+                {dirty ? 'Unsaved changes' : 'Draft saved'}
+              </span>
+              <span className={`px-3 py-1 rounded-full font-semibold ${isPublished ? 'bg-emerald-500/15 text-emerald-600' : 'bg-muted text-muted-foreground'}`}>
+                {isPublished ? 'Live' : 'Not published'}
+              </span>
+              {publishedAt && (
+                <span className="text-muted-foreground">Published {new Date(publishedAt).toLocaleString()}</span>
+              )}
+              {draftUpdatedAt && (
+                <span className="text-muted-foreground">· Draft updated {new Date(draftUpdatedAt).toLocaleString()}</span>
+              )}
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              <button onClick={handleSave} disabled={busy !== null} className="btn-primary flex items-center gap-2 disabled:opacity-60">
+                {busy === 'save' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} Save Draft
+              </button>
+              <button onClick={handlePublish} disabled={busy !== null} className="px-6 py-3 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition-colors flex items-center gap-2 disabled:opacity-60">
+                {busy === 'publish' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Rocket className="w-4 h-4" />} Publish Live
+              </button>
+              <button
+                onClick={() => setPreviewMode(!previewMode)}
+                className="px-6 py-3 rounded-lg border border-border hover:bg-muted transition-colors flex items-center gap-2"
+              >
+                {previewMode ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                {previewMode ? 'Previewing draft' : 'Preview draft'}
+              </button>
+              {isAdmin && isPublished && (
+                <button onClick={handleUnpublish} disabled={busy !== null} className="px-6 py-3 rounded-lg border border-border hover:bg-muted transition-colors flex items-center gap-2 disabled:opacity-60">
+                  {busy === 'unpublish' ? <Loader2 className="w-4 h-4 animate-spin" /> : <EyeOff className="w-4 h-4" />} Unpublish
+                </button>
+              )}
+              <button onClick={handleReset} disabled={busy !== null} className="px-6 py-3 rounded-lg border border-border hover:bg-muted transition-colors flex items-center gap-2 disabled:opacity-60">
+                {busy === 'reset' ? <Loader2 className="w-4 h-4 animate-spin" /> : <RotateCcw className="w-4 h-4" />} Reset Draft
+              </button>
+              <button onClick={signOut} className="px-6 py-3 rounded-lg border border-border hover:bg-muted transition-colors">
+                Sign out
+              </button>
+            </div>
+            <p className="text-xs text-muted-foreground mt-3">
+              Preview shows the draft on this browser only. Publishing writes to the database and updates every visitor instantly.
+            </p>
           </div>
+
 
           <div className="space-y-4">
             {sections.map((section) => (
