@@ -268,20 +268,37 @@ const defaultContent: SiteContent = {
 
 };
 
+export type PublishState = 'published' | 'unpublished';
+
 interface ContentContextType {
+  /** Content currently shown on the site (published, or draft while previewing) */
   content: SiteContent;
-  updateContent: (newContent: Partial<SiteContent>) => void;
-  resetContent: () => void;
+  /** Latest saved draft (admins only; falls back to published for visitors) */
+  draft: SiteContent;
+  published: SiteContent;
+  loading: boolean;
+  isPublished: boolean;
+  publishedAt: string | null;
+  draftUpdatedAt: string | null;
+  previewMode: boolean;
+  setPreviewMode: (v: boolean) => void;
+  /** Persist the working draft to the database */
+  saveDraft: (newContent: SiteContent) => Promise<void>;
+  /** Copy the draft to the live published record */
+  publish: (newContent?: SiteContent) => Promise<void>;
+  /** Take the site content offline (falls back to built-in defaults) */
+  unpublish: () => Promise<void>;
+  /** Restore defaults into the draft */
+  resetContent: () => Promise<void>;
+  refresh: () => Promise<void>;
 }
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'amtay-fc-content';
-
-// Deep merge utility: preserves new default keys while keeping user-edited values
+// Deep merge utility: preserves new default keys while keeping stored values
 const deepMerge = (defaults: any, overrides: any): any => {
   const result = { ...defaults };
-  for (const key of Object.keys(overrides)) {
+  for (const key of Object.keys(overrides || {})) {
     if (
       result[key] &&
       typeof result[key] === 'object' &&
@@ -297,38 +314,118 @@ const deepMerge = (defaults: any, overrides: any): any => {
   return result;
 };
 
+const merge = (data: unknown): SiteContent =>
+  deepMerge(defaultContent, (data as Partial<SiteContent>) || {}) as SiteContent;
+
 export const ContentProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [content, setContent] = useState<SiteContent>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        try {
-          // Deep merge: saved CMS values override defaults, but new default keys are preserved
-          const parsed = JSON.parse(saved);
-          return deepMerge(defaultContent, parsed);
-        } catch {
-          return defaultContent;
-        }
-      }
+  const [published, setPublished] = useState<SiteContent>(defaultContent);
+  const [draft, setDraft] = useState<SiteContent>(defaultContent);
+  const [isPublished, setIsPublished] = useState(false);
+  const [publishedAt, setPublishedAt] = useState<string | null>(null);
+  const [draftUpdatedAt, setDraftUpdatedAt] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [previewMode, setPreviewMode] = useState(
+    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('preview') === '1'
+  );
+
+  const load = useCallback(async () => {
+    const { data, error } = await supabase
+      .from('site_content')
+      .select('id, data, published_at, updated_at')
+      .in('id', ['published', 'draft']);
+
+    if (error) {
+      console.error('Failed to load site content:', error.message);
+      setLoading(false);
+      return;
     }
-    return defaultContent;
-  });
+
+    const pub = data?.find((r) => r.id === 'published');
+    const drf = data?.find((r) => r.id === 'draft');
+
+    const publishedContent = pub ? merge(pub.data) : defaultContent;
+    setPublished(publishedContent);
+    setIsPublished(!!pub);
+    setPublishedAt(pub?.published_at ?? null);
+    setDraft(drf ? merge(drf.data) : publishedContent);
+    setDraftUpdatedAt(drf?.updated_at ?? null);
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
-  }, [content]);
+    load();
+  }, [load]);
 
-  const updateContent = (newContent: Partial<SiteContent>) => {
-    setContent(prev => ({ ...prev, ...newContent }));
-  };
+  // Realtime: any publish/draft change propagates to every open device instantly
+  useEffect(() => {
+    const channel = supabase
+      .channel('site_content_changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'site_content' }, () => {
+        load();
+      })
+      .subscribe();
 
-  const resetContent = () => {
-    setContent(defaultContent);
-    localStorage.removeItem(STORAGE_KEY);
-  };
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [load]);
+
+  const saveDraft = useCallback(async (newContent: SiteContent) => {
+    const { data: userData } = await supabase.auth.getUser();
+    const { error } = await supabase
+      .from('site_content')
+      .upsert({ id: 'draft', data: newContent as any, updated_by: userData.user?.id ?? null }, { onConflict: 'id' });
+    if (error) throw error;
+    setDraft(newContent);
+    await load();
+  }, [load]);
+
+  const publish = useCallback(async (newContent?: SiteContent) => {
+    const payload = newContent ?? draft;
+    const { data: userData } = await supabase.auth.getUser();
+    const uid = userData.user?.id ?? null;
+    const { error } = await supabase.from('site_content').upsert(
+      [
+        { id: 'draft', data: payload as any, updated_by: uid },
+        { id: 'published', data: payload as any, published_at: new Date().toISOString(), updated_by: uid },
+      ],
+      { onConflict: 'id' }
+    );
+    if (error) throw error;
+    await load();
+  }, [draft, load]);
+
+  const unpublish = useCallback(async () => {
+    const { error } = await supabase.from('site_content').delete().eq('id', 'published');
+    if (error) throw error;
+    await load();
+  }, [load]);
+
+  const resetContent = useCallback(async () => {
+    await saveDraft(defaultContent);
+  }, [saveDraft]);
+
+  const content = previewMode ? draft : published;
 
   return (
-    <ContentContext.Provider value={{ content, updateContent, resetContent }}>
+    <ContentContext.Provider
+      value={{
+        content,
+        draft,
+        published,
+        loading,
+        isPublished,
+        publishedAt,
+        draftUpdatedAt,
+        previewMode,
+        setPreviewMode,
+        saveDraft,
+        publish,
+        unpublish,
+        resetContent,
+        refresh: load,
+      }}
+    >
       {children}
     </ContentContext.Provider>
   );
@@ -341,3 +438,4 @@ export const useContent = () => {
   }
   return context;
 };
+
