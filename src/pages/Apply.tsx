@@ -70,7 +70,7 @@ const Apply = () => {
   };
 
   const inputClass =
-    'w-full px-4 py-3 rounded-xl bg-white/5 border border-white/15 text-white placeholder:text-white/40 focus:outline-none focus:border-[hsl(var(--electric-cyan))] transition-colors';
+    'w-full px-4 py-3.5 rounded-2xl bg-background border border-border text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:border-[hsl(var(--royal-blue))] focus:ring-4 focus:ring-[hsl(var(--royal-blue))]/10 transition-all';
 
   return (
     <Layout>
