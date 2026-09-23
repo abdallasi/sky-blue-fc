@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Zap } from 'lucide-react';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
 import amtayLogo from '@/assets/amtay-logo.png';
 
 const navLinks = [
@@ -12,7 +12,6 @@ const navLinks = [
   { name: 'Gallery', href: '/gallery' },
   { name: 'Trials', href: '/apply' },
   { name: 'Contact', href: '/contact' },
-
 ];
 
 export const Navbar = () => {
@@ -21,9 +20,7 @@ export const Navbar = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 16);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -32,115 +29,120 @@ export const Navbar = () => {
     setIsOpen(false);
   }, [location]);
 
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? 'bg-white/95 backdrop-blur-2xl shadow-lg shadow-black/5 border-b border-border/50'
-          : 'bg-transparent'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled || isOpen
+          ? 'bg-background/90 backdrop-blur-xl border-b border-border'
+          : 'bg-background/70 backdrop-blur-md border-b border-transparent'
       }`}
     >
       <div className="container-premium">
-        <div className="flex items-center justify-between h-20 lg:h-24">
+        <div className="flex items-center justify-between h-18 lg:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="relative">
-              <img 
-                src={amtayLogo} 
-                alt="AMTAY FC Logo" 
-                className="w-12 h-12 lg:w-14 lg:h-14 object-contain transition-transform duration-300 group-hover:scale-105"
-              />
-              {/* Glow effect */}
-              <div className="absolute inset-0 bg-[hsl(var(--electric-cyan))]/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-            </div>
-            <div className="flex flex-col">
-              <span className={`font-black text-xl tracking-tight transition-colors duration-300 ${
-                scrolled ? 'text-foreground' : 'text-white'
-              }`}>
-                AMTAY FC
-              </span>
-              <span className={`text-[10px] font-semibold uppercase tracking-[0.15em] transition-colors duration-300 ${
-                scrolled ? 'text-[hsl(var(--electric-cyan))]' : 'text-[hsl(var(--electric-cyan))]'
-              }`}>
+            <img
+              src={amtayLogo}
+              alt="AMTAY FC"
+              className="w-11 h-11 lg:w-12 lg:h-12 object-contain transition-transform duration-300 group-hover:scale-105"
+            />
+            <div className="flex flex-col leading-none">
+              <span className="font-black text-lg lg:text-xl tracking-[-0.03em] text-foreground">AMTAY FC</span>
+              <span className="mt-1 text-[9px] font-bold uppercase tracking-[0.22em] text-muted-foreground">
                 Kano, Nigeria
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.href}
-                className={`px-4 py-2.5 rounded-xl text-sm font-semibold tracking-wide transition-all duration-300 ${
-                  location.pathname === link.href
-                    ? scrolled
-                      ? 'text-[hsl(var(--primary-blue))] bg-[hsl(var(--primary-blue))]/10'
-                      : 'text-white bg-white/15'
-                    : scrolled
-                    ? 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                    : 'text-white/75 hover:text-white hover:bg-white/10'
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
+          <div className="hidden lg:flex items-center gap-0.5">
+            {navLinks.map((link) => {
+              const active = location.pathname === link.href;
+              return (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  className={`relative px-3.5 py-2 text-[13px] font-semibold tracking-wide transition-colors duration-200 ${
+                    active ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  {link.name}
+                  <span
+                    className={`absolute left-3.5 right-3.5 -bottom-0.5 h-[2px] rounded-full bg-[hsl(var(--royal-blue))] transition-transform duration-300 origin-left ${
+                      active ? 'scale-x-100' : 'scale-x-0'
+                    }`}
+                  />
+                </Link>
+              );
+            })}
           </div>
 
-          {/* CTA Button - Neon Style */}
+          {/* CTA */}
           <div className="hidden lg:block">
             <Link
               to="/apply"
-              className={`group px-6 py-3 rounded-xl text-sm font-bold transition-all duration-300 inline-flex items-center gap-2 ${
-                scrolled
-                  ? 'bg-gradient-to-r from-[hsl(var(--electric-cyan))] to-[hsl(var(--royal-blue))] text-white hover:shadow-lg hover:shadow-[hsl(var(--electric-cyan))]/30 hover:-translate-y-0.5'
-                  : 'bg-[hsl(var(--electric-cyan))] text-[hsl(var(--midnight-blue))] hover:shadow-lg hover:shadow-[hsl(var(--electric-cyan))]/40 hover:-translate-y-0.5'
-              }`}
+              className="group inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[hsl(var(--midnight-blue))] text-white text-[13px] font-bold tracking-wide transition-all duration-300 hover:bg-[hsl(var(--primary-blue))] hover:-translate-y-0.5"
             >
-              <Zap className="w-4 h-4" />
               Join Academy
+              <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={`lg:hidden p-3 rounded-xl transition-colors ${
-              scrolled ? 'text-foreground hover:bg-muted' : 'text-white hover:bg-white/10'
-            }`}
+            aria-label={isOpen ? 'Close menu' : 'Open menu'}
+            className="lg:hidden p-2.5 rounded-full border border-border text-foreground transition-colors hover:bg-muted"
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+            {isOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu — fully opaque, maximum legibility */}
       <div
-        className={`lg:hidden absolute top-full left-0 right-0 bg-white/98 backdrop-blur-2xl shadow-2xl border-b border-border/50 transition-all duration-500 ${
-          isOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-4'
+        className={`lg:hidden fixed inset-x-0 top-[72px] bottom-0 bg-background transition-all duration-300 ${
+          isOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2 pointer-events-none'
         }`}
       >
-        <div className="container-premium py-6 space-y-2">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.href}
-              className={`block py-3.5 px-5 rounded-xl text-base font-semibold transition-all duration-300 ${
-                location.pathname === link.href
-                  ? 'text-[hsl(var(--primary-blue))] bg-[hsl(var(--primary-blue))]/10'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-              }`}
-            >
-              {link.name}
-            </Link>
-          ))}
+        <div className="container-premium h-full overflow-y-auto py-6">
+          <div className="divide-y divide-border">
+            {navLinks.map((link) => {
+              const active = location.pathname === link.href;
+              return (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  className="flex items-center justify-between py-4 group"
+                >
+                  <span
+                    className={`text-2xl font-black tracking-[-0.03em] ${
+                      active ? 'text-[hsl(var(--primary-blue))]' : 'text-foreground'
+                    }`}
+                  >
+                    {link.name}
+                  </span>
+                  <ArrowUpRight
+                    className={`w-5 h-5 ${active ? 'text-[hsl(var(--royal-blue))]' : 'text-muted-foreground'}`}
+                  />
+                </Link>
+              );
+            })}
+          </div>
+
           <Link
             to="/apply"
-            className="flex items-center justify-center gap-2 w-full py-4 mt-4 text-center bg-gradient-to-r from-[hsl(var(--electric-cyan))] to-[hsl(var(--royal-blue))] text-white rounded-xl font-bold"
+            className="mt-8 flex items-center justify-center gap-2 w-full py-4 rounded-full bg-[hsl(var(--midnight-blue))] text-white font-bold tracking-wide"
           >
-            <Zap className="w-4 h-4" />
             Join Academy
+            <ArrowUpRight className="w-4 h-4" />
           </Link>
         </div>
       </div>
