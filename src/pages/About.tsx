@@ -4,6 +4,8 @@ import { Award, Building, Calendar, MapPin, User, Quote } from 'lucide-react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { useCountUp } from '@/hooks/useCountUp';
 import { PresidentMessage } from '@/components/about/PresidentMessage';
+import { PageHero } from '@/components/layout/PageHero';
+import storyFallback from '@/assets/placeholder-academy-training.jpg';
 
 const AnimatedMilestone = ({ milestone, index }: { milestone: { year: string; title: string; description: string }; index: number }) => {
   const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
@@ -35,24 +37,11 @@ const About = () => {
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 bg-gradient-hero-dynamic text-white overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-[hsl(var(--royal-blue))]/20 rounded-full blur-[120px] animate-float" />
-          <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-[hsl(var(--electric-cyan))]/10 rounded-full blur-[100px] animate-float" style={{ animationDelay: '3s' }} />
-        </div>
-        <div className="absolute inset-0 bg-noise opacity-40" />
-        <div className="container-premium relative">
-          <span className="text-label animate-fade-up">Our Story</span>
-          <h1 className="heading-hero max-w-4xl mt-4 mb-6 animate-fade-up-delay-1">
-            {content.about.heroTitle}
-          </h1>
-          <p className="text-xl text-white/70 max-w-2xl animate-fade-up-delay-2 leading-relaxed">
-            {content.about.heroSubtitle}
-          </p>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
-      </section>
+      <PageHero
+        eyebrow="Our Story"
+        title={content.about.heroTitle}
+        subtitle={content.about.heroSubtitle}
+      />
 
       {/* Club Story - Split Screen */}
       <section className="section-padding">
@@ -85,9 +74,14 @@ const About = () => {
                   ))}
                 </div>
               ) : (
-                <div className="aspect-square rounded-3xl bg-gradient-to-br from-[hsl(var(--primary-blue))]/10 to-[hsl(var(--royal-blue))]/10 flex items-center justify-center overflow-hidden">
-                  <Award className="w-32 h-32 text-[hsl(var(--primary-blue))]/30" />
-                </div>
+                <figure className="overflow-hidden rounded-[1.75rem] bg-muted shadow-[0_40px_80px_-40px_hsl(217_100%_12%/0.3)]">
+                  <img
+                    src={content.images?.showcaseTraining || storyFallback}
+                    alt="AMTAY FC club story"
+                    loading="lazy"
+                    className="w-full aspect-[4/5] object-cover object-center"
+                  />
+                </figure>
               )}
               <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-gradient-to-br from-[hsl(var(--royal-blue))] to-[hsl(var(--primary-blue))] rounded-3xl blur-2xl opacity-20" />
             </div>

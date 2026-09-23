@@ -1,6 +1,7 @@
 import { CheckCircle2, Sparkles, Trophy, Star } from 'lucide-react';
 import { useContent } from '@/context/ContentContext';
 import { useRef, useState, useEffect } from 'react';
+import clubMoment from '@/assets/placeholder-club-moment.jpg';
 
 export const ClubSnapshot = () => {
   const { content } = useContent();
@@ -69,55 +70,34 @@ export const ClubSnapshot = () => {
             </div>
           </div>
 
-          {/* Visual Card - Slides from right */}
+          {/* Photography-led panel */}
           <div className={`relative transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}>
-            <div className="relative rounded-[2rem] bg-gradient-to-br from-[hsl(var(--primary-blue))] via-[hsl(var(--royal-blue))] to-[hsl(var(--midnight-blue))] p-1.5 shadow-2xl">
-              <div className="rounded-[1.75rem] bg-gradient-to-br from-white to-muted p-12">
-                <div className="aspect-square flex items-center justify-center relative">
-                  {/* Background Pattern */}
-                  <div 
-                    className="absolute inset-0 opacity-5"
-                    style={{
-                      backgroundImage: `radial-gradient(circle at 2px 2px, hsl(var(--primary-blue)) 1px, transparent 0)`,
-                      backgroundSize: '28px 28px'
-                    }}
-                  />
-                  
-                  <div className="text-center relative">
-                    {/* Main Logo */}
-                    <div className="w-36 h-36 rounded-[2rem] bg-gradient-to-br from-[hsl(var(--primary-blue))] to-[hsl(var(--midnight-blue))] flex items-center justify-center mx-auto mb-8 shadow-2xl hover:scale-105 transition-transform">
-                      <span className="text-6xl font-black text-white">A</span>
-                    </div>
-                    <h3 className="text-3xl font-black text-foreground mb-2">AMTAY FC</h3>
-                    <p className="text-muted-foreground font-medium text-lg">Kano, Nigeria</p>
-                    
-                    {/* Status Badge */}
-                    <div className="mt-8 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[hsl(var(--electric-cyan))]/10 border border-[hsl(var(--electric-cyan))]/30">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[hsl(var(--electric-cyan))] animate-pulse" />
-                      <span className="text-sm font-bold text-[hsl(var(--primary-blue))]">International League</span>
-                    </div>
-                  </div>
+            <figure className="overflow-hidden rounded-[1.75rem] bg-muted shadow-[0_40px_80px_-40px_hsl(217_100%_12%/0.35)]">
+              <img
+                src={content.images?.showcaseMoment || clubMoment}
+                alt="AMTAY FC club moment"
+                loading="lazy"
+                className="w-full aspect-[4/5] object-cover object-center"
+              />
+            </figure>
+
+            {/* Floating plates */}
+            <div className={`absolute -top-5 -right-3 sm:-right-6 bg-background rounded-2xl shadow-2xl px-5 py-4 border border-border transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+              <div className="flex items-center gap-3">
+                <Trophy className="w-5 h-5 text-[hsl(var(--royal-blue))]" />
+                <div>
+                  <div className="text-2xl font-black tracking-tighter text-foreground">2023</div>
+                  <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-[0.18em]">Founded</div>
                 </div>
               </div>
             </div>
-            
-            {/* Floating Cards */}
-            <div className={`absolute -top-6 -right-6 bg-white rounded-2xl shadow-2xl p-5 border border-border/50 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+
+            <div className={`absolute -bottom-5 -left-3 sm:-left-6 bg-background rounded-2xl shadow-2xl px-5 py-4 border border-border transition-all duration-700 delay-700 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
               <div className="flex items-center gap-3">
-                <Trophy className="w-6 h-6 text-[hsl(var(--electric-cyan))]" />
+                <Star className="w-5 h-5 text-amber-500" />
                 <div>
-                  <div className="text-3xl font-black text-[hsl(var(--royal-blue))]">2023</div>
-                  <div className="text-xs text-muted-foreground font-semibold uppercase tracking-wide">Founded</div>
-                </div>
-              </div>
-            </div>
-            
-            <div className={`absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-2xl p-5 border border-border/50 transition-all duration-700 delay-700 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
-              <div className="flex items-center gap-3">
-                <Star className="w-6 h-6 text-amber-500" />
-                <div>
-                  <div className="text-xl font-black text-foreground">U-17 Stars</div>
-                  <div className="text-xs text-muted-foreground font-semibold">4 National Call-ups</div>
+                  <div className="text-lg font-black tracking-tight text-foreground">U-17 Stars</div>
+                  <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-[0.18em]">4 National Call-ups</div>
                 </div>
               </div>
             </div>
