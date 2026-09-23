@@ -1,6 +1,6 @@
 import { Layout } from '@/components/layout/Layout';
 import { useContent } from '@/context/ContentContext';
-import { User, Star } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { useCountUp } from '@/hooks/useCountUp';
 import { PageHero } from '@/components/layout/PageHero';
