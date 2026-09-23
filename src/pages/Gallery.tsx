@@ -2,6 +2,8 @@ import { Layout } from '@/components/layout/Layout';
 import { MediaGallery } from '@/components/media/MediaGallery';
 import { useContent } from '@/context/ContentContext';
 import { PageHero } from '@/components/layout/PageHero';
+import galleryFallback from '@/assets/placeholder-club-moment.jpg';
+
 
 const Gallery = () => {
   const { content } = useContent();
@@ -17,9 +19,11 @@ const Gallery = () => {
     <Layout>
       <PageHero
         eyebrow="Media"
-        title="Gallery"
-        subtitle="The energy, the passion and the journey of AMTAY FC."
+        title="The club, photographed"
+        subtitle="Training mornings, matchday noise and the faces behind both."
+        image={content.images?.galleryHero || galleryFallback}
       />
+
 
       <section className="section-padding">
         <div className="container-premium">

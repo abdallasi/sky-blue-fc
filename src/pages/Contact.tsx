@@ -5,6 +5,8 @@ import { Mail, MapPin, Phone, Send, Facebook, Twitter, Instagram, Youtube } from
 import { useToast } from '@/hooks/use-toast';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { PageHero } from '@/components/layout/PageHero';
+import contactFallback from '@/assets/placeholder-club-moment.jpg';
+
 
 const Contact = () => {
   const { content } = useContent();
@@ -38,10 +40,12 @@ const Contact = () => {
   return (
     <Layout>
       <PageHero
-        eyebrow="Get in Touch"
-        title="Contact Us"
-        subtitle="Questions about the academy, partnerships or media? We'd love to hear from you."
+        eyebrow="Talk to the club"
+        title="Every serious conversation starts here"
+        subtitle="Academy places, partnerships, press access or a player you want us to watch — write to us and a person replies."
+        image={content.images?.contactHero || contactFallback}
       />
+
 
       {/* Contact Form & Info */}
       <section className="section-padding">

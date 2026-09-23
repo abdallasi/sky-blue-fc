@@ -4,6 +4,8 @@ import { Shield, Zap, Trophy, TrendingUp, Target, BarChart3 } from 'lucide-react
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { useCountUp } from '@/hooks/useCountUp';
 import { PageHero } from '@/components/layout/PageHero';
+import statsFallback from '@/assets/placeholder-hero-matchday.jpg';
+
 
 const statIcons = [Shield, Zap, Trophy, TrendingUp, Target];
 const statDescriptions = ['Defensive excellence', 'Dominant run', 'Winners mentality', 'Consistent success', 'Attacking power'];
@@ -52,9 +54,11 @@ const Stats = () => {
     <Layout>
       <PageHero
         eyebrow="Performance"
-        title="Club Statistics"
-        subtitle="The numbers behind AMTAY FC's rise."
+        title="Numbers we are willing to be judged on"
+        subtitle="Every figure below comes from matches played, not ambitions stated."
+        image={content.images?.statsHero || statsFallback}
       />
+
 
       {/* Main Stats Grid */}
       <section className="section-padding">

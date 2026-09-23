@@ -38,10 +38,13 @@ const About = () => {
   return (
     <Layout>
       <PageHero
-        eyebrow="Our Story"
+        eyebrow="Our story"
         title={content.about.heroTitle}
         subtitle={content.about.heroSubtitle}
+        image={content.images?.aboutHero || storyFallback}
+        imageMobile={content.images?.aboutHeroMobile}
       />
+
 
       {/* Club Story - Split Screen */}
       <section className="section-padding">
