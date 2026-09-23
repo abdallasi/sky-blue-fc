@@ -101,11 +101,12 @@ export const Rail = ({ eyebrow, title, description, action, children, tone = 'li
 
       <div
         ref={scroller}
-        className="flex gap-4 sm:gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory px-5 sm:px-6 lg:px-8 pb-2"
+        className="flex gap-4 sm:gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] pr-5 sm:pr-8 [scroll-padding-left:1.5rem]"
       >
         {children}
         <div className="shrink-0 w-1 sm:w-2" aria-hidden />
       </div>
+
     </div>
   );
 };

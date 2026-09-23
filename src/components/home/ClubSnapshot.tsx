@@ -1,7 +1,11 @@
-import { CheckCircle2, Sparkles, Trophy, Star } from 'lucide-react';
+import { Trophy, Sparkles, Star, GraduationCap, ShieldCheck } from 'lucide-react';
 import { useContent } from '@/context/ContentContext';
 import { useRef, useState, useEffect } from 'react';
 import clubMoment from '@/assets/placeholder-club-moment.jpg';
+
+/** Heritage badges instead of identical checkmarks */
+const heritageIcons = [Trophy, Star, GraduationCap, ShieldCheck];
+
 
 export const ClubSnapshot = () => {
   const { content } = useContent();
@@ -51,23 +55,32 @@ export const ClubSnapshot = () => {
               {snapshot.description}
             </p>
 
-            {/* Achievements with Staggered Animation */}
-            <div className="space-y-4">
-              {snapshot.achievements.map((achievement, index) => (
-                <div 
-                  key={index} 
-                  className={`flex items-start gap-4 p-5 rounded-2xl bg-white border border-border/50 hover:border-[hsl(var(--electric-cyan))]/30 hover:shadow-lg transition-all duration-300 group ${
-                    isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
-                  }`}
-                  style={{ transitionDelay: `${300 + index * 100}ms` }}
-                >
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[hsl(var(--electric-cyan))] to-[hsl(var(--royal-blue))] flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform shadow-lg">
-                    <CheckCircle2 className="w-5 h-5 text-white" />
-                  </div>
-                  <p className="text-foreground font-medium leading-relaxed pt-2">{achievement}</p>
-                </div>
-              ))}
+            {/* Heritage badges over an embossed club monogram */}
+            <div className="relative">
+              <span className="pointer-events-none absolute -right-2 -top-10 select-none text-[7rem] font-black leading-none tracking-[-0.06em] text-foreground/[0.04] sm:text-[9rem]">
+                AFC
+              </span>
+              <div className="relative space-y-4">
+                {snapshot.achievements.map((achievement, index) => {
+                  const Icon = heritageIcons[index % heritageIcons.length];
+                  return (
+                    <div
+                      key={index}
+                      className={`flex items-start gap-4 p-5 rounded-2xl bg-white border border-border/50 hover:border-[hsl(var(--electric-cyan))]/30 hover:shadow-lg transition-all duration-300 group ${
+                        isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+                      }`}
+                      style={{ transitionDelay: `${300 + index * 100}ms` }}
+                    >
+                      <div className="w-10 h-10 rounded-xl border border-[hsl(var(--royal-blue))]/20 bg-[hsl(var(--royal-blue))]/[0.07] flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                        <Icon className="w-5 h-5 text-[hsl(var(--primary-blue))]" />
+                      </div>
+                      <p className="text-foreground font-medium leading-relaxed pt-2">{achievement}</p>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
+
           </div>
 
           {/* Photography-led panel */}

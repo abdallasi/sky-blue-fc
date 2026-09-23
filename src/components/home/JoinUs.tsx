@@ -19,15 +19,16 @@ export const JoinUs = () => {
             <img
               src={image}
               alt="Trials at AMTAY FC"
-              className="h-full w-full object-cover aspect-[4/5] lg:aspect-[4/5]"
+              className="h-full w-full object-cover aspect-[16/10] sm:aspect-[4/3] lg:aspect-[4/5]"
             />
             <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[hsl(217_100%_8%)]/85 to-transparent" />
-            <figcaption className="absolute inset-x-0 bottom-0 p-6">
+            <figcaption className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
               <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-[hsl(var(--electric-cyan))]">
                 Trials open
               </span>
             </figcaption>
           </figure>
+
 
           <div>
             <div className="flex items-center gap-3">

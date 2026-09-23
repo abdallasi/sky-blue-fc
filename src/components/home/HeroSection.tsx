@@ -9,6 +9,9 @@ export const HeroSection = () => {
   const { hero } = content;
   const desktop = content.images?.heroBackground || heroFallback;
   const mobile = content.images?.heroBackgroundMobile || content.images?.heroBackground || heroMobileFallback;
+  const nextMatch = (content.fixtures ?? []).find((f) => !f.result);
+
+
 
   return (
     /* Picture only: the club is seen, not read */
@@ -28,6 +31,18 @@ export const HeroSection = () => {
       {/* One gradient, bottom only — the photograph stays sharp */}
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[hsl(217_100%_8%)]/90 via-[hsl(217_100%_8%)]/40 to-transparent" />
 
+      {/* Live matchday pulse — the club is competing right now */}
+      {nextMatch && (
+        <div className="absolute right-4 top-24 sm:right-8 sm:top-28 animate-fade-in">
+          <div className="flex items-center gap-2 rounded-full border border-white/20 bg-black/35 px-3.5 py-2 backdrop-blur-md">
+            <span className="h-1.5 w-1.5 rounded-full bg-[hsl(var(--electric-cyan))] animate-pulse" />
+            <span className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/85 sm:text-[10px]">
+              Next: vs {nextMatch.opponent} · {nextMatch.date} {nextMatch.kickoff}
+            </span>
+          </div>
+        </div>
+      )}
+
       <div className="absolute inset-x-0 bottom-0">
         <div className="container-premium pb-12 sm:pb-16">
           <div className="flex items-center gap-3 sm:gap-4 animate-fade-up">
@@ -38,6 +53,7 @@ export const HeroSection = () => {
           </div>
 
           <div className="mt-6 animate-fade-up-delay-1">
+
             <Link
               to="/team"
               className="group inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-white/10 px-6 py-3.5 text-xs font-bold uppercase tracking-[0.2em] text-white backdrop-blur-md transition-all duration-300 hover:bg-white hover:text-[hsl(var(--midnight-blue))]"

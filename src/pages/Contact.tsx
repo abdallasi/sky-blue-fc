@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Layout } from '@/components/layout/Layout';
 import { useContent } from '@/context/ContentContext';
-import { Mail, MapPin, Phone, Send, Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
+import { Mail, MapPin, Phone, Send, Facebook, Twitter, Instagram, Youtube, MessageCircle, SendHorizontal } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { PageHero } from '@/components/layout/PageHero';
@@ -20,6 +20,9 @@ const Contact = () => {
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const waNumber = (content.contact?.whatsapp || content.contact?.phone || '').replace(/[^\d]/g, '');
+  const telegram = (content.contact?.telegram || '').replace(/^@/, '');
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,6 +77,35 @@ const Contact = () => {
                 </div>
               </div>
 
+              {/* One-tap direct lines for scouts, agents and parents */}
+              <div>
+                <h3 className="font-semibold mb-4">Talk to us directly</h3>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  {waNumber && (
+                    <a
+                      href={`https://wa.me/${waNumber}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-[hsl(152_60%_35%)] px-5 py-3.5 text-xs font-bold uppercase tracking-[0.16em] text-white transition-transform hover:-translate-y-0.5"
+                    >
+                      <MessageCircle className="h-4 w-4" />
+                      WhatsApp
+                    </a>
+                  )}
+                  {telegram && (
+                    <a
+                      href={`https://t.me/${telegram}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-[hsl(200_85%_45%)] px-5 py-3.5 text-xs font-bold uppercase tracking-[0.16em] text-white transition-transform hover:-translate-y-0.5"
+                    >
+                      <SendHorizontal className="h-4 w-4" />
+                      Telegram
+                    </a>
+                  )}
+                </div>
+              </div>
+
               {/* Social Links */}
               <div>
                 <h3 className="font-semibold mb-4">Follow Us</h3>
@@ -82,6 +114,7 @@ const Contact = () => {
                     <a
                       key={index}
                       href="#"
+                      aria-label="Social profile"
                       className="w-12 h-12 rounded-xl bg-[hsl(var(--primary-blue))]/10 flex items-center justify-center hover:bg-[hsl(var(--primary-blue))] hover:text-white transition-all hover-lift"
                     >
                       <Icon className="w-5 h-5" />
@@ -89,6 +122,7 @@ const Contact = () => {
                   ))}
                 </div>
               </div>
+
             </div>
 
             {/* Contact Form */}

@@ -57,21 +57,22 @@ export const FeaturedPlayer = () => {
               league's leading top scorers.
             </p>
 
-            <div className="grid sm:grid-cols-2 gap-3 mb-8">
+            <div className="grid grid-cols-2 gap-2.5 mb-8 sm:gap-3">
               {matches.map((m, i) => (
-                <div key={i} className="card-glass flex items-center gap-3 py-3 px-4">
-                  <div className="w-10 h-10 rounded-full bg-[hsl(var(--electric-cyan))]/20 flex items-center justify-center shrink-0">
-                    <Target className="w-5 h-5 text-[hsl(var(--electric-cyan))]" />
+                <div key={i} className="card-glass flex items-center gap-2.5 py-2.5 px-3 sm:py-3 sm:px-4">
+                  <div className="w-8 h-8 rounded-full bg-[hsl(var(--electric-cyan))]/20 flex items-center justify-center shrink-0 sm:w-10 sm:h-10">
+                    <Target className="w-4 h-4 text-[hsl(var(--electric-cyan))] sm:w-5 sm:h-5" />
                   </div>
                   <div className="min-w-0">
-                    <div className="font-black text-xl leading-none">
-                      {m.goals} <span className="text-sm font-semibold text-white/70">{m.goals === 1 ? 'GOAL' : 'GOALS'}</span>
+                    <div className="font-black text-lg leading-none sm:text-xl">
+                      {m.goals} <span className="text-[11px] font-semibold text-white/70">{m.goals === 1 ? 'GOAL' : 'GOALS'}</span>
                     </div>
-                    <div className="text-xs text-white/60 truncate">vs {m.opponent}</div>
+                    <div className="text-[11px] text-white/60 truncate">vs {m.opponent}</div>
                   </div>
                 </div>
               ))}
             </div>
+
 
             <blockquote className="border-l-4 border-[hsl(var(--electric-cyan))] pl-5 italic text-white/80">
               "Buhari Sahi Shaho demonstrated exceptional quality and consistency. His contributions

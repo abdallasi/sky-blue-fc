@@ -1,6 +1,6 @@
 import { Layout } from '@/components/layout/Layout';
 import { useContent } from '@/context/ContentContext';
-import { User, Star } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { useCountUp } from '@/hooks/useCountUp';
 import { PageHero } from '@/components/layout/PageHero';
@@ -65,14 +65,25 @@ const Team = () => {
             {content.management.map((member, index) => (
               <div
                 key={index}
-                className={`card-premium text-center group transition-all duration-700 ${mgmtAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                className={`group relative overflow-hidden rounded-[1.5rem] border border-border bg-card p-6 transition-all duration-700 hover:-translate-y-1 hover:shadow-[0_30px_60px_-40px_hsl(217_100%_12%/0.3)] ${mgmtAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
-                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[hsl(var(--primary-blue))] to-[hsl(var(--midnight-blue))] flex items-center justify-center mx-auto mb-4 group-hover:shadow-lg group-hover:shadow-[hsl(var(--royal-blue))]/20 transition-shadow">
-                  <User className="w-10 h-10 text-white" />
+                {/* Badge monogram instead of a generic silhouette */}
+                <div className="flex items-center gap-4">
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[hsl(var(--royal-blue))]/20 bg-[hsl(var(--royal-blue))]/[0.07] text-lg font-black tracking-tight text-[hsl(var(--primary-blue))]">
+                    {member.name.split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('')}
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="font-black text-lg tracking-tight truncate">{member.name}</h3>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[hsl(var(--royal-blue))]">
+                      {member.role}
+                    </p>
+                  </div>
                 </div>
-                <h3 className="font-bold text-lg mb-1">{member.name}</h3>
-                <p className="text-[hsl(var(--royal-blue))] font-medium">{member.role}</p>
+                <div className="mt-5 h-px w-full bg-border" />
+                <p className="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
+                  Official credential · AMTAY FC
+                </p>
               </div>
             ))}
           </div>
@@ -87,34 +98,40 @@ const Team = () => {
             <h2 className="heading-section mt-2">Starting XI</h2>
           </div>
 
-          <div ref={xiAnim.ref as React.RefObject<HTMLDivElement>} className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {/* Squad jersey cards */}
+          <div ref={xiAnim.ref as React.RefObject<HTMLDivElement>} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
             {content.startingXI.map((player, index) => (
               <div
                 key={index}
-                className={`card-premium card-3d group relative overflow-hidden transition-all duration-700 ${xiAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                className={`group relative overflow-hidden rounded-[1.25rem] bg-[hsl(var(--midnight-blue))] p-4 text-white transition-all duration-700 hover:-translate-y-1 sm:p-5 ${xiAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 style={{ transitionDelay: `${index * 80}ms` }}
               >
+                <span className="pointer-events-none absolute -right-1 -top-3 select-none text-6xl font-black leading-none text-white/[0.09] sm:text-7xl">
+                  {player.number}
+                </span>
+
                 {player.captain && (
-                  <div className="absolute top-4 right-4">
-                    <div className="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center animate-pulse-glow">
-                      <span className="text-xs font-bold text-white">C</span>
-                    </div>
-                  </div>
+                  <span className="absolute right-3 top-3 flex h-6 w-6 items-center justify-center rounded-full bg-amber-500 text-[10px] font-black">
+                    C
+                  </span>
                 )}
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[hsl(var(--primary-blue))] to-[hsl(var(--midnight-blue))] flex items-center justify-center group-hover:shadow-lg group-hover:shadow-[hsl(var(--royal-blue))]/30 transition-shadow">
-                    <span className="text-2xl font-black text-white">{player.number}</span>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg">{player.name}</h3>
-                    <span className={`text-xs font-semibold px-2 py-1 rounded-full ${positionColors[player.position] || 'bg-muted'}`}>
-                      {player.role || player.position}
-                    </span>
-                  </div>
+
+                <div className="relative">
+                  <span
+                    className={`inline-block rounded-full px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.16em] ${positionColors[player.position] || 'bg-white/10 text-white/70'}`}
+                  >
+                    {player.position}
+                  </span>
+                  <h3 className="mt-8 text-sm font-black leading-tight tracking-tight sm:text-base">{player.name}</h3>
+                  <div className="mt-2 h-px w-6 bg-[hsl(var(--electric-cyan))]/70 transition-all duration-500 group-hover:w-12" />
+                  <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.18em] text-white/50">
+                    {player.role || player.position}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
+
         </div>
       </section>
 

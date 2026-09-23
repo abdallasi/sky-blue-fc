@@ -886,8 +886,29 @@ const CMS = () => {
                             className="w-full px-4 py-3 rounded-xl border border-border bg-background"
                           />
                         </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">WhatsApp Number (with country code)</label>
+                          <input
+                            type="text"
+                            value={localContent.contact.whatsapp ?? ''}
+                            onChange={(e) => updateField('contact.whatsapp', e.target.value)}
+                            placeholder="+234..."
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Telegram Username (without @)</label>
+                          <input
+                            type="text"
+                            value={localContent.contact.telegram ?? ''}
+                            onChange={(e) => updateField('contact.telegram', e.target.value)}
+                            placeholder="amtayfc"
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
                       </>
                     )}
+
 
                     {section.id === 'trials' && (
                       <>

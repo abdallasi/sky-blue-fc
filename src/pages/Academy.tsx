@@ -69,22 +69,31 @@ const Academy = () => {
           </div>
 
           <div ref={pathAnim.ref as React.RefObject<HTMLDivElement>} className="relative">
+            {/* Desktop rail */}
             <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-[hsl(var(--primary-blue))] via-[hsl(var(--royal-blue))] to-[hsl(var(--electric-cyan))] -translate-y-1/2" />
+            {/* Mobile vertical timeline rail */}
+            <div className="lg:hidden absolute left-[27px] top-4 bottom-4 w-0.5 bg-gradient-to-b from-[hsl(var(--primary-blue))] via-[hsl(var(--royal-blue))] to-[hsl(var(--electric-cyan))]" />
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
+            <div className="flex flex-col gap-5 lg:grid lg:grid-cols-5 lg:gap-6">
               {content.pathway.map((step, index) => (
                 <div
                   key={index}
-                  className={`relative transition-all duration-700 ${pathAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                  className={`relative flex items-start gap-4 lg:block transition-all duration-700 ${pathAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                   style={{ transitionDelay: `${index * 150}ms` }}
                 >
-                  <div className="card-premium text-center group hover-lift">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[hsl(var(--primary-blue))] to-[hsl(var(--midnight-blue))] flex items-center justify-center mx-auto mb-4 relative z-10 group-hover:shadow-lg group-hover:shadow-[hsl(var(--royal-blue))]/30 transition-shadow">
+                  {/* Milestone node (mobile) */}
+                  <div className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[hsl(var(--primary-blue))] to-[hsl(var(--midnight-blue))] shadow-lg lg:hidden">
+                    <span className="text-xl font-black text-white">{step.step}</span>
+                  </div>
+
+                  <div className="flex-1 rounded-2xl border border-border bg-card p-5 lg:card-premium lg:text-center">
+                    <div className="hidden lg:flex w-16 h-16 rounded-full bg-gradient-to-br from-[hsl(var(--primary-blue))] to-[hsl(var(--midnight-blue))] items-center justify-center mx-auto mb-4 relative z-10">
                       <span className="text-2xl font-black text-white">{step.step}</span>
                     </div>
                     <h3 className="font-bold text-lg mb-2">{step.title}</h3>
                     <p className="text-muted-foreground text-sm">{step.description}</p>
                   </div>
+
                   {index < content.pathway.length - 1 && (
                     <div className="hidden lg:flex absolute top-1/2 -right-3 -translate-y-1/2 z-20">
                       <ArrowRight className="w-6 h-6 text-[hsl(var(--electric-cyan))]" />
@@ -94,6 +103,7 @@ const Academy = () => {
               ))}
             </div>
           </div>
+
         </div>
       </section>
 
