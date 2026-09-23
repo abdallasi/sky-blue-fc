@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { ChevronRight, Play, Zap } from 'lucide-react';
 import { useContent } from '@/context/ContentContext';
 import { useCountUp } from '@/hooks/useCountUp';
+import heroFallback from '@/assets/placeholder-hero-matchday.jpg';
+
 
 const AnimatedStat = ({
   value,
@@ -39,8 +41,19 @@ export const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Matchday backdrop (replaceable from the CMS) */}
+      <img
+        src={content.images?.heroBackground || heroFallback}
+        alt="AMTAY FC matchday"
+        width={1920}
+        height={1088}
+        className="absolute inset-0 w-full h-full object-cover object-center scale-105"
+      />
+      <div className="absolute inset-0 bg-[hsl(var(--midnight-blue))]/70" />
+
       {/* Dynamic Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-hero-dynamic" />
+      <div className="absolute inset-0 bg-gradient-hero-dynamic opacity-80 mix-blend-multiply" />
+
 
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
