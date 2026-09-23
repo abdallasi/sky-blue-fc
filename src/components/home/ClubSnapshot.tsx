@@ -1,7 +1,11 @@
-import { CheckCircle2, Sparkles, Trophy, Star } from 'lucide-react';
+import { Trophy, Sparkles, Star, GraduationCap, ShieldCheck } from 'lucide-react';
 import { useContent } from '@/context/ContentContext';
 import { useRef, useState, useEffect } from 'react';
 import clubMoment from '@/assets/placeholder-club-moment.jpg';
+
+/** Heritage badges instead of identical checkmarks */
+const heritageIcons = [Trophy, Star, GraduationCap, ShieldCheck];
+
 
 export const ClubSnapshot = () => {
   const { content } = useContent();
