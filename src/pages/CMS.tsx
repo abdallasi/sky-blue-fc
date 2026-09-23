@@ -332,7 +332,34 @@ const CMS = () => {
             <p className="text-xs text-muted-foreground mt-3">
               Preview shows the draft on this browser only. Publishing writes to the database and updates every visitor instantly.
             </p>
+            {uploading && (
+              <p className="text-xs text-primary mt-2 flex items-center gap-2">
+                <Loader2 className="w-3 h-3 animate-spin" /> Uploading photo…
+              </p>
+            )}
           </div>
+
+          {embeddedPhotoCount > 0 && (
+            <div className="mb-8 p-5 rounded-2xl border border-amber-500/40 bg-amber-500/10">
+              <h3 className="font-semibold mb-1">
+                {embeddedPhotoCount} photo{embeddedPhotoCount === 1 ? '' : 's'} need moving to cloud storage
+              </h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                These were stored inside the page content, which makes publishing fail. Move them once and
+                publishing will be instant — nothing is lost.
+              </p>
+              <button
+                onClick={handleMigrateImages}
+                disabled={busy !== null}
+                className="btn-primary flex items-center gap-2 disabled:opacity-60"
+              >
+                {busy === 'migrate' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                {busy === 'migrate' ? `Moving photos… ${migrated}/${embeddedPhotoCount}` : 'Move photos to cloud storage'}
+              </button>
+            </div>
+          )}
+
+
 
 
           <div className="space-y-4">
