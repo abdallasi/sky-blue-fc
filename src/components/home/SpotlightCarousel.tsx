@@ -9,11 +9,9 @@ export const SpotlightCarousel = () => {
   if (spotlights.length === 0) return null;
 
   return (
-    <section className="py-20 sm:py-28 bg-background">
+    <section className="py-14 sm:py-20 bg-background">
       <Rail
         eyebrow="Selected players"
-        title="The names Kano already knows"
-        description="Eleven start, one squad. These are the players carrying the shirt right now."
         action={
           <Link
             to="/team"
@@ -26,7 +24,7 @@ export const SpotlightCarousel = () => {
         {spotlights.map((p) => (
           <article
             key={p.id}
-            className="group relative shrink-0 w-[78vw] sm:w-[340px] lg:w-[380px] snap-start overflow-hidden rounded-[1.75rem] bg-[hsl(var(--midnight-blue))]"
+            className="group relative shrink-0 w-[66vw] sm:w-[270px] lg:w-[300px] snap-start overflow-hidden rounded-[1.5rem] bg-[hsl(var(--midnight-blue))]"
           >
             <img
               src={p.image || portraitFallback}
@@ -35,23 +33,18 @@ export const SpotlightCarousel = () => {
             />
             <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[hsl(217_100%_8%)] via-[hsl(217_100%_8%)]/60 to-transparent" />
 
-            <span className="absolute top-5 right-6 text-5xl font-black text-white/25 leading-none select-none">
+            <span className="absolute top-4 right-5 text-4xl font-black text-white/25 leading-none select-none">
               {p.number}
             </span>
 
-            <div className="absolute inset-x-0 bottom-0 p-6">
-              <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-[hsl(var(--electric-cyan))]">
+            <div className="absolute inset-x-0 bottom-0 p-5">
+              <div className="text-[9px] font-bold uppercase tracking-[0.24em] text-[hsl(var(--electric-cyan))]">
                 {p.position}
               </div>
-              <h3 className="mt-2 text-2xl font-black tracking-tight text-white">{p.name}</h3>
-              <div className="mt-3 h-px w-10 bg-white/30" />
-              <p className="mt-3 text-sm text-white/75">{p.line1}</p>
-              <p className="text-sm text-white/55">{p.line2}</p>
-              {p.quote && (
-                <p className="mt-4 text-sm italic text-white/70 opacity-0 max-h-0 overflow-hidden transition-all duration-500 group-hover:opacity-100 group-hover:max-h-24">
-                  “{p.quote}”
-                </p>
-              )}
+              <h3 className="mt-1.5 text-xl font-black tracking-tight text-white">{p.name}</h3>
+              <div className="mt-2.5 h-px w-8 bg-white/30" />
+              <p className="mt-2.5 text-xs text-white/75">{p.line1}</p>
+              <p className="text-xs text-white/55">{p.line2}</p>
             </div>
           </article>
         ))}
