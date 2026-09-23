@@ -353,7 +353,81 @@ const defaultContent: SiteContent = {
     { id: 'vid-sumaila-2', title: 'AMTAY FC vs Sumaila Strikers — Match Moments', url: 'https://youtu.be/mQVuwPbfpHs', placement: 'featuredPlayer' },
   ],
 
+  spotlights: [
+    {
+      id: 'sp-buhari',
+      name: 'Buhari Sahi Shaho',
+      number: '9',
+      position: 'Centre Forward',
+      line1: '7 goals in 4 matches',
+      line2: 'NLO top performer',
+      quote: 'Every ball into the box is a chance. I take it.',
+    },
+    {
+      id: 'sp-umara',
+      name: 'Umara',
+      number: '4',
+      position: 'Centre Back · Captain',
+      line1: 'Leads the back line',
+      line2: '120 matches unbeaten',
+    },
+    {
+      id: 'sp-aliyu',
+      name: 'Aliyu Goma',
+      number: '9',
+      position: 'Right Wing',
+      line1: 'Called to Nigeria U-17 screening',
+      line2: 'Aged 17',
+    },
+    {
+      id: 'sp-hassan',
+      name: 'Hassan Dembele',
+      number: '10',
+      position: 'Striker',
+      line1: 'Sharpest finisher in the squad',
+      line2: 'First-team regular',
+    },
+  ],
+
+  matchShots: [
+    { id: 'ms-1', caption: 'The whistle goes. Kano holds its breath.', meta: 'Matchday · Federal College of Education' },
+    { id: 'ms-2', caption: 'Ninety minutes of pressing, one moment of calm.', meta: 'International League' },
+    { id: 'ms-3', caption: 'The bench is on its feet before the net settles.', meta: 'Home · AMTAY FC' },
+    { id: 'ms-4', caption: 'Work finished. Shirts swapped. Standards kept.', meta: 'Full time' },
+  ],
+
+  news: [
+    {
+      id: 'news-1',
+      title: 'AMTAY FC promoted to the International League',
+      excerpt: 'A season built on discipline ends with the promotion the club set out to win from day one.',
+      date: '2024',
+      tag: 'Club',
+    },
+    {
+      id: 'news-2',
+      title: 'Four players called to Nigeria U-17 screening',
+      excerpt: 'The Abuja Goal Project Stadium invitation is the clearest proof yet that the academy pathway works.',
+      date: '2023',
+      tag: 'Academy',
+    },
+    {
+      id: 'news-3',
+      title: 'Buhari Sahi Shaho: seven goals in four matches',
+      excerpt: 'Our forward closes the NLO window as its most productive attacker.',
+      date: '2025',
+      tag: 'Players',
+    },
+  ],
+
+  fixtures: [
+    { id: 'fx-1', opponent: 'Sumaila Strikers', competition: 'International League', date: 'Sat 12 Oct', kickoff: '16:00', venue: 'Federal College of Education, Kano', home: true },
+    { id: 'fx-2', opponent: 'Kano Pillars Feeders', competition: 'International League', date: 'Sat 19 Oct', kickoff: '16:00', venue: 'Away', home: false },
+    { id: 'fx-3', opponent: 'Ahlan Select', competition: 'Friendly', date: 'Wed 23 Oct', kickoff: '15:30', venue: 'Federal College of Education, Kano', home: true },
+  ],
+
 };
+
 
 export type PublishState = 'published' | 'unpublished';
 
