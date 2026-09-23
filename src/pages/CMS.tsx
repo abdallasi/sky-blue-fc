@@ -7,6 +7,8 @@ import { Save, RotateCcw, ChevronDown, ChevronRight, Upload, X, Image, Rocket, E
 import { useToast } from '@/hooks/use-toast';
 import { ApplicationsPanel } from '@/components/cms/ApplicationsPanel';
 import { uploadSiteImage, migrateDataUrls, isDataUrl } from '@/lib/mediaUpload';
+import { ImageCropDialog, suggestedRatio } from '@/components/cms/ImageCropDialog';
+
 
 
 
@@ -33,6 +35,8 @@ const CMS = () => {
   const [migrated, setMigrated] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [currentImageField, setCurrentImageField] = useState<string | null>(null);
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
+
 
 
   const draftKey = JSON.stringify(draft);
