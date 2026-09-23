@@ -6,6 +6,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { Save, RotateCcw, ChevronDown, ChevronRight, Upload, X, Image, Rocket, Eye, EyeOff, Loader2, Lock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { ApplicationsPanel } from '@/components/cms/ApplicationsPanel';
+import { uploadSiteImage, migrateDataUrls, isDataUrl } from '@/lib/mediaUpload';
+
 
 
 const CMS = () => {
@@ -26,13 +28,20 @@ const CMS = () => {
   const { toast } = useToast();
   const [activeSection, setActiveSection] = useState<string | null>('hero');
   const [localContent, setLocalContent] = useState(draft);
-  const [busy, setBusy] = useState<null | 'save' | 'publish' | 'unpublish' | 'reset'>(null);
+  const [busy, setBusy] = useState<null | 'save' | 'publish' | 'unpublish' | 'reset' | 'migrate'>(null);
+  const [uploading, setUploading] = useState(false);
+  const [migrated, setMigrated] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [currentImageField, setCurrentImageField] = useState<string | null>(null);
 
+
   const draftKey = JSON.stringify(draft);
-  const dirty = JSON.stringify(localContent) !== draftKey;
+  const localKey = JSON.stringify(localContent);
+  const dirty = localKey !== draftKey;
+  const embeddedPhotoCount = (localKey.match(/"data:image/g) || []).length;
   const setDirty = (_v: boolean) => {};
+
+
 
   // Adopt the database draft whenever it changes (initial load or another editor's save)
   useEffect(() => {
@@ -110,44 +119,69 @@ const CMS = () => {
     });
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file && currentImageField) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const dataUrl = reader.result as string;
-        if (currentImageField === '__aboutStory') {
-          const current = localContent.images.aboutStoryImages || [];
-          updateField('images.aboutStoryImages', [...current, dataUrl]);
-        } else if (currentImageField === '__gallery') {
-          const current = localContent.images.galleryImages || [];
-          const newItem = {
-            id: Date.now().toString(),
-            src: dataUrl,
-            alt: file.name.replace(/\.[^/.]+$/, ''),
-            category: 'General',
-            caption: '',
-          };
-          updateField('images.galleryImages', [...current, newItem]);
-        } else if (currentImageField.startsWith('__item:')) {
-          // __item:<arrayName>:<index> — photo attached to a carousel entry
-          const [, arrayName, idxRaw] = currentImageField.split(':');
-          const idx = parseInt(idxRaw, 10);
-          const arr = [...((localContent as any)[arrayName] || [])];
-          if (arr[idx]) {
-            arr[idx] = { ...arr[idx], image: dataUrl };
-            updateField(arrayName, arr);
-          }
-        } else {
-          updateField(`images.${currentImageField}`, dataUrl);
-        }
-
-      };
-      reader.readAsDataURL(file);
-    }
+    const field = currentImageField;
+    if (fileInputRef.current) fileInputRef.current.value = '';
     setCurrentImageField(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+    if (!file || !field) return;
+
+    setUploading(true);
+    try {
+      const url = await uploadSiteImage(file, 'cms');
+
+      if (field === '__aboutStory') {
+        const current = localContent.images.aboutStoryImages || [];
+        updateField('images.aboutStoryImages', [...current, url]);
+      } else if (field === '__gallery') {
+        const current = localContent.images.galleryImages || [];
+        const newItem = {
+          id: Date.now().toString(),
+          src: url,
+          alt: file.name.replace(/\.[^/.]+$/, ''),
+          category: 'General',
+          caption: '',
+        };
+        updateField('images.galleryImages', [...current, newItem]);
+      } else if (field.startsWith('__item:')) {
+        // __item:<arrayName>:<index> — photo attached to a carousel entry
+        const [, arrayName, idxRaw] = field.split(':');
+        const idx = parseInt(idxRaw, 10);
+        const arr = [...((localContent as any)[arrayName] || [])];
+        if (arr[idx]) {
+          arr[idx] = { ...arr[idx], image: url };
+          updateField(arrayName, arr);
+        }
+      } else {
+        updateField(`images.${field}`, url);
+      }
+      toast({ title: 'Photo uploaded', description: 'Remember to save the draft and publish.' });
+    } catch (err: any) {
+      toast({
+        title: 'Upload failed',
+        description: err?.message || 'Could not upload that photo. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleMigrateImages = async () => {
+    setBusy('migrate');
+    try {
+      const cleaned = await migrateDataUrls(localContent, (n) => setMigrated(n));
+      setLocalContent(cleaned);
+      await saveDraft(cleaned);
+      toast({
+        title: 'Photos moved to cloud storage',
+        description: 'Your draft is now lightweight. Press Publish Live to put it online.',
+      });
+    } catch (err: any) {
+      toast({ title: 'Move failed', description: err?.message || 'Please try again.', variant: 'destructive' });
+    } finally {
+      setBusy(null);
+      setMigrated(0);
     }
   };
 
@@ -155,6 +189,7 @@ const CMS = () => {
     setCurrentImageField(fieldName);
     fileInputRef.current?.click();
   };
+
 
   const removeImage = (fieldName: string) => {
     updateField(`images.${fieldName}`, undefined);
@@ -301,7 +336,34 @@ const CMS = () => {
             <p className="text-xs text-muted-foreground mt-3">
               Preview shows the draft on this browser only. Publishing writes to the database and updates every visitor instantly.
             </p>
+            {uploading && (
+              <p className="text-xs text-primary mt-2 flex items-center gap-2">
+                <Loader2 className="w-3 h-3 animate-spin" /> Uploading photo…
+              </p>
+            )}
           </div>
+
+          {embeddedPhotoCount > 0 && (
+            <div className="mb-8 p-5 rounded-2xl border border-amber-500/40 bg-amber-500/10">
+              <h3 className="font-semibold mb-1">
+                {embeddedPhotoCount} photo{embeddedPhotoCount === 1 ? '' : 's'} need moving to cloud storage
+              </h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                These were stored inside the page content, which makes publishing fail. Move them once and
+                publishing will be instant — nothing is lost.
+              </p>
+              <button
+                onClick={handleMigrateImages}
+                disabled={busy !== null}
+                className="btn-primary flex items-center gap-2 disabled:opacity-60"
+              >
+                {busy === 'migrate' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                {busy === 'migrate' ? `Moving photos… ${migrated}/${embeddedPhotoCount}` : 'Move photos to cloud storage'}
+              </button>
+            </div>
+          )}
+
+
 
 
           <div className="space-y-4">
