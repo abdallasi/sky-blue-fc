@@ -108,8 +108,21 @@ export interface ImageAssets {
   contactHero?: string;
   featuredPlayerImage?: string;
   presidentMessageImage?: string;
+  showcaseMatchday?: string;
+  showcaseTraining?: string;
+  showcaseMoment?: string;
+  trialsHero?: string;
   aboutStoryImages?: string[];
   galleryImages?: GalleryImage[];
+}
+
+export interface TrialsContent {
+  heroTitle: string;
+  heroSubtitle: string;
+  intro: string;
+  requirements: string[];
+  positions: string[];
+  closingNote: string;
 }
 
 export interface VideoItem {
@@ -118,6 +131,7 @@ export interface VideoItem {
   url: string;
   placement: 'featuredPlayer' | 'about' | 'gallery' | 'home';
 }
+
 
 export interface SiteContent {
 
@@ -136,8 +150,11 @@ export interface SiteContent {
   pathway: PathwayStep[];
   contact: ContactInfo;
   images: ImageAssets;
+  images: ImageAssets;
+  trials: TrialsContent;
   videos: VideoItem[];
 }
+
 
 
 const defaultContent: SiteContent = {
@@ -263,6 +280,22 @@ const defaultContent: SiteContent = {
     locationDetail: 'Federal College of Education'
   },
   images: {},
+  trials: {
+    heroTitle: 'Play for AMTAY FC',
+    heroSubtitle: 'Open trials for ambitious young players across Kano and beyond.',
+    intro:
+      'We are always scouting for hungry, disciplined talent. Send in your details and our technical crew will review every application ahead of the next trial window.',
+    requirements: [
+      'Aged between 12 and 23',
+      'Genuine commitment to training and discipline',
+      'Parent or guardian consent for players under 18',
+      'Valid means of identification on trial day',
+    ],
+    positions: ['Goalkeeper', 'Defender', 'Midfielder', 'Winger', 'Striker'],
+    closingNote:
+      'Shortlisted players are contacted by phone or email with the trial date, venue and what to bring.',
+  },
+
   videos: [
     { id: 'vid-sumaila-1', title: 'AMTAY FC vs Sumaila Strikers — Highlights', url: 'https://youtu.be/gxw8X7LQ1u0', placement: 'featuredPlayer' },
     { id: 'vid-sumaila-2', title: 'AMTAY FC vs Sumaila Strikers — Match Moments', url: 'https://youtu.be/mQVuwPbfpHs', placement: 'featuredPlayer' },

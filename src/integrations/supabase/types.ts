@@ -14,6 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
+      player_applications: {
+        Row: {
+          admin_notes: string | null
+          created_at: string
+          current_club: string | null
+          date_of_birth: string | null
+          email: string
+          full_name: string
+          id: string
+          location: string | null
+          message: string | null
+          phone: string | null
+          position: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: Database["public"]["Enums"]["application_status"]
+          updated_at: string
+          video_url: string | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          created_at?: string
+          current_club?: string | null
+          date_of_birth?: string | null
+          email: string
+          full_name: string
+          id?: string
+          location?: string | null
+          message?: string | null
+          phone?: string | null
+          position?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["application_status"]
+          updated_at?: string
+          video_url?: string | null
+        }
+        Update: {
+          admin_notes?: string | null
+          created_at?: string
+          current_club?: string | null
+          date_of_birth?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          location?: string | null
+          message?: string | null
+          phone?: string | null
+          position?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["application_status"]
+          updated_at?: string
+          video_url?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -101,6 +158,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "editor" | "user"
+      application_status: "pending" | "reviewing" | "accepted" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -229,6 +287,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "editor", "user"],
+      application_status: ["pending", "reviewing", "accepted", "rejected"],
     },
   },
 } as const
