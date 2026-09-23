@@ -135,7 +135,7 @@ const Contact = () => {
                     />
                   </div>
 
-                  <button type="submit" disabled={isSubmitting} className="w-full btn-neon py-4 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                  <button type="submit" disabled={isSubmitting} className="w-full inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full bg-[hsl(var(--midnight-blue))] text-white text-sm font-bold tracking-wide hover:bg-[hsl(var(--primary-blue))] transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
                     {isSubmitting ? 'Sending...' : (<>Send Message <Send className="w-4 h-4" /></>)}
                   </button>
                 </form>
