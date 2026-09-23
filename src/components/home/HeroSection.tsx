@@ -49,10 +49,11 @@ export const HeroSection = () => {
         height={1088}
         className="absolute inset-0 w-full h-full object-cover object-center scale-105"
       />
-      <div className="absolute inset-0 bg-[hsl(var(--midnight-blue))]/70" />
+      <div className="absolute inset-0 bg-[hsl(var(--midnight-blue))]/55" />
 
       {/* Dynamic Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-hero-dynamic opacity-80 mix-blend-multiply" />
+      <div className="absolute inset-0 bg-gradient-hero-dynamic opacity-60 mix-blend-multiply" />
+
 
 
       {/* Animated Background Elements */}
