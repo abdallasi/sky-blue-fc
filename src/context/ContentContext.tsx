@@ -405,30 +405,49 @@ export const ContentProvider: React.FC<{ children: ReactNode }> = ({ children })
     };
   }, [load]);
 
+  /**
+   * CMS DATA PROTECTION: writes are always merged on top of whatever the
+   * database already holds, so no existing saved value can ever be dropped by
+   * a payload that happens to be missing a key.
+   */
+  const buildSafePayload = useCallback(async (rowId: 'draft' | 'published', incoming: SiteContent) => {
+    const { data: existing } = await supabase
+      .from('site_content')
+      .select('data')
+      .eq('id', rowId)
+      .maybeSingle();
+
+    const base = (existing?.data as Partial<SiteContent>) || {};
+    return deepMerge(base, incoming as unknown as Record<string, unknown>) as SiteContent;
+  }, []);
+
   const saveDraft = useCallback(async (newContent: SiteContent) => {
     const { data: userData } = await supabase.auth.getUser();
+    const payload = await buildSafePayload('draft', newContent);
     const { error } = await supabase
       .from('site_content')
-      .upsert({ id: 'draft', data: newContent as any, updated_by: userData.user?.id ?? null }, { onConflict: 'id' });
+      .upsert({ id: 'draft', data: payload as any, updated_by: userData.user?.id ?? null }, { onConflict: 'id' });
     if (error) throw error;
-    setDraft(newContent);
+    setDraft(payload);
     await load();
-  }, [load]);
+  }, [load, buildSafePayload]);
 
   const publish = useCallback(async (newContent?: SiteContent) => {
-    const payload = newContent ?? draft;
+    const incoming = newContent ?? draft;
     const { data: userData } = await supabase.auth.getUser();
     const uid = userData.user?.id ?? null;
+    const draftPayload = await buildSafePayload('draft', incoming);
+    const publishedPayload = await buildSafePayload('published', draftPayload);
     const { error } = await supabase.from('site_content').upsert(
       [
-        { id: 'draft', data: payload as any, updated_by: uid },
-        { id: 'published', data: payload as any, published_at: new Date().toISOString(), updated_by: uid },
+        { id: 'draft', data: draftPayload as any, updated_by: uid },
+        { id: 'published', data: publishedPayload as any, published_at: new Date().toISOString(), updated_by: uid },
       ],
       { onConflict: 'id' }
     );
     if (error) throw error;
     await load();
-  }, [draft, load]);
+  }, [draft, load, buildSafePayload]);
 
   const unpublish = useCallback(async () => {
     const { error } = await supabase.from('site_content').delete().eq('id', 'published');
