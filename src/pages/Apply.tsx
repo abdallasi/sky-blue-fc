@@ -190,8 +190,12 @@ const Apply = () => {
                   </div>
                 </div>
 
-                <button type="submit" disabled={submitting} className="btn-hero w-full justify-center disabled:opacity-60">
-                  {submitting ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="inline-flex w-full items-center justify-center gap-2 px-7 py-4 rounded-full bg-[hsl(var(--midnight-blue))] text-white text-sm font-bold tracking-wide transition-all duration-300 hover:bg-[hsl(var(--primary-blue))] disabled:opacity-60"
+                >
+                  {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
                   Submit application
                 </button>
               </form>
