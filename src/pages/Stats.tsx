@@ -38,6 +38,66 @@ const AnimatedStatCard = ({ stat, index, isVisible }: { stat: any; index: number
   );
 };
 
+/** Apple Health style progress ring */
+const ProgressRing = ({
+  label,
+  value,
+  suffix,
+  pct,
+  delay,
+}: {
+  label: string;
+  value: number;
+  suffix: string;
+  pct: number;
+  delay: number;
+}) => {
+  const { formattedCount, ref, isVisible } = useCountUp({ end: value, duration: 1800, delay, suffix }) as any;
+  const circumference = 2 * Math.PI * 45;
+
+  return (
+    <div
+      ref={ref as React.RefObject<HTMLDivElement>}
+      className="rounded-[1.5rem] border border-border bg-card p-8 text-center"
+    >
+      <div className="relative mx-auto h-40 w-40">
+        <svg className="h-full w-full -rotate-90" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="45" fill="none" stroke="hsl(var(--muted))" strokeWidth="8" />
+          <circle
+            cx="50"
+            cy="50"
+            r="45"
+            fill="none"
+            stroke="url(#ringGradient)"
+            strokeWidth="8"
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            strokeDashoffset={circumference - (circumference * pct) / 100}
+            style={{ transition: 'stroke-dashoffset 1.6s ease-out' }}
+          />
+          <defs>
+            <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="hsl(168, 100%, 45%)" />
+              <stop offset="100%" stopColor="hsl(214, 100%, 50%)" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-3xl font-black tracking-tight text-[hsl(var(--midnight-blue))]">{formattedCount}</span>
+        </div>
+      </div>
+      <div className="mt-5 text-[10px] font-bold uppercase tracking-[0.24em] text-muted-foreground">{label}</div>
+    </div>
+  );
+};
+
+const ringMetrics = [
+  { label: 'Win rate', value: 68, suffix: '%', pct: 68 },
+  { label: 'Clean sheet rate', value: 52, suffix: '%', pct: 52 },
+  { label: 'Goals per match', value: 2, suffix: '.1', pct: 70 },
+];
+
+
 const Stats = () => {
   const { content } = useContent();
   const statsAnim = useScrollAnimation({ threshold: 0.1 });
