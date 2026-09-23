@@ -119,13 +119,18 @@ const CMS = () => {
     });
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const field = currentImageField;
     if (fileInputRef.current) fileInputRef.current.value = '';
-    setCurrentImageField(null);
-    if (!file || !field) return;
+    if (!file || !field) {
+      setCurrentImageField(null);
+      return;
+    }
+    setPendingFile(file);
+  };
 
+  const applyUpload = async (file: File, field: string) => {
     setUploading(true);
     try {
       const url = await uploadSiteImage(file, 'cms');
@@ -166,6 +171,7 @@ const CMS = () => {
       setUploading(false);
     }
   };
+
 
   const handleMigrateImages = async () => {
     setBusy('migrate');
