@@ -5,6 +5,8 @@ import { useContent } from '@/context/ContentContext';
 import { useAuth } from '@/hooks/useAuth';
 import { Save, RotateCcw, ChevronDown, ChevronRight, Upload, X, Image, Rocket, Eye, EyeOff, Loader2, Lock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { ApplicationsPanel } from '@/components/cms/ApplicationsPanel';
+
 
 const CMS = () => {
   const {
@@ -160,6 +162,7 @@ const CMS = () => {
     { id: 'players', label: 'Players' },
     { id: 'academy', label: 'Academy' },
     { id: 'contact', label: 'Contact Info' },
+    { id: 'trials', label: 'Trials / Player Portal' },
     { id: 'images', label: 'Images & Media' },
     { id: 'videos', label: 'Videos (YouTube)' },
   ];
@@ -169,7 +172,14 @@ const CMS = () => {
     { key: 'founderPhoto', label: 'Founder Photo' },
     { key: 'academyHero', label: 'Academy Hero Image' },
     { key: 'teamHero', label: 'Team Hero Image' },
+    { key: 'statsHero', label: 'Stats Page Hero Image' },
+    { key: 'contactHero', label: 'Contact Page Hero Image' },
+    { key: 'showcaseMatchday', label: 'Home Showcase — Large Matchday Image' },
+    { key: 'showcaseTraining', label: 'Home Showcase — Academy Training Image' },
+    { key: 'showcaseMoment', label: 'Home Showcase — Trials / Celebration Image' },
+    { key: 'trialsHero', label: 'Trials Page Hero Image' },
     { key: 'featuredPlayerImage', label: 'Featured Player Image (Home — Buhari Shaho)' },
+
     { key: 'presidentMessageImage', label: "President's Message Image (About Page)" },
   ];
 
@@ -858,6 +868,76 @@ const CMS = () => {
                       </>
                     )}
 
+                    {section.id === 'trials' && (
+                      <>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Page Title</label>
+                          <input
+                            type="text"
+                            value={localContent.trials?.heroTitle ?? ''}
+                            onChange={(e) => updateField('trials.heroTitle', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Page Subtitle</label>
+                          <input
+                            type="text"
+                            value={localContent.trials?.heroSubtitle ?? ''}
+                            onChange={(e) => updateField('trials.heroSubtitle', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Intro Paragraph</label>
+                          <textarea
+                            rows={3}
+                            value={localContent.trials?.intro ?? ''}
+                            onChange={(e) => updateField('trials.intro', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Requirements (one per line)</label>
+                          <textarea
+                            rows={5}
+                            value={(localContent.trials?.requirements ?? []).join('\n')}
+                            onChange={(e) =>
+                              updateField(
+                                'trials.requirements',
+                                e.target.value.split('\n').filter((l) => l.trim() !== '')
+                              )
+                            }
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Positions Offered (one per line)</label>
+                          <textarea
+                            rows={5}
+                            value={(localContent.trials?.positions ?? []).join('\n')}
+                            onChange={(e) =>
+                              updateField(
+                                'trials.positions',
+                                e.target.value.split('\n').filter((l) => l.trim() !== '')
+                              )
+                            }
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Closing Note</label>
+                          <textarea
+                            rows={2}
+                            value={localContent.trials?.closingNote ?? ''}
+                            onChange={(e) => updateField('trials.closingNote', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                      </>
+                    )}
+
+
                     {section.id === 'images' && (
                       <div className="space-y-6">
                         {imageFields.map((field) => {
@@ -1058,7 +1138,10 @@ const CMS = () => {
                 )}
               </div>
             ))}
+
+            <ApplicationsPanel />
           </div>
+
         </div>
       </section>
     </Layout>

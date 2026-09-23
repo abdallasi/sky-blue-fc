@@ -10,7 +10,9 @@ const navLinks = [
   { name: 'Academy', href: '/academy' },
   { name: 'Stats', href: '/stats' },
   { name: 'Gallery', href: '/gallery' },
+  { name: 'Trials', href: '/apply' },
   { name: 'Contact', href: '/contact' },
+
 ];
 
 export const Navbar = () => {
@@ -89,7 +91,7 @@ export const Navbar = () => {
           {/* CTA Button - Neon Style */}
           <div className="hidden lg:block">
             <Link
-              to="/contact"
+              to="/apply"
               className={`group px-6 py-3 rounded-xl text-sm font-bold transition-all duration-300 inline-flex items-center gap-2 ${
                 scrolled
                   ? 'bg-gradient-to-r from-[hsl(var(--electric-cyan))] to-[hsl(var(--royal-blue))] text-white hover:shadow-lg hover:shadow-[hsl(var(--electric-cyan))]/30 hover:-translate-y-0.5'
@@ -134,7 +136,7 @@ export const Navbar = () => {
             </Link>
           ))}
           <Link
-            to="/contact"
+            to="/apply"
             className="flex items-center justify-center gap-2 w-full py-4 mt-4 text-center bg-gradient-to-r from-[hsl(var(--electric-cyan))] to-[hsl(var(--royal-blue))] text-white rounded-xl font-bold"
           >
             <Zap className="w-4 h-4" />
