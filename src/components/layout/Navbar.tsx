@@ -10,7 +10,9 @@ const navLinks = [
   { name: 'Academy', href: '/academy' },
   { name: 'Stats', href: '/stats' },
   { name: 'Gallery', href: '/gallery' },
+  { name: 'Trials', href: '/apply' },
   { name: 'Contact', href: '/contact' },
+
 ];
 
 export const Navbar = () => {

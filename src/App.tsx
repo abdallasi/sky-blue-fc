@@ -15,6 +15,8 @@ import Stats from "./pages/Stats";
 import Contact from "./pages/Contact";
 import CMS from "./pages/CMS";
 import Gallery from "./pages/Gallery";
+import Apply from "./pages/Apply";
+
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +37,8 @@ const App = () => (
               <Route path="/stats" element={<Stats />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/gallery" element={<Gallery />} />
+              <Route path="/apply" element={<Apply />} />
+
               <Route path="/auth" element={<Auth />} />
               <Route path="/cms" element={<CMS />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
