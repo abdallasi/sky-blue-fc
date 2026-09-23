@@ -89,7 +89,10 @@ export interface ContactInfo {
   phone: string;
   location: string;
   locationDetail: string;
+  whatsapp?: string;
+  telegram?: string;
 }
+
 
 export interface GalleryImage {
   id: string;
