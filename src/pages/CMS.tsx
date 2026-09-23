@@ -160,6 +160,7 @@ const CMS = () => {
     { id: 'players', label: 'Players' },
     { id: 'academy', label: 'Academy' },
     { id: 'contact', label: 'Contact Info' },
+    { id: 'trials', label: 'Trials / Player Portal' },
     { id: 'images', label: 'Images & Media' },
     { id: 'videos', label: 'Videos (YouTube)' },
   ];
@@ -169,7 +170,14 @@ const CMS = () => {
     { key: 'founderPhoto', label: 'Founder Photo' },
     { key: 'academyHero', label: 'Academy Hero Image' },
     { key: 'teamHero', label: 'Team Hero Image' },
+    { key: 'statsHero', label: 'Stats Page Hero Image' },
+    { key: 'contactHero', label: 'Contact Page Hero Image' },
+    { key: 'showcaseMatchday', label: 'Home Showcase — Large Matchday Image' },
+    { key: 'showcaseTraining', label: 'Home Showcase — Academy Training Image' },
+    { key: 'showcaseMoment', label: 'Home Showcase — Trials / Celebration Image' },
+    { key: 'trialsHero', label: 'Trials Page Hero Image' },
     { key: 'featuredPlayerImage', label: 'Featured Player Image (Home — Buhari Shaho)' },
+
     { key: 'presidentMessageImage', label: "President's Message Image (About Page)" },
   ];
 
