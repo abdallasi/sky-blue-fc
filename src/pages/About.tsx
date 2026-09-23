@@ -5,6 +5,7 @@ import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { useCountUp } from '@/hooks/useCountUp';
 import { PresidentMessage } from '@/components/about/PresidentMessage';
 import { PageHero } from '@/components/layout/PageHero';
+import storyFallback from '@/assets/placeholder-academy-training.jpg';
 
 const AnimatedMilestone = ({ milestone, index }: { milestone: { year: string; title: string; description: string }; index: number }) => {
   const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
@@ -73,9 +74,14 @@ const About = () => {
                   ))}
                 </div>
               ) : (
-                <div className="aspect-square rounded-3xl bg-gradient-to-br from-[hsl(var(--primary-blue))]/10 to-[hsl(var(--royal-blue))]/10 flex items-center justify-center overflow-hidden">
-                  <Award className="w-32 h-32 text-[hsl(var(--primary-blue))]/30" />
-                </div>
+                <figure className="overflow-hidden rounded-[1.75rem] bg-muted shadow-[0_40px_80px_-40px_hsl(217_100%_12%/0.3)]">
+                  <img
+                    src={content.images?.showcaseTraining || storyFallback}
+                    alt="AMTAY FC club story"
+                    loading="lazy"
+                    className="w-full aspect-[4/5] object-cover object-center"
+                  />
+                </figure>
               )}
               <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-gradient-to-br from-[hsl(var(--royal-blue))] to-[hsl(var(--primary-blue))] rounded-3xl blur-2xl opacity-20" />
             </div>
