@@ -9,6 +9,9 @@ export const HeroSection = () => {
   const { hero } = content;
   const desktop = content.images?.heroBackground || heroFallback;
   const mobile = content.images?.heroBackgroundMobile || content.images?.heroBackground || heroMobileFallback;
+  const nextMatch = (content.fixtures ?? []).find((f) => !f.result);
+
+
 
   return (
     /* Picture only: the club is seen, not read */
