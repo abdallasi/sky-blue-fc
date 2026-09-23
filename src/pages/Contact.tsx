@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Layout } from '@/components/layout/Layout';
 import { useContent } from '@/context/ContentContext';
-import { Mail, MapPin, Phone, Send, Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
+import { Mail, MapPin, Phone, Send, Facebook, Twitter, Instagram, Youtube, MessageCircle, SendHorizontal } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { PageHero } from '@/components/layout/PageHero';
@@ -20,6 +20,9 @@ const Contact = () => {
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const waNumber = (content.contact?.whatsapp || content.contact?.phone || '').replace(/[^\d]/g, '');
+  const telegram = (content.contact?.telegram || '').replace(/^@/, '');
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
