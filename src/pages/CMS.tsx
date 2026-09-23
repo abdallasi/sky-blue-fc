@@ -129,9 +129,19 @@ const CMS = () => {
             caption: '',
           };
           updateField('images.galleryImages', [...current, newItem]);
+        } else if (currentImageField.startsWith('__item:')) {
+          // __item:<arrayName>:<index> — photo attached to a carousel entry
+          const [, arrayName, idxRaw] = currentImageField.split(':');
+          const idx = parseInt(idxRaw, 10);
+          const arr = [...((localContent as any)[arrayName] || [])];
+          if (arr[idx]) {
+            arr[idx] = { ...arr[idx], image: dataUrl };
+            updateField(arrayName, arr);
+          }
         } else {
           updateField(`images.${currentImageField}`, dataUrl);
         }
+
       };
       reader.readAsDataURL(file);
     }
