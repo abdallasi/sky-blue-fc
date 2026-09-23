@@ -7,6 +7,8 @@ import { Save, RotateCcw, ChevronDown, ChevronRight, Upload, X, Image, Rocket, E
 import { useToast } from '@/hooks/use-toast';
 import { ApplicationsPanel } from '@/components/cms/ApplicationsPanel';
 import { uploadSiteImage, migrateDataUrls, isDataUrl } from '@/lib/mediaUpload';
+import { ImageCropDialog, suggestedRatio } from '@/components/cms/ImageCropDialog';
+
 
 
 
@@ -33,6 +35,8 @@ const CMS = () => {
   const [migrated, setMigrated] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [currentImageField, setCurrentImageField] = useState<string | null>(null);
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
+
 
 
   const draftKey = JSON.stringify(draft);
@@ -119,13 +123,18 @@ const CMS = () => {
     });
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const field = currentImageField;
     if (fileInputRef.current) fileInputRef.current.value = '';
-    setCurrentImageField(null);
-    if (!file || !field) return;
+    if (!file || !field) {
+      setCurrentImageField(null);
+      return;
+    }
+    setPendingFile(file);
+  };
 
+  const applyUpload = async (file: File, field: string) => {
     setUploading(true);
     try {
       const url = await uploadSiteImage(file, 'cms');
@@ -166,6 +175,7 @@ const CMS = () => {
       setUploading(false);
     }
   };
+
 
   const handleMigrateImages = async () => {
     setBusy('migrate');
@@ -274,7 +284,24 @@ const CMS = () => {
 
   return (
     <Layout>
+      {pendingFile && currentImageField && (
+        <ImageCropDialog
+          file={pendingFile}
+          initialRatio={suggestedRatio(currentImageField)}
+          onCancel={() => {
+            setPendingFile(null);
+            setCurrentImageField(null);
+          }}
+          onConfirm={(cropped) => {
+            const field = currentImageField;
+            setPendingFile(null);
+            setCurrentImageField(null);
+            void applyUpload(cropped, field);
+          }}
+        />
+      )}
       <input
+
         type="file"
         ref={fileInputRef}
         onChange={handleImageUpload}
