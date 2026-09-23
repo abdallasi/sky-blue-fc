@@ -4,6 +4,7 @@ import { useContent } from '@/context/ContentContext';
 import { Mail, MapPin, Phone, Send, Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { PageHero } from '@/components/layout/PageHero';
 
 const Contact = () => {
   const { content } = useContent();

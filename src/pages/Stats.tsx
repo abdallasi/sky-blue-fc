@@ -3,6 +3,7 @@ import { useContent } from '@/context/ContentContext';
 import { Shield, Zap, Trophy, TrendingUp, Target, BarChart3 } from 'lucide-react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { useCountUp } from '@/hooks/useCountUp';
+import { PageHero } from '@/components/layout/PageHero';
 
 const statIcons = [Shield, Zap, Trophy, TrendingUp, Target];
 const statDescriptions = ['Defensive excellence', 'Dominant run', 'Winners mentality', 'Consistent success', 'Attacking power'];

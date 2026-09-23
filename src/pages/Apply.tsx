@@ -74,23 +74,31 @@ const Apply = () => {
 
   return (
     <Layout>
-      <section className="relative pt-32 pb-20 bg-gradient-hero-dynamic text-white overflow-hidden">
-        <div className="absolute inset-0 bg-noise opacity-40" />
-        <div className="container-premium relative grid lg:grid-cols-2 gap-10 items-center">
+      <section className="relative bg-background pt-28 sm:pt-32 lg:pt-40 pb-14 overflow-hidden">
+        <div className="pointer-events-none absolute -top-32 right-0 w-[520px] h-[520px] rounded-full bg-[hsl(var(--royal-blue))]/[0.05] blur-[150px]" />
+        <div className="container-premium relative grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <div>
-            <span className="text-label animate-fade-up">Player Portal</span>
-            <h1 className="heading-hero mt-4 mb-5 animate-fade-up-delay-1">{trials.heroTitle}</h1>
-            <p className="text-lg sm:text-xl text-white/70 max-w-xl animate-fade-up-delay-2">{trials.heroSubtitle}</p>
+            <div className="flex items-center gap-3 animate-fade-up">
+              <span className="h-[2px] w-10 bg-[hsl(var(--royal-blue))]" />
+              <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-[hsl(var(--primary-blue))]">
+                Player Portal
+              </span>
+            </div>
+            <h1 className="mt-7 text-[2.5rem] leading-[0.95] sm:text-5xl lg:text-6xl font-black tracking-[-0.04em] text-foreground animate-fade-up-delay-1">
+              {trials.heroTitle}
+            </h1>
+            <p className="mt-6 text-base sm:text-lg lg:text-xl leading-relaxed text-muted-foreground max-w-xl animate-fade-up-delay-2">
+              {trials.heroSubtitle}
+            </p>
           </div>
-          <div className="relative rounded-3xl overflow-hidden border border-white/10 min-h-[300px] animate-fade-up-delay-3">
+          <figure className="overflow-hidden rounded-[1.5rem] sm:rounded-[2rem] bg-muted shadow-[0_40px_80px_-40px_hsl(217_100%_12%/0.3)] animate-fade-up-delay-3">
             <img
               src={heroImage}
               alt="AMTAY FC trials"
               loading="lazy"
-              className="absolute inset-0 w-full h-full object-cover"
+              className="w-full aspect-[4/3] lg:aspect-[4/5] object-cover object-center"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[hsl(var(--midnight-blue))]/80 to-transparent" />
-          </div>
+          </figure>
         </div>
       </section>
 
