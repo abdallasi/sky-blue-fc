@@ -200,7 +200,12 @@ export interface SiteContent {
 
   trials: TrialsContent;
   videos: VideoItem[];
+  spotlights: SpotlightPlayer[];
+  matchShots: MatchShot[];
+  news: NewsItem[];
+  fixtures: Fixture[];
 }
+
 
 
 
