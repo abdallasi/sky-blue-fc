@@ -68,8 +68,16 @@ const Stats = () => {
               <AnimatedStatCard key={index} stat={stat} index={index} isVisible={statsAnim.isVisible} />
             ))}
           </div>
+
+          {/* Progress rings — clean, at-a-glance reading of the same numbers */}
+          <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {ringMetrics.map((ring, index) => (
+              <ProgressRing key={ring.label} {...ring} delay={index * 150} />
+            ))}
+          </div>
         </div>
       </section>
+
 
       {/* Season Breakdown */}
       <section className="section-padding bg-muted/50">
