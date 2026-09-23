@@ -168,7 +168,7 @@ const CMS = () => {
     { id: 'news', label: 'Club News' },
     { id: 'stats', label: 'Statistics' },
     { id: 'snapshot', label: 'Club Snapshot' },
-    { id: 'visionMission', label: 'Vision & Mission' },
+    { id: 'visionMission', label: 'Join Us' },
     { id: 'about', label: 'About Page' },
     { id: 'milestones', label: 'Milestones' },
     { id: 'facilities', label: 'Facilities' },
