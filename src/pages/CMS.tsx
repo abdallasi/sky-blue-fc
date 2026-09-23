@@ -39,6 +39,8 @@ const CMS = () => {
   const localKey = JSON.stringify(localContent);
   const dirty = localKey !== draftKey;
   const embeddedPhotoCount = (localKey.match(/"data:image/g) || []).length;
+  const setDirty = (_v: boolean) => {};
+
 
 
   // Adopt the database draft whenever it changes (initial load or another editor's save)
