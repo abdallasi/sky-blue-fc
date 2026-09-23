@@ -101,20 +101,67 @@ export interface GalleryImage {
 
 export interface ImageAssets {
   heroBackground?: string;
+  heroBackgroundMobile?: string;
   founderPhoto?: string;
   academyHero?: string;
+  academyHeroMobile?: string;
   teamHero?: string;
+  teamHeroMobile?: string;
   statsHero?: string;
   contactHero?: string;
+  aboutHero?: string;
+  aboutHeroMobile?: string;
+  galleryHero?: string;
   featuredPlayerImage?: string;
   presidentMessageImage?: string;
   showcaseMatchday?: string;
   showcaseTraining?: string;
   showcaseMoment?: string;
   trialsHero?: string;
+  trialsHeroMobile?: string;
   aboutStoryImages?: string[];
   galleryImages?: GalleryImage[];
 }
+
+export interface SpotlightPlayer {
+  id: string;
+  name: string;
+  number: string;
+  position: string;
+  image?: string;
+  line1: string;
+  line2: string;
+  quote?: string;
+}
+
+export interface MatchShot {
+  id: string;
+  image?: string;
+  caption: string;
+  meta: string;
+}
+
+export interface NewsItem {
+  id: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  tag: string;
+  image?: string;
+  link?: string;
+}
+
+export interface Fixture {
+  id: string;
+  opponent: string;
+  competition: string;
+  date: string;
+  kickoff: string;
+  venue: string;
+  home: boolean;
+  result?: string;
+}
+
 
 export interface TrialsContent {
   heroTitle: string;
