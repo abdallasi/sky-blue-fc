@@ -958,6 +958,195 @@ const CMS = () => {
                       </>
                     )}
 
+                    {section.id === 'spotlights' && (
+                      <div className="space-y-5">
+                        <p className="text-sm text-muted-foreground">
+                          The player carousel on the home and team pages. Portrait photos work best (3:4).
+                        </p>
+                        {(localContent.spotlights ?? []).map((p, i) => {
+                          const arr = localContent.spotlights ?? [];
+                          const set = (patch: any) => {
+                            const next = [...arr];
+                            next[i] = { ...p, ...patch };
+                            updateField('spotlights', next);
+                          };
+                          return (
+                            <div key={p.id} className="p-4 border border-border rounded-xl space-y-4">
+                              <div className="flex items-start gap-4">
+                                {p.image ? (
+                                  <div className="relative shrink-0">
+                                    <img src={p.image} alt={p.name} className="w-24 h-32 object-cover rounded-lg" />
+                                    <button onClick={() => set({ image: undefined })} className="absolute -top-2 -right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center">
+                                      <X className="w-3 h-3" />
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <button onClick={() => triggerImageUpload(`__item:spotlights:${i}`)} className="w-24 h-32 shrink-0 border-2 border-dashed border-border rounded-lg flex items-center justify-center hover:bg-muted/50">
+                                    <Upload className="w-5 h-5 text-muted-foreground" />
+                                  </button>
+                                )}
+                                <div className="flex-1 grid sm:grid-cols-2 gap-3">
+                                  <input type="text" placeholder="Player name" value={p.name} onChange={(e) => set({ name: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                                  <input type="text" placeholder="Shirt number" value={p.number} onChange={(e) => set({ number: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                                  <input type="text" placeholder="Position" value={p.position} onChange={(e) => set({ position: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                                  <input type="text" placeholder="Headline fact (e.g. 7 goals in 4 matches)" value={p.line1} onChange={(e) => set({ line1: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                                  <input type="text" placeholder="Second fact" value={p.line2} onChange={(e) => set({ line2: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                                  <input type="text" placeholder="Quote (optional)" value={p.quote || ''} onChange={(e) => set({ quote: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                                </div>
+                                <button onClick={() => updateField('spotlights', arr.filter((_, x) => x !== i))} className="px-3 py-3 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500/20">
+                                  <X className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                        <button
+                          onClick={() => updateField('spotlights', [...(localContent.spotlights ?? []), { id: Date.now().toString(), name: '', number: '', position: '', line1: '', line2: '' }])}
+                          className="w-full py-3 rounded-xl border-2 border-dashed border-border hover:bg-muted/50 text-sm font-medium text-muted-foreground"
+                        >
+                          + Add Player to Spotlight Carousel
+                        </button>
+                      </div>
+                    )}
+
+                    {section.id === 'matchShots' && (
+                      <div className="space-y-5">
+                        <p className="text-sm text-muted-foreground">
+                          Matchday photography carousel on the home page. Wide photos work best (16:10).
+                        </p>
+                        {(localContent.matchShots ?? []).map((s, i) => {
+                          const arr = localContent.matchShots ?? [];
+                          const set = (patch: any) => {
+                            const next = [...arr];
+                            next[i] = { ...s, ...patch };
+                            updateField('matchShots', next);
+                          };
+                          return (
+                            <div key={s.id} className="p-4 border border-border rounded-xl flex items-start gap-4">
+                              {s.image ? (
+                                <div className="relative shrink-0">
+                                  <img src={s.image} alt={s.caption} className="w-32 h-24 object-cover rounded-lg" />
+                                  <button onClick={() => set({ image: undefined })} className="absolute -top-2 -right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center">
+                                    <X className="w-3 h-3" />
+                                  </button>
+                                </div>
+                              ) : (
+                                <button onClick={() => triggerImageUpload(`__item:matchShots:${i}`)} className="w-32 h-24 shrink-0 border-2 border-dashed border-border rounded-lg flex items-center justify-center hover:bg-muted/50">
+                                  <Upload className="w-5 h-5 text-muted-foreground" />
+                                </button>
+                              )}
+                              <div className="flex-1 space-y-3">
+                                <input type="text" placeholder="Caption" value={s.caption} onChange={(e) => set({ caption: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                                <input type="text" placeholder="Match / venue line" value={s.meta} onChange={(e) => set({ meta: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                              </div>
+                              <button onClick={() => updateField('matchShots', arr.filter((_, x) => x !== i))} className="px-3 py-3 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500/20">
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                          );
+                        })}
+                        <button
+                          onClick={() => updateField('matchShots', [...(localContent.matchShots ?? []), { id: Date.now().toString(), caption: '', meta: '' }])}
+                          className="w-full py-3 rounded-xl border-2 border-dashed border-border hover:bg-muted/50 text-sm font-medium text-muted-foreground"
+                        >
+                          + Add Matchday Photo
+                        </button>
+                      </div>
+                    )}
+
+                    {section.id === 'fixtures' && (
+                      <div className="space-y-5">
+                        <p className="text-sm text-muted-foreground">
+                          Upcoming and recent matches shown on the home page. Add a result to show a played match.
+                        </p>
+                        {(localContent.fixtures ?? []).map((f, i) => {
+                          const arr = localContent.fixtures ?? [];
+                          const set = (patch: any) => {
+                            const next = [...arr];
+                            next[i] = { ...f, ...patch };
+                            updateField('fixtures', next);
+                          };
+                          return (
+                            <div key={f.id} className="p-4 border border-border rounded-xl space-y-3">
+                              <div className="flex items-start gap-3">
+                                <div className="flex-1 grid sm:grid-cols-2 gap-3">
+                                  <input type="text" placeholder="Opponent" value={f.opponent} onChange={(e) => set({ opponent: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                                  <input type="text" placeholder="Competition" value={f.competition} onChange={(e) => set({ competition: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                                  <input type="text" placeholder="Date (e.g. Sat 12 Oct)" value={f.date} onChange={(e) => set({ date: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                                  <input type="text" placeholder="Kick-off (e.g. 16:00)" value={f.kickoff} onChange={(e) => set({ kickoff: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                                  <input type="text" placeholder="Venue" value={f.venue} onChange={(e) => set({ venue: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                                  <input type="text" placeholder="Result (optional, e.g. 3-1 W)" value={f.result || ''} onChange={(e) => set({ result: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                                </div>
+                                <button onClick={() => updateField('fixtures', arr.filter((_, x) => x !== i))} className="px-3 py-3 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500/20">
+                                  <X className="w-4 h-4" />
+                                </button>
+                              </div>
+                              <label className="flex items-center gap-2 text-sm">
+                                <input type="checkbox" checked={f.home} onChange={(e) => set({ home: e.target.checked })} />
+                                Home match
+                              </label>
+                            </div>
+                          );
+                        })}
+                        <button
+                          onClick={() => updateField('fixtures', [...(localContent.fixtures ?? []), { id: Date.now().toString(), opponent: '', competition: '', date: '', kickoff: '', venue: '', home: true }])}
+                          className="w-full py-3 rounded-xl border-2 border-dashed border-border hover:bg-muted/50 text-sm font-medium text-muted-foreground"
+                        >
+                          + Add Fixture
+                        </button>
+                      </div>
+                    )}
+
+                    {section.id === 'news' && (
+                      <div className="space-y-5">
+                        <p className="text-sm text-muted-foreground">
+                          The news carousel on the home page. Each story can link out to a full article.
+                        </p>
+                        {(localContent.news ?? []).map((n, i) => {
+                          const arr = localContent.news ?? [];
+                          const set = (patch: any) => {
+                            const next = [...arr];
+                            next[i] = { ...n, ...patch };
+                            updateField('news', next);
+                          };
+                          return (
+                            <div key={n.id} className="p-4 border border-border rounded-xl flex items-start gap-4">
+                              {n.image ? (
+                                <div className="relative shrink-0">
+                                  <img src={n.image} alt={n.title} className="w-32 h-24 object-cover rounded-lg" />
+                                  <button onClick={() => set({ image: undefined })} className="absolute -top-2 -right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center">
+                                    <X className="w-3 h-3" />
+                                  </button>
+                                </div>
+                              ) : (
+                                <button onClick={() => triggerImageUpload(`__item:news:${i}`)} className="w-32 h-24 shrink-0 border-2 border-dashed border-border rounded-lg flex items-center justify-center hover:bg-muted/50">
+                                  <Upload className="w-5 h-5 text-muted-foreground" />
+                                </button>
+                              )}
+                              <div className="flex-1 space-y-3">
+                                <input type="text" placeholder="Headline" value={n.title} onChange={(e) => set({ title: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                                <textarea rows={2} placeholder="Short summary" value={n.excerpt} onChange={(e) => set({ excerpt: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                                <div className="grid sm:grid-cols-3 gap-3">
+                                  <input type="text" placeholder="Tag (e.g. Club)" value={n.tag} onChange={(e) => set({ tag: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                                  <input type="text" placeholder="Date" value={n.date} onChange={(e) => set({ date: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                                  <input type="text" placeholder="Link (optional)" value={n.link || ''} onChange={(e) => set({ link: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                                </div>
+                              </div>
+                              <button onClick={() => updateField('news', arr.filter((_, x) => x !== i))} className="px-3 py-3 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500/20">
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                          );
+                        })}
+                        <button
+                          onClick={() => updateField('news', [...(localContent.news ?? []), { id: Date.now().toString(), title: '', excerpt: '', date: '', tag: 'Club' }])}
+                          className="w-full py-3 rounded-xl border-2 border-dashed border-border hover:bg-muted/50 text-sm font-medium text-muted-foreground"
+                        >
+                          + Add News Story
+                        </button>
+                      </div>
+                    )}
+
 
                     {section.id === 'images' && (
                       <div className="space-y-6">
