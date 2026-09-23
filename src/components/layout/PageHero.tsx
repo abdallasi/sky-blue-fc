@@ -17,7 +17,7 @@ export const PageHero = ({ eyebrow, title, subtitle, image, align = 'left', chil
   const centered = align === 'center';
 
   return (
-    <section className="relative bg-background pt-28 sm:pt-32 lg:pt-36 pb-0 overflow-hidden">-
+    <section className="relative bg-background pt-28 sm:pt-32 lg:pt-36 pb-0 overflow-hidden">
       <div className="pointer-events-none absolute -top-32 right-0 w-[520px] h-[520px] rounded-full bg-[hsl(var(--royal-blue))]/[0.05] blur-[150px]" />
 
       <div className="container-premium relative">
