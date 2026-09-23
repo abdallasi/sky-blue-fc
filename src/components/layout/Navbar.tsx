@@ -45,7 +45,7 @@ export const Navbar = () => {
       }`}
     >
       <div className="container-premium">
-        <div className="flex items-center justify-between h-18 lg:h-20">
+        <div className="flex items-center justify-between h-[72px] lg:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
             <img
