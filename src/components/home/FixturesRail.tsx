@@ -1,6 +1,7 @@
 import { useContent } from '@/context/ContentContext';
 import { Rail } from '@/components/ui/rail';
-import { MapPin, Clock } from 'lucide-react';
+import { MapPin } from 'lucide-react';
+import amtayLogo from '@/assets/amtay-logo.png';
 
 export const FixturesRail = () => {
   const { content } = useContent();
@@ -8,51 +9,60 @@ export const FixturesRail = () => {
   if (fixtures.length === 0) return null;
 
   return (
-    <section className="py-20 sm:py-28 bg-muted/40 border-y border-border">
-      <Rail
-        eyebrow="Fixtures"
-        title="Next on the calendar"
-        description="Turn up early. The warm-up is worth watching."
-      >
+    <section className="py-14 sm:py-20 bg-muted/30 border-y border-border">
+      <Rail eyebrow="Fixtures">
         {fixtures.map((f) => (
           <article
             key={f.id}
-            className="shrink-0 w-[78vw] sm:w-[320px] snap-start rounded-[1.5rem] border border-border bg-background p-6 transition-all duration-500 hover:-translate-y-1 hover:border-[hsl(var(--royal-blue))]/40"
+            className="group shrink-0 w-[80vw] sm:w-[340px] snap-start overflow-hidden rounded-[1.5rem] bg-[hsl(var(--midnight-blue))] text-white transition-all duration-500 hover:-translate-y-1"
           >
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-[hsl(var(--primary-blue))]">
+            {/* Pass header: competition + kickoff stamp */}
+            <div className="flex items-center justify-between border-b border-white/10 px-5 py-3.5">
+              <span className="text-[9px] font-bold uppercase tracking-[0.24em] text-[hsl(var(--electric-cyan))]">
                 {f.competition}
               </span>
-              <span className="px-2.5 py-1 rounded-full bg-muted text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">
+              <span className="rounded-full bg-white/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.18em] text-white/70">
                 {f.home ? 'Home' : 'Away'}
               </span>
             </div>
 
-            <div className="mt-5 text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground">
-              AMTAY FC
-            </div>
-            <div className="mt-1 text-2xl font-black tracking-tight text-foreground leading-tight">
-              vs {f.opponent}
-            </div>
-
-            {f.result && (
-              <div className="mt-3 inline-flex px-3 py-1 rounded-full bg-[hsl(var(--midnight-blue))] text-xs font-bold text-white">
-                {f.result}
+            {/* Crest vs crest */}
+            <div className="flex items-center justify-between gap-3 px-5 py-7">
+              <div className="flex-1 text-center">
+                <img src={amtayLogo} alt="AMTAY FC" className="mx-auto h-12 w-12 object-contain" />
+                <div className="mt-2.5 text-[10px] font-bold uppercase tracking-[0.16em] text-white/80">Amtay FC</div>
               </div>
-            )}
 
-            <div className="mt-6 h-px w-full bg-border" />
+              <div className="text-[10px] font-black uppercase tracking-[0.2em] text-white/35">vs</div>
 
-            <div className="mt-5 space-y-2.5 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2.5">
-                <Clock className="w-4 h-4 shrink-0 text-[hsl(var(--royal-blue))]" />
-                <span>
+              <div className="flex-1 text-center">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-white/5 text-base font-black text-white/80">
+                  {f.opponent.slice(0, 2).toUpperCase()}
+                </div>
+                <div className="mt-2.5 line-clamp-1 text-[10px] font-bold uppercase tracking-[0.16em] text-white/80">
+                  {f.opponent}
+                </div>
+              </div>
+            </div>
+
+            {/* Kickoff band */}
+            <div className="bg-white/[0.06] px-5 py-3.5 text-center">
+              {f.result ? (
+                <div className="text-lg font-black tracking-tight">{f.result}</div>
+              ) : (
+                <div className="text-sm font-black uppercase tracking-[0.18em]">
                   {f.date} · {f.kickoff}
-                </span>
-              </div>
-              <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 shrink-0 mt-0.5 text-[hsl(var(--royal-blue))]" />
-                <span>{f.venue}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Perforation + venue */}
+            <div className="relative">
+              <div className="absolute -left-2 top-0 h-4 w-4 -translate-y-1/2 rounded-full bg-muted/30" />
+              <div className="absolute -right-2 top-0 h-4 w-4 -translate-y-1/2 rounded-full bg-muted/30" />
+              <div className="flex items-center gap-2.5 px-5 py-4 text-xs text-white/55">
+                <MapPin className="h-3.5 w-3.5 shrink-0 text-[hsl(var(--electric-cyan))]" />
+                <span className="line-clamp-1">{f.venue}</span>
               </div>
             </div>
           </article>
