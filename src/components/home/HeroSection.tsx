@@ -1,34 +1,21 @@
 import { Link } from 'react-router-dom';
-import { ChevronRight, Play, Zap } from 'lucide-react';
+import { ArrowUpRight, Play } from 'lucide-react';
 import { useContent } from '@/context/ContentContext';
 import { useCountUp } from '@/hooks/useCountUp';
 import heroFallback from '@/assets/placeholder-hero-matchday.jpg';
 
-
-const AnimatedStat = ({
-  value,
-  label,
-  delay,
-}: {
-  value: string;
-  label: string;
-  delay: number;
-}) => {
+const HeroStat = ({ value, label, delay }: { value: string; label: string; delay: number }) => {
   const numericMatch = value.match(/^(\d+)/);
   const numericValue = numericMatch ? parseInt(numericMatch[1]) : 0;
   const suffix = value.replace(/^\d+/, '');
-  const { formattedCount, ref } = useCountUp({
-    end: numericValue,
-    duration: 2000,
-    delay,
-    suffix,
-  });
+  const { formattedCount, ref } = useCountUp({ end: numericValue, duration: 1800, delay, suffix });
+
   return (
-    <div className="text-center group" ref={ref as React.RefObject<HTMLDivElement>}>
-      <div className="text-2xl sm:text-4xl lg:text-5xl font-black mb-1.5 sm:mb-2 group-hover:text-[hsl(var(--electric-cyan))] transition-colors duration-300">
+    <div ref={ref as React.RefObject<HTMLDivElement>} className="px-5 sm:px-8 first:pl-0 last:pr-0">
+      <div className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter text-foreground">
         {formattedCount}
       </div>
-      <div className="text-[10px] sm:text-xs text-white/50 uppercase tracking-[0.18em] sm:tracking-[0.2em] font-semibold">
+      <div className="mt-1.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.22em] text-muted-foreground">
         {label}
       </div>
     </div>
@@ -38,126 +25,89 @@ const AnimatedStat = ({
 export const HeroSection = () => {
   const { content } = useContent();
   const { hero, stats } = content;
+  const heroImage = content.images?.heroBackground || heroFallback;
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Matchday backdrop (replaceable from the CMS) */}
-      <img
-        src={content.images?.heroBackground || heroFallback}
-        alt="AMTAY FC matchday"
-        width={1920}
-        height={1088}
-        className="absolute inset-0 w-full h-full object-cover object-center scale-105"
-      />
-      <div className="absolute inset-0 bg-[hsl(var(--midnight-blue))]/55" />
+    <section className="relative bg-background pt-28 sm:pt-32 lg:pt-40 pb-16 sm:pb-20 lg:pb-24 overflow-hidden">
+      {/* Whisper-soft editorial wash — keeps the page bright, never muddy */}
+      <div className="pointer-events-none absolute -top-40 -right-32 w-[620px] h-[620px] rounded-full bg-[hsl(var(--royal-blue))]/[0.05] blur-[160px]" />
+      <div className="pointer-events-none absolute top-1/3 -left-40 w-[480px] h-[480px] rounded-full bg-[hsl(var(--electric-cyan))]/[0.06] blur-[150px]" />
 
-      {/* Dynamic Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-hero-dynamic opacity-60 mix-blend-multiply" />
-
-
-
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-[hsl(var(--royal-blue))]/20 rounded-full blur-[150px] animate-float" />
-        <div
-          className="absolute bottom-1/3 left-1/6 w-[400px] h-[400px] bg-[hsl(var(--electric-cyan))]/10 rounded-full blur-[120px] animate-float"
-          style={{ animationDelay: '2s' }}
-        />
-        <div
-          className="absolute top-1/2 right-1/3 w-[350px] h-[350px] bg-[hsl(var(--primary-blue))]/15 rounded-full blur-[100px] animate-float"
-          style={{ animationDelay: '4s' }}
-        />
-        <div className="absolute top-1/4 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[hsl(var(--electric-cyan))]/20 to-transparent animate-shimmer" />
-        <div
-          className="absolute top-2/3 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer"
-          style={{ animationDelay: '1s' }}
-        />
-      </div>
-
-      {/* Noise Texture Overlay */}
-      <div className="absolute inset-0 bg-noise opacity-50" />
-
-      {/* Grid Pattern */}
-      <div
-        className="absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.25) 1px, transparent 0)`,
-          backgroundSize: '50px 50px',
-        }}
-      />
-
-      <div className="relative container-premium text-center text-white py-24 sm:py-32">
-        {/* Giant Watermark Monogram */}
-        <div aria-hidden className="pointer-events-none absolute inset-x-0 top-[12%] flex justify-center">
-          <span className="font-black tracking-tighter text-[38vw] sm:text-[26vw] lg:text-[20vw] leading-none bg-gradient-to-b from-white/[0.08] via-white/[0.03] to-transparent bg-clip-text text-transparent select-none">
-            AFC
+      <div className="container-premium relative">
+        {/* Eyebrow */}
+        <div className="flex items-center gap-3 sm:gap-4 animate-fade-up">
+          <span className="h-[2px] w-8 sm:w-12 bg-[hsl(var(--royal-blue))]" />
+          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.28em] text-[hsl(var(--primary-blue))]">
+            {hero.badge}
           </span>
         </div>
 
-        {/* Badge with Neon Effect */}
-        <div className="relative inline-flex items-center gap-2.5 sm:gap-3 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 mb-6 sm:mb-10 animate-fade-up group hover:border-[hsl(var(--electric-cyan))]/30 transition-colors">
-          <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[hsl(var(--electric-cyan))]" />
-          <span className="text-[11px] sm:text-sm font-semibold tracking-wide">{hero.badge}</span>
-          <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[hsl(var(--electric-cyan))] animate-pulse" />
+        {/* Editorial split: type left, breathing room right */}
+        <div className="mt-8 sm:mt-10 grid lg:grid-cols-12 gap-10 lg:gap-12 items-end">
+          <div className="lg:col-span-7">
+            <h1 className="animate-fade-up-delay-1 text-[2.75rem] leading-[0.92] sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-black tracking-[-0.045em] text-foreground">
+              {hero.headline}
+            </h1>
+            <p className="mt-6 sm:mt-8 max-w-xl text-base sm:text-lg lg:text-xl leading-relaxed text-muted-foreground animate-fade-up-delay-2">
+              {hero.subheadline}
+            </p>
+          </div>
+
+          <div className="lg:col-span-5 lg:pl-10 lg:border-l lg:border-border animate-fade-up-delay-3">
+            <p className="text-sm sm:text-base font-semibold leading-relaxed text-foreground/80">
+              120 matches unbeaten. 298 goals. Four players called into Nigeria's U-17 screening.
+            </p>
+            <div className="mt-7 flex flex-col sm:flex-row gap-3">
+              <Link
+                to="/team"
+                className="group inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full bg-[hsl(var(--midnight-blue))] text-white text-sm font-bold tracking-wide transition-all duration-300 hover:bg-[hsl(var(--primary-blue))] hover:-translate-y-0.5"
+              >
+                {hero.button1}
+                <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </Link>
+              <Link
+                to="/apply"
+                className="group inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full border border-border bg-background text-sm font-bold tracking-wide text-foreground transition-all duration-300 hover:border-[hsl(var(--royal-blue))] hover:text-[hsl(var(--primary-blue))]"
+              >
+                <Play className="w-3.5 h-3.5" />
+                {hero.button2}
+              </Link>
+            </div>
+          </div>
         </div>
 
-        {/* Main Headline */}
-        <h1 className="relative max-w-5xl mx-auto mb-5 sm:mb-8 animate-fade-up-delay-1">
-          <span className="block text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tighter leading-[0.95] text-white drop-shadow-[0_4px_30px_rgba(0,255,212,0.15)]">
-            AMTAY FC
-          </span>
-          <span className="block mt-2 sm:mt-4 text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black tracking-tight leading-tight">
-            <span className="bg-gradient-to-r from-white via-[hsl(var(--electric-cyan))] to-white bg-clip-text text-transparent">Fierce.</span>{' '}
-            <span className="bg-gradient-to-r from-[hsl(var(--electric-cyan))] via-white to-[hsl(var(--royal-blue))] bg-clip-text text-transparent">Unstoppable.</span>{' '}
-            <span className="bg-gradient-to-r from-white to-[hsl(var(--electric-cyan))] bg-clip-text text-transparent">Fast.</span>
-          </span>
-        </h1>
+        {/* Master shot — full clarity, no blur, no colour wash */}
+        <figure className="mt-12 sm:mt-16 relative animate-fade-up-delay-4">
+          <div className="relative overflow-hidden rounded-[1.5rem] sm:rounded-[2rem] bg-muted shadow-[0_40px_80px_-40px_hsl(217_100%_12%/0.35)]">
+            <img
+              src={heroImage}
+              alt="AMTAY FC matchday"
+              width={1920}
+              height={1080}
+              loading="eager"
+              className="w-full aspect-[4/5] sm:aspect-[16/9] lg:aspect-[21/9] object-cover object-center"
+            />
+            {/* Caption plate only — the photograph itself stays untouched */}
+            <figcaption className="absolute bottom-0 left-0 right-0 flex flex-wrap items-center justify-between gap-2 px-5 sm:px-8 py-4 sm:py-5 bg-gradient-to-t from-[hsl(var(--midnight-blue))]/85 to-transparent">
+              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.22em] text-white">
+                Matchday · Kano, Nigeria
+              </span>
+              <span className="inline-flex items-center gap-2 text-[10px] sm:text-xs font-bold uppercase tracking-[0.22em] text-white/80">
+                <span className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--electric-cyan))] animate-pulse" />
+                International League
+              </span>
+            </figcaption>
+          </div>
+        </figure>
 
-        {/* Sub-headline */}
-        <p className="relative text-sm sm:text-lg lg:text-xl xl:text-2xl text-white/70 max-w-3xl mx-auto mb-8 sm:mb-14 leading-relaxed font-light px-3 animate-fade-up-delay-2">
-          From Kano to National Stardom — developing Nigeria's future football legends.
-        </p>
-
-        {/* CTA Buttons */}
-        <div className="relative flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 animate-fade-up-delay-3">
-          <Link to="/team" className="btn-hero group w-full sm:w-auto">
-            Meet the Squad
-            <ChevronRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
-          </Link>
-          <Link to="/about" className="btn-hero-outline group w-full sm:w-auto">
-            <Play className="mr-2 w-4 h-4" />
-            Our Vision
-          </Link>
+        {/* Stat rail with hairline dividers */}
+        <div className="mt-12 sm:mt-16 flex flex-wrap divide-x divide-border border-t border-border pt-8 sm:pt-10">
+          <HeroStat value={stats[3]?.value || '68%'} label="Win Rate" delay={0} />
+          <HeroStat value={stats[4]?.value || '298'} label="Goals Scored" delay={150} />
+          <HeroStat value={stats[1]?.value || '120'} label="Match Streak" delay={300} />
+          <HeroStat value="4" label="U-17 Call-ups" delay={450} />
         </div>
-
-        {/* Stats Preview */}
-        <div className="relative mt-16 sm:mt-24 lg:mt-32 grid grid-cols-2 sm:grid-cols-4 gap-5 sm:gap-6 lg:gap-12 max-w-4xl mx-auto animate-fade-up-delay-4">
-          <AnimatedStat value={stats[3]?.value || '68%'} label="Win Rate" delay={0} />
-          <AnimatedStat value={stats[4]?.value || '298'} label="Goals Scored" delay={200} />
-          <AnimatedStat value={stats[1]?.value || '120'} label="Match Streak" delay={400} />
-          <AnimatedStat value="4" label="U-17 Call-ups" delay={600} />
-        </div>
-
-        <p
-          className="relative mt-8 sm:mt-12 text-white/40 text-xs sm:text-sm font-medium tracking-wide animate-fade-up px-3"
-          style={{ animationDelay: '1s' }}
-        >
-          120 matches unbeaten. 298 goals. And we're only getting started.
-        </p>
       </div>
-
-      {/* Scroll Indicator */}
-      <div
-        className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 animate-fade-up"
-        style={{ animationDelay: '1.2s' }}
-      >
-        <div className="w-7 h-12 rounded-full border-2 border-white/20 flex items-start justify-center p-2 hover:border-[hsl(var(--electric-cyan))]/50 transition-colors group">
-          <div className="w-1.5 h-3 bg-white/60 rounded-full animate-bounce group-hover:bg-[hsl(var(--electric-cyan))] transition-colors" />
-        </div>
-      </div>
-
-      {/* Bottom Gradient Fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
     </section>
   );
 };
