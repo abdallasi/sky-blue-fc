@@ -136,7 +136,7 @@ export const Navbar = () => {
             </Link>
           ))}
           <Link
-            to="/contact"
+            to="/apply"
             className="flex items-center justify-center gap-2 w-full py-4 mt-4 text-center bg-gradient-to-r from-[hsl(var(--electric-cyan))] to-[hsl(var(--royal-blue))] text-white rounded-xl font-bold"
           >
             <Zap className="w-4 h-4" />
