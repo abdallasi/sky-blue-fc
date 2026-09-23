@@ -162,6 +162,10 @@ const CMS = () => {
 
   const sections = [
     { id: 'hero', label: 'Hero Section' },
+    { id: 'spotlights', label: 'Player Spotlight Carousel' },
+    { id: 'matchShots', label: 'Matchday Photo Carousel' },
+    { id: 'fixtures', label: 'Fixtures' },
+    { id: 'news', label: 'Club News' },
     { id: 'stats', label: 'Statistics' },
     { id: 'snapshot', label: 'Club Snapshot' },
     { id: 'visionMission', label: 'Vision & Mission' },
@@ -178,20 +182,27 @@ const CMS = () => {
   ];
 
   const imageFields = [
-    { key: 'heroBackground', label: 'Hero Background' },
-    { key: 'founderPhoto', label: 'Founder Photo' },
-    { key: 'academyHero', label: 'Academy Hero Image' },
-    { key: 'teamHero', label: 'Team Hero Image' },
+    { key: 'heroBackground', label: 'Home Hero Image — Desktop (wide)' },
+    { key: 'heroBackgroundMobile', label: 'Home Hero Image — Phone (portrait)' },
+    { key: 'aboutHero', label: 'About Page Hero — Desktop' },
+    { key: 'aboutHeroMobile', label: 'About Page Hero — Phone' },
+    { key: 'teamHero', label: 'Team Page Hero — Desktop' },
+    { key: 'teamHeroMobile', label: 'Team Page Hero — Phone' },
+    { key: 'academyHero', label: 'Academy Page Hero — Desktop' },
+    { key: 'academyHeroMobile', label: 'Academy Page Hero — Phone' },
+    { key: 'trialsHero', label: 'Trials Page Hero — Desktop' },
+    { key: 'trialsHeroMobile', label: 'Trials Page Hero — Phone' },
     { key: 'statsHero', label: 'Stats Page Hero Image' },
+    { key: 'galleryHero', label: 'Gallery Page Hero Image' },
     { key: 'contactHero', label: 'Contact Page Hero Image' },
-    { key: 'showcaseMatchday', label: 'Home Showcase — Large Matchday Image' },
-    { key: 'showcaseTraining', label: 'Home Showcase — Academy Training Image' },
-    { key: 'showcaseMoment', label: 'Home Showcase — Trials / Celebration Image' },
-    { key: 'trialsHero', label: 'Trials Page Hero Image' },
+    { key: 'founderPhoto', label: 'Founder Photo' },
+    { key: 'showcaseMatchday', label: 'Showcase — Large Matchday Image' },
+    { key: 'showcaseTraining', label: 'Showcase — Academy Training Image' },
+    { key: 'showcaseMoment', label: 'Showcase — Trials / Celebration Image' },
     { key: 'featuredPlayerImage', label: 'Featured Player Image (Home — Buhari Shaho)' },
-
     { key: 'presidentMessageImage', label: "President's Message Image (About Page)" },
   ];
+
 
   if (authLoading || loading) {
     return (
