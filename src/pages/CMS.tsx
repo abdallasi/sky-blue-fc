@@ -6,6 +6,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { Save, RotateCcw, ChevronDown, ChevronRight, Upload, X, Image, Rocket, Eye, EyeOff, Loader2, Lock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { ApplicationsPanel } from '@/components/cms/ApplicationsPanel';
+import { uploadSiteImage, migrateDataUrls, isDataUrl } from '@/lib/mediaUpload';
+
 
 
 const CMS = () => {
@@ -26,9 +28,12 @@ const CMS = () => {
   const { toast } = useToast();
   const [activeSection, setActiveSection] = useState<string | null>('hero');
   const [localContent, setLocalContent] = useState(draft);
-  const [busy, setBusy] = useState<null | 'save' | 'publish' | 'unpublish' | 'reset'>(null);
+  const [busy, setBusy] = useState<null | 'save' | 'publish' | 'unpublish' | 'reset' | 'migrate'>(null);
+  const [uploading, setUploading] = useState(false);
+  const [migrated, setMigrated] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [currentImageField, setCurrentImageField] = useState<string | null>(null);
+
 
   const draftKey = JSON.stringify(draft);
   const dirty = JSON.stringify(localContent) !== draftKey;
