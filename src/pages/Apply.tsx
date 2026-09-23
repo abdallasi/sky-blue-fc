@@ -102,45 +102,49 @@ const Apply = () => {
         </div>
       </section>
 
-      <section className="relative bg-[hsl(var(--midnight-blue))] text-white">
+      <section className="relative bg-muted/40 border-y border-border">
         <div className="container-premium py-16 sm:py-24 grid lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-16">
           {/* Requirements */}
           <div>
-            <p className="text-white/70 leading-relaxed mb-8">{trials.intro}</p>
-            <h2 className="text-xs uppercase tracking-[0.3em] text-[hsl(var(--electric-cyan))] font-bold mb-4">
+            <p className="text-lg leading-relaxed text-muted-foreground mb-10">{trials.intro}</p>
+            <h2 className="text-[11px] uppercase tracking-[0.28em] text-[hsl(var(--primary-blue))] font-bold mb-5">
               What we look for
             </h2>
-            <ul className="space-y-3 mb-10">
+            <ul className="space-y-0 mb-10 divide-y divide-border border-t border-border">
               {(trials.requirements || []).map((req, i) => (
-                <li key={i} className="flex items-start gap-3 text-white/80">
-                  <CheckCircle2 className="w-5 h-5 mt-0.5 text-[hsl(var(--electric-cyan))] shrink-0" />
+                <li key={i} className="flex items-start gap-3 py-4 text-foreground/85">
+                  <CheckCircle2 className="w-5 h-5 mt-0.5 text-[hsl(var(--royal-blue))] shrink-0" />
                   <span>{req}</span>
                 </li>
               ))}
             </ul>
-            <div className="flex items-start gap-3 p-4 rounded-2xl bg-white/5 border border-white/10">
-              <ShieldCheck className="w-5 h-5 text-[hsl(var(--electric-cyan))] shrink-0 mt-0.5" />
-              <p className="text-sm text-white/60">{trials.closingNote}</p>
+            <div className="flex items-start gap-3 p-5 rounded-2xl bg-background border border-border">
+              <ShieldCheck className="w-5 h-5 text-[hsl(var(--royal-blue))] shrink-0 mt-0.5" />
+              <p className="text-sm text-muted-foreground">{trials.closingNote}</p>
             </div>
           </div>
 
           {/* Form */}
-          <div className="rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-xl p-6 sm:p-10">
+          <div className="rounded-[1.75rem] border border-border bg-background p-6 sm:p-10 shadow-[0_30px_60px_-40px_hsl(217_100%_12%/0.25)]">
             {done ? (
               <div className="text-center py-10">
-                <CheckCircle2 className="w-12 h-12 mx-auto mb-5 text-[hsl(var(--electric-cyan))]" />
+                <CheckCircle2 className="w-12 h-12 mx-auto mb-5 text-[hsl(var(--royal-blue))]" />
                 <h2 className="text-2xl sm:text-3xl font-black tracking-tight mb-3">Application received</h2>
-                <p className="text-white/60 mb-8">
+                <p className="text-muted-foreground mb-8">
                   Our technical crew reviews every submission. If you are shortlisted, we will reach out with trial details.
                 </p>
-                <button onClick={() => setDone(false)} className="btn-hero-outline">
+                <button
+                  onClick={() => setDone(false)}
+                  className="inline-flex items-center justify-center px-7 py-3.5 rounded-full border border-border font-bold text-sm hover:border-[hsl(var(--royal-blue))] transition-colors"
+                >
                   Submit another application
                 </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
-                <h2 className="text-2xl sm:text-3xl font-black tracking-tight mb-1">Application form</h2>
-                <p className="text-sm text-white/50 !mt-1 mb-6">Fields marked * are required.</p>
+                <h2 className="text-2xl sm:text-3xl font-black tracking-[-0.03em] mb-1">Application form</h2>
+                <p className="text-sm text-muted-foreground !mt-1 mb-6">Fields marked * are required.</p>
+
 
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
