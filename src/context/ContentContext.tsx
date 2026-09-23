@@ -150,7 +150,7 @@ export interface SiteContent {
   pathway: PathwayStep[];
   contact: ContactInfo;
   images: ImageAssets;
-  images: ImageAssets;
+
   trials: TrialsContent;
   videos: VideoItem[];
 }
