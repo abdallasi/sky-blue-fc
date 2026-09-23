@@ -108,7 +108,7 @@ export const Navbar = () => {
 
       {/* Mobile Menu — fully opaque, maximum legibility */}
       <div
-        className={`lg:hidden fixed inset-x-0 top-[72px] bottom-0 bg-background transition-all duration-300 ${
+        className={`lg:hidden absolute inset-x-0 top-full h-[calc(100vh-72px)] bg-background border-t border-border transition-all duration-300 ${
           isOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2 pointer-events-none'
         }`}
       >
