@@ -1,6 +1,7 @@
 import { CheckCircle2, Sparkles, Trophy, Star } from 'lucide-react';
 import { useContent } from '@/context/ContentContext';
 import { useRef, useState, useEffect } from 'react';
+import clubMoment from '@/assets/placeholder-club-moment.jpg';
 
 export const ClubSnapshot = () => {
   const { content } = useContent();
