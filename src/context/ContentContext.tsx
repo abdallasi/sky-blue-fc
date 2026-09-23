@@ -108,8 +108,21 @@ export interface ImageAssets {
   contactHero?: string;
   featuredPlayerImage?: string;
   presidentMessageImage?: string;
+  showcaseMatchday?: string;
+  showcaseTraining?: string;
+  showcaseMoment?: string;
+  trialsHero?: string;
   aboutStoryImages?: string[];
   galleryImages?: GalleryImage[];
+}
+
+export interface TrialsContent {
+  heroTitle: string;
+  heroSubtitle: string;
+  intro: string;
+  requirements: string[];
+  positions: string[];
+  closingNote: string;
 }
 
 export interface VideoItem {
@@ -118,6 +131,7 @@ export interface VideoItem {
   url: string;
   placement: 'featuredPlayer' | 'about' | 'gallery' | 'home';
 }
+
 
 export interface SiteContent {
 
