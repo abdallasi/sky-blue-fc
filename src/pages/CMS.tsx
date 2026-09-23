@@ -110,44 +110,69 @@ const CMS = () => {
     });
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file && currentImageField) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const dataUrl = reader.result as string;
-        if (currentImageField === '__aboutStory') {
-          const current = localContent.images.aboutStoryImages || [];
-          updateField('images.aboutStoryImages', [...current, dataUrl]);
-        } else if (currentImageField === '__gallery') {
-          const current = localContent.images.galleryImages || [];
-          const newItem = {
-            id: Date.now().toString(),
-            src: dataUrl,
-            alt: file.name.replace(/\.[^/.]+$/, ''),
-            category: 'General',
-            caption: '',
-          };
-          updateField('images.galleryImages', [...current, newItem]);
-        } else if (currentImageField.startsWith('__item:')) {
-          // __item:<arrayName>:<index> — photo attached to a carousel entry
-          const [, arrayName, idxRaw] = currentImageField.split(':');
-          const idx = parseInt(idxRaw, 10);
-          const arr = [...((localContent as any)[arrayName] || [])];
-          if (arr[idx]) {
-            arr[idx] = { ...arr[idx], image: dataUrl };
-            updateField(arrayName, arr);
-          }
-        } else {
-          updateField(`images.${currentImageField}`, dataUrl);
-        }
-
-      };
-      reader.readAsDataURL(file);
-    }
+    const field = currentImageField;
+    if (fileInputRef.current) fileInputRef.current.value = '';
     setCurrentImageField(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+    if (!file || !field) return;
+
+    setUploading(true);
+    try {
+      const url = await uploadSiteImage(file, 'cms');
+
+      if (field === '__aboutStory') {
+        const current = localContent.images.aboutStoryImages || [];
+        updateField('images.aboutStoryImages', [...current, url]);
+      } else if (field === '__gallery') {
+        const current = localContent.images.galleryImages || [];
+        const newItem = {
+          id: Date.now().toString(),
+          src: url,
+          alt: file.name.replace(/\.[^/.]+$/, ''),
+          category: 'General',
+          caption: '',
+        };
+        updateField('images.galleryImages', [...current, newItem]);
+      } else if (field.startsWith('__item:')) {
+        // __item:<arrayName>:<index> — photo attached to a carousel entry
+        const [, arrayName, idxRaw] = field.split(':');
+        const idx = parseInt(idxRaw, 10);
+        const arr = [...((localContent as any)[arrayName] || [])];
+        if (arr[idx]) {
+          arr[idx] = { ...arr[idx], image: url };
+          updateField(arrayName, arr);
+        }
+      } else {
+        updateField(`images.${field}`, url);
+      }
+      toast({ title: 'Photo uploaded', description: 'Remember to save the draft and publish.' });
+    } catch (err: any) {
+      toast({
+        title: 'Upload failed',
+        description: err?.message || 'Could not upload that photo. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleMigrateImages = async () => {
+    setBusy('migrate');
+    try {
+      const cleaned = await migrateDataUrls(localContent, (n) => setMigrated(n));
+      setLocalContent(cleaned);
+      await saveDraft(cleaned);
+      toast({
+        title: 'Photos moved to cloud storage',
+        description: 'Your draft is now lightweight. Press Publish Live to put it online.',
+      });
+    } catch (err: any) {
+      toast({ title: 'Move failed', description: err?.message || 'Please try again.', variant: 'destructive' });
+    } finally {
+      setBusy(null);
+      setMigrated(0);
     }
   };
 
@@ -155,6 +180,7 @@ const CMS = () => {
     setCurrentImageField(fieldName);
     fileInputRef.current?.click();
   };
+
 
   const removeImage = (fieldName: string) => {
     updateField(`images.${fieldName}`, undefined);
