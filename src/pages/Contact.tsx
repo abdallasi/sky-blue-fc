@@ -74,6 +74,35 @@ const Contact = () => {
                 </div>
               </div>
 
+              {/* One-tap direct lines for scouts, agents and parents */}
+              <div>
+                <h3 className="font-semibold mb-4">Talk to us directly</h3>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  {waNumber && (
+                    <a
+                      href={`https://wa.me/${waNumber}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-[hsl(152_60%_35%)] px-5 py-3.5 text-xs font-bold uppercase tracking-[0.16em] text-white transition-transform hover:-translate-y-0.5"
+                    >
+                      <MessageCircle className="h-4 w-4" />
+                      WhatsApp
+                    </a>
+                  )}
+                  {telegram && (
+                    <a
+                      href={`https://t.me/${telegram}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-[hsl(200_85%_45%)] px-5 py-3.5 text-xs font-bold uppercase tracking-[0.16em] text-white transition-transform hover:-translate-y-0.5"
+                    >
+                      <SendHorizontal className="h-4 w-4" />
+                      Telegram
+                    </a>
+                  )}
+                </div>
+              </div>
+
               {/* Social Links */}
               <div>
                 <h3 className="font-semibold mb-4">Follow Us</h3>
@@ -82,6 +111,7 @@ const Contact = () => {
                     <a
                       key={index}
                       href="#"
+                      aria-label="Social profile"
                       className="w-12 h-12 rounded-xl bg-[hsl(var(--primary-blue))]/10 flex items-center justify-center hover:bg-[hsl(var(--primary-blue))] hover:text-white transition-all hover-lift"
                     >
                       <Icon className="w-5 h-5" />
@@ -89,6 +119,7 @@ const Contact = () => {
                   ))}
                 </div>
               </div>
+
             </div>
 
             {/* Contact Form */}

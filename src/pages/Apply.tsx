@@ -126,7 +126,29 @@ const Apply = () => {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
                 <h2 className="text-2xl sm:text-3xl font-black tracking-[-0.03em] mb-1">Application form</h2>
-                <p className="text-sm text-muted-foreground !mt-1 mb-6">Fields marked * are required.</p>
+                <p className="text-sm text-muted-foreground !mt-1 mb-5">Fields marked * are required.</p>
+
+                {/* Scout evaluation steps */}
+                <div className="!mt-0 mb-6 grid grid-cols-3 gap-2">
+                  {['Player bio', 'Football background', 'Video reel'].map((step, i) => (
+                    <div key={step}>
+                      <div className="h-1 rounded-full bg-[hsl(var(--royal-blue))]/20">
+                        <div className="h-full w-full rounded-full bg-[hsl(var(--royal-blue))]" />
+                      </div>
+                      <div className="mt-2 text-[9px] font-bold uppercase leading-snug tracking-[0.14em] text-muted-foreground">
+                        0{i + 1} {step}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="!mt-0 mb-6 flex items-start gap-2.5 rounded-2xl border border-border bg-muted/40 p-4">
+                  <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[hsl(var(--royal-blue))]" />
+                  <p className="text-xs text-muted-foreground">
+                    Reviewed by the AMTAY FC technical directorate. Shortlisted players are contacted directly.
+                  </p>
+                </div>
+
 
 
                 <div className="grid sm:grid-cols-2 gap-5">
