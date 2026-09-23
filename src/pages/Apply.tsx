@@ -74,33 +74,14 @@ const Apply = () => {
 
   return (
     <Layout>
-      <section className="relative bg-background pt-28 sm:pt-32 lg:pt-40 pb-14 overflow-hidden">
-        <div className="pointer-events-none absolute -top-32 right-0 w-[520px] h-[520px] rounded-full bg-[hsl(var(--royal-blue))]/[0.05] blur-[150px]" />
-        <div className="container-premium relative grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          <div>
-            <div className="flex items-center gap-3 animate-fade-up">
-              <span className="h-[2px] w-10 bg-[hsl(var(--royal-blue))]" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-[hsl(var(--primary-blue))]">
-                Player Portal
-              </span>
-            </div>
-            <h1 className="mt-7 text-[2.5rem] leading-[0.95] sm:text-5xl lg:text-6xl font-black tracking-[-0.04em] text-foreground animate-fade-up-delay-1">
-              {trials.heroTitle}
-            </h1>
-            <p className="mt-6 text-base sm:text-lg lg:text-xl leading-relaxed text-muted-foreground max-w-xl animate-fade-up-delay-2">
-              {trials.heroSubtitle}
-            </p>
-          </div>
-          <figure className="overflow-hidden rounded-[1.5rem] sm:rounded-[2rem] bg-muted shadow-[0_40px_80px_-40px_hsl(217_100%_12%/0.3)] animate-fade-up-delay-3">
-            <img
-              src={heroImage}
-              alt="AMTAY FC trials"
-              loading="lazy"
-              className="w-full aspect-[4/3] lg:aspect-[4/5] object-cover object-center"
-            />
-          </figure>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Player portal"
+        title={trials.heroTitle}
+        subtitle={trials.heroSubtitle}
+        image={heroImage}
+        imageMobile={content.images?.trialsHeroMobile}
+      />
+
 
       <section className="relative bg-muted/40 border-y border-border">
         <div className="container-premium py-16 sm:py-24 grid lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-16">
