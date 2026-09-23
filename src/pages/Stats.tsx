@@ -49,23 +49,11 @@ const Stats = () => {
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 bg-gradient-hero-dynamic text-white overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-[hsl(var(--royal-blue))]/20 rounded-full blur-[120px] animate-float" />
-        </div>
-        <div className="absolute inset-0 bg-noise opacity-40" />
-        <div className="container-premium relative">
-          <span className="text-label animate-fade-up">Performance</span>
-          <h1 className="heading-hero max-w-4xl mt-4 mb-6 animate-fade-up-delay-1">
-            Club Statistics
-          </h1>
-          <p className="text-xl text-white/70 max-w-2xl animate-fade-up-delay-2">
-            Numbers that tell the story of AMTAY FC's rise to dominance.
-          </p>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
-      </section>
+      <PageHero
+        eyebrow="Performance"
+        title="Club Statistics"
+        subtitle="The numbers behind AMTAY FC's rise."
+      />
 
       {/* Main Stats Grid */}
       <section className="section-padding">

@@ -3,6 +3,7 @@ import { useContent } from '@/context/ContentContext';
 import { User, Star } from 'lucide-react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { useCountUp } from '@/hooks/useCountUp';
+import { PageHero } from '@/components/layout/PageHero';
 
 const positionColors: Record<string, string> = {
   GK: 'bg-amber-500/20 text-amber-400',
@@ -38,24 +39,12 @@ const Team = () => {
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 bg-gradient-hero-dynamic text-white overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-[hsl(var(--royal-blue))]/20 rounded-full blur-[120px] animate-float" />
-          <div className="absolute bottom-1/3 left-1/6 w-[300px] h-[300px] bg-[hsl(var(--electric-cyan))]/8 rounded-full blur-[100px] animate-float" style={{ animationDelay: '2s' }} />
-        </div>
-        <div className="absolute inset-0 bg-noise opacity-40" />
-        <div className="container-premium relative">
-          <span className="text-label animate-fade-up">The Squad</span>
-          <h1 className="heading-hero max-w-4xl mt-4 mb-6 animate-fade-up-delay-1">
-            Meet the Team
-          </h1>
-          <p className="text-xl text-white/70 max-w-2xl animate-fade-up-delay-2 leading-relaxed">
-            The dedicated players and management driving AMTAY FC's success.
-          </p>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
-      </section>
+      <PageHero
+        eyebrow="The Squad"
+        title="Meet the Team"
+        subtitle="The players and management driving AMTAY FC's rise."
+        image={content.images?.teamHero}
+      />
 
       {/* Management Team */}
       <section className="section-padding">

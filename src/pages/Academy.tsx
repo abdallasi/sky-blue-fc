@@ -2,6 +2,7 @@ import { Layout } from '@/components/layout/Layout';
 import { useContent } from '@/context/ContentContext';
 import { GraduationCap, Target, Users, Award, ArrowRight, CheckCircle } from 'lucide-react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { PageHero } from '@/components/layout/PageHero';
 
 const Academy = () => {
   const { content } = useContent();
@@ -12,24 +13,11 @@ const Academy = () => {
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 bg-gradient-hero-dynamic text-white overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-[hsl(var(--royal-blue))]/20 rounded-full blur-[120px] animate-float" />
-          <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-[hsl(var(--electric-cyan))]/10 rounded-full blur-[100px] animate-float" style={{ animationDelay: '3s' }} />
-        </div>
-        <div className="absolute inset-0 bg-noise opacity-40" />
-        <div className="container-premium relative">
-          <span className="text-label animate-fade-up">Youth Development</span>
-          <h1 className="heading-hero max-w-4xl mt-4 mb-6 animate-fade-up-delay-1">
-            {content.academy.heroTitle}
-          </h1>
-          <p className="text-xl text-white/70 max-w-2xl animate-fade-up-delay-2 leading-relaxed">
-            {content.academy.heroSubtitle}
-          </p>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
-      </section>
+      <PageHero
+        eyebrow="Youth Development"
+        title={content.academy.heroTitle}
+        subtitle={content.academy.heroSubtitle}
+      />
 
       {/* Philosophy Section - Split Screen */}
       <section className="section-padding">
