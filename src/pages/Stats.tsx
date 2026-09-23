@@ -52,7 +52,7 @@ const ProgressRing = ({
   pct: number;
   delay: number;
 }) => {
-  const { formattedCount, ref, isVisible } = useCountUp({ end: value, duration: 1800, delay, suffix }) as any;
+  const { formattedCount, ref } = useCountUp({ end: value, duration: 1800, delay, suffix });
   const circumference = 2 * Math.PI * 45;
 
   return (
