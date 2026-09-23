@@ -866,6 +866,76 @@ const CMS = () => {
                       </>
                     )}
 
+                    {section.id === 'trials' && (
+                      <>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Page Title</label>
+                          <input
+                            type="text"
+                            value={localContent.trials?.heroTitle ?? ''}
+                            onChange={(e) => updateField('trials.heroTitle', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Page Subtitle</label>
+                          <input
+                            type="text"
+                            value={localContent.trials?.heroSubtitle ?? ''}
+                            onChange={(e) => updateField('trials.heroSubtitle', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Intro Paragraph</label>
+                          <textarea
+                            rows={3}
+                            value={localContent.trials?.intro ?? ''}
+                            onChange={(e) => updateField('trials.intro', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Requirements (one per line)</label>
+                          <textarea
+                            rows={5}
+                            value={(localContent.trials?.requirements ?? []).join('\n')}
+                            onChange={(e) =>
+                              updateField(
+                                'trials.requirements',
+                                e.target.value.split('\n').filter((l) => l.trim() !== '')
+                              )
+                            }
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Positions Offered (one per line)</label>
+                          <textarea
+                            rows={5}
+                            value={(localContent.trials?.positions ?? []).join('\n')}
+                            onChange={(e) =>
+                              updateField(
+                                'trials.positions',
+                                e.target.value.split('\n').filter((l) => l.trim() !== '')
+                              )
+                            }
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Closing Note</label>
+                          <textarea
+                            rows={2}
+                            value={localContent.trials?.closingNote ?? ''}
+                            onChange={(e) => updateField('trials.closingNote', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                      </>
+                    )}
+
+
                     {section.id === 'images' && (
                       <div className="space-y-6">
                         {imageFields.map((field) => {
