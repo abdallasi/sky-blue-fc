@@ -284,7 +284,24 @@ const CMS = () => {
 
   return (
     <Layout>
+      {pendingFile && currentImageField && (
+        <ImageCropDialog
+          file={pendingFile}
+          initialRatio={suggestedRatio(currentImageField)}
+          onCancel={() => {
+            setPendingFile(null);
+            setCurrentImageField(null);
+          }}
+          onConfirm={(cropped) => {
+            const field = currentImageField;
+            setPendingFile(null);
+            setCurrentImageField(null);
+            void applyUpload(cropped, field);
+          }}
+        />
+      )}
       <input
+
         type="file"
         ref={fileInputRef}
         onChange={handleImageUpload}
