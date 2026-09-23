@@ -5,6 +5,8 @@ import { useContent } from '@/context/ContentContext';
 import { useAuth } from '@/hooks/useAuth';
 import { Save, RotateCcw, ChevronDown, ChevronRight, Upload, X, Image, Rocket, Eye, EyeOff, Loader2, Lock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { ApplicationsPanel } from '@/components/cms/ApplicationsPanel';
+
 
 const CMS = () => {
   const {
@@ -1136,7 +1138,10 @@ const CMS = () => {
                 )}
               </div>
             ))}
+
+            <ApplicationsPanel />
           </div>
+
         </div>
       </section>
     </Layout>
