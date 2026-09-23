@@ -133,8 +133,12 @@ export const ImageCropDialog = ({ file, initialRatio, onCancel, onConfirm }: Pro
     }
   };
 
-  const cropW = Math.round(frame.w / scale);
-  const cropH = Math.round(frame.h / scale);
+  const rawW = frame.w / scale;
+  const rawH = frame.h / scale;
+  const outFit = Math.min(1, MAX_OUT / Math.max(rawW || 1, rawH || 1));
+  const cropW = Math.round(rawW * outFit);
+  const cropH = Math.round(rawH * outFit);
+
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4 overflow-y-auto">
