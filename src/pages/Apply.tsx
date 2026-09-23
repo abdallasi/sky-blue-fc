@@ -5,6 +5,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { CheckCircle2, Loader2, ShieldCheck } from 'lucide-react';
 import trialsImg from '@/assets/placeholder-trials-portrait.jpg';
+import { PageHero } from '@/components/layout/PageHero';
+
 
 interface FormState {
   full_name: string;
