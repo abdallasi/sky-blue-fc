@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, Play } from 'lucide-react';
+import { ArrowUpRight, ArrowDown } from 'lucide-react';
 import { useContent } from '@/context/ContentContext';
 import { useCountUp } from '@/hooks/useCountUp';
 import heroFallback from '@/assets/placeholder-hero-matchday.jpg';
+import heroMobileFallback from '@/assets/placeholder-trials-portrait.jpg';
 
 const HeroStat = ({ value, label, delay }: { value: string; label: string; delay: number }) => {
   const numericMatch = value.match(/^(\d+)/);
@@ -25,89 +26,80 @@ const HeroStat = ({ value, label, delay }: { value: string; label: string; delay
 export const HeroSection = () => {
   const { content } = useContent();
   const { hero, stats } = content;
-  const heroImage = content.images?.heroBackground || heroFallback;
+  const desktop = content.images?.heroBackground || heroFallback;
+  const mobile = content.images?.heroBackgroundMobile || content.images?.heroBackground || heroMobileFallback;
 
   return (
-    <section className="relative bg-background pt-28 sm:pt-32 lg:pt-40 pb-16 sm:pb-20 lg:pb-24 overflow-hidden">
-      {/* Whisper-soft editorial wash — keeps the page bright, never muddy */}
-      <div className="pointer-events-none absolute -top-40 -right-32 w-[620px] h-[620px] rounded-full bg-[hsl(var(--royal-blue))]/[0.05] blur-[160px]" />
-      <div className="pointer-events-none absolute top-1/3 -left-40 w-[480px] h-[480px] rounded-full bg-[hsl(var(--electric-cyan))]/[0.06] blur-[150px]" />
+    <>
+      {/* Picture first: the club is seen before it is read */}
+      <section className="relative h-[88svh] min-h-[560px] w-full overflow-hidden bg-[hsl(var(--midnight-blue))]">
+        <picture>
+          <source media="(min-width: 768px)" srcSet={desktop} />
+          <img
+            src={mobile}
+            alt="AMTAY FC matchday"
+            width={1920}
+            height={1080}
+            loading="eager"
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+        </picture>
 
-      <div className="container-premium relative">
-        {/* Eyebrow */}
-        <div className="flex items-center gap-3 sm:gap-4 animate-fade-up">
-          <span className="h-[2px] w-8 sm:w-12 bg-[hsl(var(--royal-blue))]" />
-          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.28em] text-[hsl(var(--primary-blue))]">
-            {hero.badge}
-          </span>
-        </div>
+        {/* One gradient, bottom only — the photograph stays sharp */}
+        <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-[hsl(217_100%_8%)] via-[hsl(217_100%_8%)]/70 to-transparent" />
 
-        {/* Editorial split: type left, breathing room right */}
-        <div className="mt-8 sm:mt-10 grid lg:grid-cols-12 gap-10 lg:gap-12 items-end">
-          <div className="lg:col-span-7">
-            <h1 className="animate-fade-up-delay-1 text-[2.75rem] leading-[0.92] sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-black tracking-[-0.045em] text-foreground">
+        <div className="absolute inset-x-0 bottom-0">
+          <div className="container-premium pb-10 sm:pb-14 lg:pb-16">
+            <div className="flex items-center gap-3 sm:gap-4 animate-fade-up">
+              <span className="h-[2px] w-8 sm:w-12 bg-[hsl(var(--electric-cyan))]" />
+              <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.28em] text-white/80">
+                {hero.badge}
+              </span>
+            </div>
+
+            <h1 className="mt-5 max-w-4xl text-[2.6rem] leading-[0.92] sm:text-6xl lg:text-7xl xl:text-[5.25rem] font-black tracking-[-0.045em] text-white animate-fade-up-delay-1">
               {hero.headline}
             </h1>
-            <p className="mt-6 sm:mt-8 max-w-xl text-base sm:text-lg lg:text-xl leading-relaxed text-muted-foreground animate-fade-up-delay-2">
+
+            <p className="mt-5 max-w-xl text-base sm:text-lg leading-relaxed text-white/75 animate-fade-up-delay-2">
               {hero.subheadline}
             </p>
-          </div>
 
-          <div className="lg:col-span-5 lg:pl-10 lg:border-l lg:border-border animate-fade-up-delay-3">
-            <p className="text-sm sm:text-base font-semibold leading-relaxed text-foreground/80">
-              120 matches unbeaten. 298 goals. Four players called into Nigeria's U-17 screening.
-            </p>
-            <div className="mt-7 flex flex-col sm:flex-row gap-3">
+            <div className="mt-8 flex flex-col sm:flex-row gap-3 animate-fade-up-delay-3">
               <Link
                 to="/team"
-                className="group inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full bg-[hsl(var(--midnight-blue))] text-white text-sm font-bold tracking-wide transition-all duration-300 hover:bg-[hsl(var(--primary-blue))] hover:-translate-y-0.5"
+                className="group inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full bg-white text-[hsl(var(--midnight-blue))] text-sm font-bold tracking-wide transition-all duration-300 hover:-translate-y-0.5"
               >
                 {hero.button1}
                 <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
               <Link
                 to="/apply"
-                className="group inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full border border-border bg-background text-sm font-bold tracking-wide text-foreground transition-all duration-300 hover:border-[hsl(var(--royal-blue))] hover:text-[hsl(var(--primary-blue))]"
+                className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full border border-white/30 text-white text-sm font-bold tracking-wide backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/60"
               >
-                <Play className="w-3.5 h-3.5" />
                 {hero.button2}
               </Link>
             </div>
           </div>
         </div>
 
-        {/* Master shot — full clarity, no blur, no colour wash */}
-        <figure className="mt-12 sm:mt-16 relative animate-fade-up-delay-4">
-          <div className="relative overflow-hidden rounded-[1.5rem] sm:rounded-[2rem] bg-muted shadow-[0_40px_80px_-40px_hsl(217_100%_12%/0.35)]">
-            <img
-              src={heroImage}
-              alt="AMTAY FC matchday"
-              width={1920}
-              height={1080}
-              loading="eager"
-              className="w-full aspect-[4/5] sm:aspect-[16/9] lg:aspect-[21/9] object-cover object-center"
-            />
-            {/* Caption plate only — the photograph itself stays untouched */}
-            <figcaption className="absolute bottom-0 left-0 right-0 flex flex-wrap items-center justify-between gap-2 px-5 sm:px-8 py-4 sm:py-5 bg-gradient-to-t from-[hsl(var(--midnight-blue))]/85 to-transparent">
-              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.22em] text-white">
-                Matchday · Kano, Nigeria
-              </span>
-              <span className="inline-flex items-center gap-2 text-[10px] sm:text-xs font-bold uppercase tracking-[0.22em] text-white/80">
-                <span className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--electric-cyan))] animate-pulse" />
-                International League
-              </span>
-            </figcaption>
-          </div>
-        </figure>
-
-        {/* Stat rail with hairline dividers */}
-        <div className="mt-12 sm:mt-16 flex flex-wrap divide-x divide-border border-t border-border pt-8 sm:pt-10">
-          <HeroStat value={stats[3]?.value || '68%'} label="Win Rate" delay={0} />
-          <HeroStat value={stats[4]?.value || '298'} label="Goals Scored" delay={150} />
-          <HeroStat value={stats[1]?.value || '120'} label="Match Streak" delay={300} />
-          <HeroStat value="4" label="U-17 Call-ups" delay={450} />
+        <div className="absolute bottom-5 right-5 hidden lg:flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.28em] text-white/50">
+          Scroll
+          <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* The numbers that back the picture */}
+      <section className="bg-background">
+        <div className="container-premium">
+          <div className="flex flex-wrap divide-x divide-border py-10 sm:py-12">
+            <HeroStat value={stats[3]?.value || '68%'} label="Win Rate" delay={0} />
+            <HeroStat value={stats[4]?.value || '298'} label="Goals Scored" delay={150} />
+            <HeroStat value={stats[1]?.value || '120'} label="Unbeaten Run" delay={300} />
+            <HeroStat value="4" label="U-17 Call-ups" delay={450} />
+          </div>
+        </div>
+      </section>
+    </>
   );
 };

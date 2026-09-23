@@ -4,6 +4,9 @@ import { User, Star } from 'lucide-react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { useCountUp } from '@/hooks/useCountUp';
 import { PageHero } from '@/components/layout/PageHero';
+import { SpotlightCarousel } from '@/components/home/SpotlightCarousel';
+import teamFallback from '@/assets/placeholder-hero-matchday.jpg';
+
 
 const positionColors: Record<string, string> = {
   GK: 'bg-amber-500/20 text-amber-400',
@@ -40,11 +43,15 @@ const Team = () => {
   return (
     <Layout>
       <PageHero
-        eyebrow="The Squad"
-        title="Meet the Team"
-        subtitle="The players and management driving AMTAY FC's rise."
-        image={content.images?.teamHero}
+        eyebrow="First team"
+        title="Eleven start. One club they all carry."
+        subtitle="Goalkeepers to strikers, and the staff who prepare them week after week."
+        image={content.images?.teamHero || teamFallback}
+        imageMobile={content.images?.teamHeroMobile}
       />
+
+      <SpotlightCarousel />
+
 
       {/* Management Team */}
       <section className="section-padding">

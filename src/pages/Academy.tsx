@@ -15,10 +15,13 @@ const Academy = () => {
   return (
     <Layout>
       <PageHero
-        eyebrow="Youth Development"
+        eyebrow="Youth development"
         title={content.academy.heroTitle}
         subtitle={content.academy.heroSubtitle}
+        image={content.images?.academyHero || academyFallback}
+        imageMobile={content.images?.academyHeroMobile}
       />
+
 
       {/* Philosophy Section - Split Screen */}
       <section className="section-padding">
