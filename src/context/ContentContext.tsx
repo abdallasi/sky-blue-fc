@@ -184,9 +184,18 @@ export interface VideoItem {
   placement: 'featuredPlayer' | 'about' | 'gallery' | 'home';
 }
 
+export interface SiteSettings {
+  /** When true the public site is replaced by the coming soon screen */
+  maintenanceMode: boolean;
+  comingSoonBadge: string;
+  comingSoonTitle: string;
+  comingSoonMessage: string;
+  comingSoonNote: string;
+}
 
 export interface SiteContent {
 
+  site: SiteSettings;
   hero: HeroContent;
   stats: StatItem[];
   snapshot: SnapshotContent;
