@@ -18,8 +18,30 @@ import Gallery from "./pages/Gallery";
 import Apply from "./pages/Apply";
 
 import NotFound from "./pages/NotFound";
+import { ComingSoon } from "./components/ComingSoon";
+import { useContent } from "./context/ContentContext";
+import { useAuth } from "./hooks/useAuth";
 
 const queryClient = new QueryClient();
+
+/**
+ * Hides every public page behind the coming soon screen while maintenance mode
+ * is switched on in the CMS. Signed-in editors/admins always see the real site.
+ */
+const PublicGate = ({ children }: { children: React.ReactNode }) => {
+  const { content, loading } = useContent();
+  const { isEditor, loading: authLoading } = useAuth();
+
+  if (loading || authLoading) {
+    return <div className="min-h-screen bg-background" />;
+  }
+
+  if (content.site?.maintenanceMode && !isEditor) {
+    return <ComingSoon />;
+  }
+
+  return <>{children}</>;
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -30,19 +52,19 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/academy" element={<Academy />} />
-              <Route path="/stats" element={<Stats />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/gallery" element={<Gallery />} />
-              <Route path="/apply" element={<Apply />} />
+              <Route path="/" element={<PublicGate><Index /></PublicGate>} />
+              <Route path="/about" element={<PublicGate><About /></PublicGate>} />
+              <Route path="/team" element={<PublicGate><Team /></PublicGate>} />
+              <Route path="/academy" element={<PublicGate><Academy /></PublicGate>} />
+              <Route path="/stats" element={<PublicGate><Stats /></PublicGate>} />
+              <Route path="/contact" element={<PublicGate><Contact /></PublicGate>} />
+              <Route path="/gallery" element={<PublicGate><Gallery /></PublicGate>} />
+              <Route path="/apply" element={<PublicGate><Apply /></PublicGate>} />
 
               <Route path="/auth" element={<Auth />} />
               <Route path="/cms" element={<CMS />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
+              <Route path="*" element={<PublicGate><NotFound /></PublicGate>} />
             </Routes>
           </BrowserRouter>
         </ContentProvider>
@@ -52,4 +74,5 @@ const App = () => (
 );
 
 export default App;
+
 

@@ -122,6 +122,8 @@ export interface ImageAssets {
   showcaseMoment?: string;
   trialsHero?: string;
   trialsHeroMobile?: string;
+  comingSoonImage?: string;
+  comingSoonImageMobile?: string;
   aboutStoryImages?: string[];
   galleryImages?: GalleryImage[];
 }
@@ -182,9 +184,18 @@ export interface VideoItem {
   placement: 'featuredPlayer' | 'about' | 'gallery' | 'home';
 }
 
+export interface SiteSettings {
+  /** When true the public site is replaced by the coming soon screen */
+  maintenanceMode: boolean;
+  comingSoonBadge: string;
+  comingSoonTitle: string;
+  comingSoonMessage: string;
+  comingSoonNote: string;
+}
 
 export interface SiteContent {
 
+  site: SiteSettings;
   hero: HeroContent;
   stats: StatItem[];
   snapshot: SnapshotContent;
@@ -213,6 +224,14 @@ export interface SiteContent {
 
 
 const defaultContent: SiteContent = {
+  site: {
+    maintenanceMode: false,
+    comingSoonBadge: 'Amtay Football Club',
+    comingSoonTitle: 'Something is being built here.',
+    comingSoonMessage:
+      'A new home for Kano\'s fastest-rising football club. Squad, fixtures, academy and trials — arriving shortly.',
+    comingSoonNote: 'Trials and enquiries are still open. Reach us directly below.',
+  },
   hero: {
     headline: "AMTAY FC — Fast. Fierce. Unstoppable.",
     subheadline: "From Kano to National Stardom: Developing Nigeria's future football legends.",
