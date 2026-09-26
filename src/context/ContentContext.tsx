@@ -224,6 +224,14 @@ export interface SiteContent {
 
 
 const defaultContent: SiteContent = {
+  site: {
+    maintenanceMode: false,
+    comingSoonBadge: 'Amtay Football Club',
+    comingSoonTitle: 'Something is being built here.',
+    comingSoonMessage:
+      'A new home for Kano\'s fastest-rising football club. Squad, fixtures, academy and trials — arriving shortly.',
+    comingSoonNote: 'Trials and enquiries are still open. Reach us directly below.',
+  },
   hero: {
     headline: "AMTAY FC — Fast. Fierce. Unstoppable.",
     subheadline: "From Kano to National Stardom: Developing Nigeria's future football legends.",
