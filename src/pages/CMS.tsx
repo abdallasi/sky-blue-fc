@@ -206,6 +206,7 @@ const CMS = () => {
   };
 
   const sections = [
+    { id: 'siteStatus', label: 'Site Status — Coming Soon / Maintenance' },
     { id: 'hero', label: 'Hero Section' },
     { id: 'spotlights', label: 'Player Spotlight Carousel' },
     { id: 'matchShots', label: 'Matchday Photo Carousel' },
