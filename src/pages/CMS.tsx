@@ -409,6 +409,72 @@ const CMS = () => {
                 
                 {activeSection === section.id && (
                   <div className="p-6 space-y-6">
+                    {section.id === 'siteStatus' && (
+                      <>
+                        <div className={`rounded-xl border p-5 ${localContent.site?.maintenanceMode ? 'border-amber-500/50 bg-amber-500/10' : 'border-emerald-500/40 bg-emerald-500/10'}`}>
+                          <label className="flex items-start gap-4 cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={!!localContent.site?.maintenanceMode}
+                              onChange={(e) => updateField('site.maintenanceMode', e.target.checked)}
+                              className="mt-1 w-5 h-5"
+                            />
+                            <span>
+                              <span className="block font-semibold">
+                                {localContent.site?.maintenanceMode
+                                  ? 'Coming Soon screen is ON'
+                                  : 'Website is open to the public'}
+                              </span>
+                              <span className="block text-sm text-muted-foreground mt-1">
+                                When this is ticked, visitors only see the Coming Soon screen. You and other
+                                management accounts still see the full website while signed in. Remember to press
+                                Publish Live for the change to reach visitors.
+                              </span>
+                            </span>
+                          </label>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Small label above the title</label>
+                          <input
+                            type="text"
+                            value={localContent.site?.comingSoonBadge ?? ''}
+                            onChange={(e) => updateField('site.comingSoonBadge', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Big title</label>
+                          <input
+                            type="text"
+                            value={localContent.site?.comingSoonTitle ?? ''}
+                            onChange={(e) => updateField('site.comingSoonTitle', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Message</label>
+                          <textarea
+                            value={localContent.site?.comingSoonMessage ?? ''}
+                            onChange={(e) => updateField('site.comingSoonMessage', e.target.value)}
+                            rows={3}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Small note above the contact buttons</label>
+                          <input
+                            type="text"
+                            value={localContent.site?.comingSoonNote ?? ''}
+                            onChange={(e) => updateField('site.comingSoonNote', e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                          />
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          The background photo for this screen is set under “Images &amp; Media” → “Coming Soon Screen”.
+                          The email and phone shown come from “Contact Info”.
+                        </p>
+                      </>
+                    )}
                     {section.id === 'hero' && (
                       <>
                         <div>
