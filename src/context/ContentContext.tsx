@@ -122,6 +122,8 @@ export interface ImageAssets {
   showcaseMoment?: string;
   trialsHero?: string;
   trialsHeroMobile?: string;
+  comingSoonImage?: string;
+  comingSoonImageMobile?: string;
   aboutStoryImages?: string[];
   galleryImages?: GalleryImage[];
 }
