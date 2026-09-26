@@ -228,6 +228,8 @@ const CMS = () => {
   ];
 
   const imageFields = [
+    { key: 'comingSoonImage', label: 'Coming Soon Screen — Desktop (wide)' },
+    { key: 'comingSoonImageMobile', label: 'Coming Soon Screen — Phone (portrait)' },
     { key: 'heroBackground', label: 'Home Hero Image — Desktop (wide)' },
     { key: 'heroBackgroundMobile', label: 'Home Hero Image — Phone (portrait)' },
     { key: 'aboutHero', label: 'About Page Hero — Desktop' },
