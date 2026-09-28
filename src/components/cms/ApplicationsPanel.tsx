@@ -2,14 +2,14 @@ import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, RefreshCw, Trash2, ChevronDown, ChevronRight } from 'lucide-react';
+import { Loader2, RefreshCw, Trash2, ChevronDown, ChevronRight, Phone, MessageCircle } from 'lucide-react';
 
 type Status = 'pending' | 'reviewing' | 'accepted' | 'rejected';
 
 interface Application {
   id: string;
   full_name: string;
-  email: string;
+  email: string | null;
   phone: string | null;
   date_of_birth: string | null;
   position: string | null;
@@ -17,10 +17,45 @@ interface Application {
   current_club: string | null;
   message: string | null;
   video_url: string | null;
+  nationality: string | null;
+  state_of_origin: string | null;
+  lga: string | null;
+  address: string | null;
+  city: string | null;
+  nin: string | null;
+  nok_name: string | null;
+  nok_phone: string | null;
+  nok_relationship: string | null;
+  medical_conditions: string | null;
+  current_medications: string | null;
+  jersey_number: string | null;
+  previous_club_contact: string | null;
+  preferred_foot: string | null;
+  player_license: string | null;
+  highest_level: string | null;
+  fa_status: string | null;
   status: Status;
   admin_notes: string | null;
   created_at: string;
 }
+
+const Group = ({ title, rows }: { title: string; rows: [string, string | null][] }) => {
+  const filled = rows.filter(([, v]) => v && v.trim());
+  if (filled.length === 0) return null;
+  return (
+    <div className="rounded-xl border border-border p-4">
+      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">{title}</p>
+      <dl className="mt-3 grid gap-2 sm:grid-cols-2">
+        {filled.map(([label, value]) => (
+          <div key={label} className="text-sm">
+            <dt className="text-xs text-muted-foreground">{label}</dt>
+            <dd className="font-medium break-words">{value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  );
+};
 
 const statuses: Status[] = ['pending', 'reviewing', 'accepted', 'rejected'];
 
@@ -159,22 +194,81 @@ export const ApplicationsPanel = () => {
 
                   {expanded === app.id && (
                     <div className="p-4 pt-0 space-y-4">
-                      <div className="grid sm:grid-cols-2 gap-3 text-sm">
-                        <p><span className="text-muted-foreground">Email:</span> {app.email}</p>
-                        <p><span className="text-muted-foreground">Phone:</span> {app.phone || '—'}</p>
-                        <p><span className="text-muted-foreground">Date of birth:</span> {app.date_of_birth || '—'}</p>
-                        <p><span className="text-muted-foreground">Location:</span> {app.location || '—'}</p>
-                        <p><span className="text-muted-foreground">Current club:</span> {app.current_club || '—'}</p>
-                        <p className="truncate">
-                          <span className="text-muted-foreground">Video:</span>{' '}
-                          {app.video_url ? (
-                            <a href={app.video_url} target="_blank" rel="noreferrer" className="text-primary underline">
-                              Open link
+                      <div className="space-y-3">
+                        <Group
+                          title="Identity"
+                          rows={[
+                            ['Date of birth', app.date_of_birth],
+                            ['Nationality', app.nationality],
+                            ['State of origin', app.state_of_origin],
+                            ['LGA', app.lga],
+                            ['NIN / ID number', app.nin],
+                          ]}
+                        />
+                        <Group
+                          title="Contact"
+                          rows={[
+                            ['Phone', app.phone],
+                            ['Email', app.email],
+                            ['Address', app.address],
+                            ['City', app.city],
+                            ['Location', app.location],
+                          ]}
+                        />
+                        <Group
+                          title="Next of kin & medical"
+                          rows={[
+                            ['Next of kin', app.nok_name],
+                            ['Next of kin phone', app.nok_phone],
+                            ['Relationship', app.nok_relationship],
+                            ['Medical conditions', app.medical_conditions],
+                            ['Current medication', app.current_medications],
+                          ]}
+                        />
+                        <Group
+                          title="Football profile"
+                          rows={[
+                            ['Preferred position', app.position],
+                            ['Preferred foot', app.preferred_foot],
+                            ['Preferred jersey number', app.jersey_number],
+                            ['Current club', app.current_club],
+                            ['Previous club contact', app.previous_club_contact],
+                            ['Highest level played', app.highest_level],
+                            ['FA status', app.fa_status],
+                            ['Player licence', app.player_license],
+                          ]}
+                        />
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-2">
+                        {app.phone && (
+                          <>
+                            <a
+                              href={`tel:${app.phone}`}
+                              className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-semibold hover:bg-muted"
+                            >
+                              <Phone className="w-3.5 h-3.5" /> Call
                             </a>
-                          ) : (
-                            '—'
-                          )}
-                        </p>
+                            <a
+                              href={`https://wa.me/${app.phone.replace(/[^0-9]/g, '')}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-semibold hover:bg-muted"
+                            >
+                              <MessageCircle className="w-3.5 h-3.5" /> WhatsApp
+                            </a>
+                          </>
+                        )}
+                        {app.video_url && (
+                          <a
+                            href={app.video_url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="rounded-lg border border-border px-3 py-1.5 text-xs font-semibold hover:bg-muted"
+                          >
+                            Watch reel
+                          </a>
+                        )}
                       </div>
 
                       {app.message && (
