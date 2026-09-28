@@ -449,11 +449,36 @@ const defaultContent: SiteContent = {
     },
     {
       id: 'news-3',
-      title: 'Buhari Sahi Shaho: seven goals in four matches',
+      title: 'Buhari Sani Shaho: seven goals in four matches',
       excerpt: 'Our forward closes the NLO window as its most productive attacker.',
+      standfirst:
+        'Four matches. Seven goals. One name on every team sheet in the Nationwide League One — Buhari Sani Shaho, the forward Kano built.',
+      author: 'AMTAY FC Media',
       date: '2025',
       tag: 'Players',
+      body: `Buhari Sani Shaho did not arrive at AMTAY FC as a finished product. He arrived hungry.
+
+Four matches into the Nationwide League One window, the centre forward had scored seven goals — the most productive return of any attacker on the board. Not penalties. Not tap-ins gifted by chaos. Goals built out of the movement our technical crew drills every week at the Federal College of Education: the first touch away from pressure, the second into space, the third into the net.
+
+## The numbers behind the noise
+
+Seven goals in four matches is a rate most strikers spend a career chasing. What the number does not show is the work either side of it — the pressing, the runs that pull centre backs out of shape so someone else can finish, the refusal to stop moving in the eighty-eighth minute.
+
+"Every ball into the box is a chance," he says. "I take it."
+
+## Why it matters for AMTAY FC
+
+Shaho is a statement about our method. A club founded in 2022 in Kano, with a pathway built to find young players, sharpen them and put them in front of people who matter. He is proof that the pathway is not a slogan.
+
+Scouts have noticed. So have opponents — he is now man-marked from kick-off, and still scoring.
+
+## What comes next
+
+The club's ambition has never been modest: develop players in Kano who compete anywhere. Shaho leads the line, and the line keeps moving forward.
+
+Wear the shirt. Earn the shirt.`,
     },
+
   ],
 
   fixtures: [
