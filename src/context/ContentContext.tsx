@@ -161,7 +161,14 @@ export interface NewsItem {
   tag: string;
   image?: string;
   link?: string;
+  /** Full article. When empty, the card opens a "story coming soon" note. */
+  body?: string;
+  /** Optional standfirst shown under the article headline */
+  standfirst?: string;
+  /** Optional byline, e.g. "AMTAY FC Media" */
+  author?: string;
 }
+
 
 export interface Fixture {
   id: string;
