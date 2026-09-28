@@ -1,7 +1,10 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useContent } from '@/context/ContentContext';
 import { Rail } from '@/components/ui/rail';
 import newsFallback from '@/assets/placeholder-academy-training.jpg';
 import { ArrowUpRight } from 'lucide-react';
+import { StoryComingSoon } from '@/components/news/StoryComingSoon';
 
 const tagTone: Record<string, string> = {
   transfer: 'bg-rose-500/10 text-rose-600',
@@ -15,6 +18,7 @@ const readTime = (text: string) => Math.max(1, Math.round((text || '').split(/\s
 export const NewsCarousel = () => {
   const { content } = useContent();
   const news = content.news ?? [];
+  const [pending, setPending] = useState<string | null>(null);
   if (news.length === 0) return null;
 
   return (
@@ -22,14 +26,13 @@ export const NewsCarousel = () => {
     <section className="pt-2 pb-12 sm:pt-6 sm:pb-16 bg-muted/30 border-t border-border">
       <Rail eyebrow="Club news">
         {news.map((item) => {
-          const Wrapper = item.link ? 'a' : 'div';
           const tone = tagTone[(item.tag || '').toLowerCase()] || 'bg-[hsl(var(--royal-blue))]/10 text-[hsl(var(--primary-blue))]';
-          return (
-            <Wrapper
-              key={item.id}
-              {...(item.link ? { href: item.link, target: '_blank', rel: 'noopener noreferrer' } : {})}
-              className="group shrink-0 w-[76vw] sm:w-[320px] lg:w-[350px] snap-start rounded-[1.25rem] border border-border overflow-hidden bg-card transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_hsl(217_100%_12%/0.25)]"
-            >
+          const hasStory = !!(item.body && item.body.trim());
+          const className =
+            'group shrink-0 w-[76vw] sm:w-[320px] lg:w-[350px] snap-start text-left rounded-[1.25rem] border border-border overflow-hidden bg-card transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_hsl(217_100%_12%/0.25)]';
+
+          const inner = (
+            <>
               <div className="relative overflow-hidden">
                 <img
                   src={item.image || newsFallback}
@@ -46,23 +49,49 @@ export const NewsCarousel = () => {
                 <div className="flex items-center gap-2.5 text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
                   <span>{item.date}</span>
                   <span className="h-px w-3 bg-border" />
-                  <span>{readTime(item.excerpt)} min read</span>
+                  <span>{readTime(item.body || item.excerpt)} min read</span>
                 </div>
                 <h3 className="mt-2.5 text-base font-black tracking-tight leading-snug text-foreground line-clamp-2 sm:text-lg">
                   {item.title}
                 </h3>
                 <p className="mt-2 text-sm leading-snug text-muted-foreground line-clamp-2">{item.excerpt}</p>
-                {item.link && (
-                  <span className="mt-3 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-[hsl(var(--primary-blue))]">
-                    Read more
-                    <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </span>
-                )}
+                <span className="mt-3 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-[hsl(var(--primary-blue))]">
+                  {hasStory || item.link ? 'Read the story' : 'Story coming soon'}
+                  <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </span>
               </div>
-            </Wrapper>
+            </>
+          );
+
+          if (hasStory) {
+            return (
+              <Link key={item.id} to={`/news/${item.id}`} className={className}>
+                {inner}
+              </Link>
+            );
+          }
+
+          if (item.link) {
+            return (
+              <a key={item.id} href={item.link} target="_blank" rel="noopener noreferrer" className={className}>
+                {inner}
+              </a>
+            );
+          }
+
+          return (
+            <button key={item.id} type="button" onClick={() => setPending(item.id)} className={className}>
+              {inner}
+            </button>
           );
         })}
       </Rail>
+
+      <StoryComingSoon
+        open={!!pending}
+        onOpenChange={(v) => setPending(v ? pending : null)}
+        title={news.find((n) => n.id === pending)?.title}
+      />
     </section>
   );
 };

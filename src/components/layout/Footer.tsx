@@ -30,7 +30,7 @@ export const Footer = () => {
               </div>
               <div>
                 <div className="font-black text-xl tracking-tight">AMTAY FC</div>
-                <div className="text-[hsl(var(--electric-cyan))] text-xs font-semibold uppercase tracking-widest">Est. 2023</div>
+                <div className="text-[hsl(var(--electric-cyan))] text-xs font-semibold uppercase tracking-widest">Est. 2022</div>
               </div>
             </div>
             <p className="text-white/55 text-sm leading-relaxed">

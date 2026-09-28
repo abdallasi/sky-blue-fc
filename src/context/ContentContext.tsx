@@ -52,6 +52,8 @@ export interface Facility {
 export interface ManagementMember {
   name: string;
   role: string;
+  /** Small square headshot (cloud storage URL) */
+  photo?: string;
 }
 
 export interface Player {
@@ -60,6 +62,8 @@ export interface Player {
   position: string;
   role?: string;
   captain?: boolean;
+  /** Small square headshot (cloud storage URL) */
+  photo?: string;
 }
 
 export interface NotablePlayer {
@@ -69,7 +73,10 @@ export interface NotablePlayer {
   matches: number;
   goals: number;
   assists: number;
+  /** Small square headshot (cloud storage URL) */
+  photo?: string;
 }
+
 
 export interface AcademyContent {
   heroTitle: string;
@@ -154,7 +161,14 @@ export interface NewsItem {
   tag: string;
   image?: string;
   link?: string;
+  /** Full article. When empty, the card opens a "story coming soon" note. */
+  body?: string;
+  /** Optional standfirst shown under the article headline */
+  standfirst?: string;
+  /** Optional byline, e.g. "AMTAY FC Media" */
+  author?: string;
 }
+
 
 export interface Fixture {
   id: string;
@@ -248,7 +262,7 @@ const defaultContent: SiteContent = {
   ],
   snapshot: {
     headline: "A Club Built for Excellence.",
-    description: "AMTAY FC is one of Kano's fastest-rising football institutions. Built in 2023 with a mission to develop young athletes, the club has earned recognition for its professionalism, dominance, and player development approach.",
+    description: "AMTAY FC is one of Kano's fastest-rising football institutions. Built in 2022 with a mission to develop young athletes, the club has earned recognition for its professionalism, dominance, and player development approach.",
     achievements: [
       "Promotion to the International League",
       "Strong performance in the Ahlan League",
@@ -269,7 +283,7 @@ const defaultContent: SiteContent = {
     heroSubtitle: "From humble beginnings to national recognition, discover the journey of AMTAY FC.",
     storyTitle: "Our Club Story",
     storyParagraphs: [
-      "AMTAY FC was founded in 2023 by Engr. Muhammad T. Abdulwahab, a visionary leader, philanthropist, and football enthusiast committed to youth empowerment.",
+      "AMTAY FC was founded in 2022 by Engr. Muhammad T. Abdulwahab, a visionary leader, philanthropist, and football enthusiast committed to youth empowerment.",
       "Established to identify, train, and elevate young players, the club quickly gained recognition for its strong performances in the Kano Ahlan League.",
       "With disciplined management and a clear philosophy, the club earned a deserved promotion to the International League—marking a major milestone in its mission to shape the next generation of Nigerian stars."
     ],
@@ -278,8 +292,8 @@ const defaultContent: SiteContent = {
     founderBio: "A visionary engineer and philanthropist, Engr. Muhammad T. Abdulwahab created AMTAY FC to empower youth through structured football development. His commitment to community upliftment and excellence has shaped the club's identity and its rapidly rising status among Nigeria's most promising football institutions."
   },
   milestones: [
-    { year: '2023', title: 'Club Founded', description: 'AMTAY FC established by Engr. Muhammad T. Abdulwahab' },
-    { year: '2023', title: 'Ahlan League Debut', description: 'First competitive season in Kano Ahlan League' },
+    { year: '2022', title: 'Club Founded', description: 'AMTAY FC established by Engr. Muhammad T. Abdulwahab' },
+    { year: '2022', title: 'Ahlan League Debut', description: 'First competitive season in Kano Ahlan League' },
     { year: '2023', title: 'National Recognition', description: '4 players invited to Nigeria U-17 screening' },
     { year: '2024', title: 'League Champions', description: 'Recognized as top team in the league' },
     { year: '2024', title: 'International League', description: 'Promotion to International League' },
@@ -435,11 +449,36 @@ const defaultContent: SiteContent = {
     },
     {
       id: 'news-3',
-      title: 'Buhari Sahi Shaho: seven goals in four matches',
+      title: 'Buhari Sani Shaho: seven goals in four matches',
       excerpt: 'Our forward closes the NLO window as its most productive attacker.',
+      standfirst:
+        'Four matches. Seven goals. One name on every team sheet in the Nationwide League One — Buhari Sani Shaho, the forward Kano built.',
+      author: 'AMTAY FC Media',
       date: '2025',
       tag: 'Players',
+      body: `Buhari Sani Shaho did not arrive at AMTAY FC as a finished product. He arrived hungry.
+
+Four matches into the Nationwide League One window, the centre forward had scored seven goals — the most productive return of any attacker on the board. Not penalties. Not tap-ins gifted by chaos. Goals built out of the movement our technical crew drills every week at the Federal College of Education: the first touch away from pressure, the second into space, the third into the net.
+
+## The numbers behind the noise
+
+Seven goals in four matches is a rate most strikers spend a career chasing. What the number does not show is the work either side of it — the pressing, the runs that pull centre backs out of shape so someone else can finish, the refusal to stop moving in the eighty-eighth minute.
+
+"Every ball into the box is a chance," he says. "I take it."
+
+## Why it matters for AMTAY FC
+
+Shaho is a statement about our method. A club founded in 2022 in Kano, with a pathway built to find young players, sharpen them and put them in front of people who matter. He is proof that the pathway is not a slogan.
+
+Scouts have noticed. So have opponents — he is now man-marked from kick-off, and still scoring.
+
+## What comes next
+
+The club's ambition has never been modest: develop players in Kano who compete anywhere. Shaho leads the line, and the line keeps moving forward.
+
+Wear the shirt. Earn the shirt.`,
     },
+
   ],
 
   fixtures: [

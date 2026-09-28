@@ -55,7 +55,7 @@ export const JoinUs = () => {
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
-                to="/apply"
+                to="/academy#apply"
                 className="group inline-flex items-center justify-center gap-2 rounded-full bg-[hsl(var(--midnight-blue))] px-7 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white transition-transform duration-300 hover:-translate-y-0.5"
               >
                 Apply for trials
