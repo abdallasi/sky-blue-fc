@@ -835,6 +835,15 @@ const CMS = () => {
                         <h3 className="font-bold text-lg">Starting XI</h3>
                         {localContent.startingXI.map((player, index) => (
                           <div key={index} className="flex items-end gap-4 p-4 border border-border rounded-xl">
+                            <HeadshotPicker
+                              photo={player.photo}
+                              onPick={() => triggerImageUpload(`__photo:startingXI:${index}`)}
+                              onClear={() => {
+                                const np = [...localContent.startingXI];
+                                np[index] = { ...player, photo: undefined };
+                                updateField('startingXI', np);
+                              }}
+                            />
                             <div className="w-16">
                               <label className="block text-sm font-medium mb-2">#</label>
                               <input
@@ -908,6 +917,15 @@ const CMS = () => {
                         <h3 className="font-bold text-lg mt-8">Extended Squad</h3>
                         {localContent.extendedSquad.map((player, index) => (
                           <div key={index} className="flex items-end gap-4 p-4 border border-border rounded-xl">
+                            <HeadshotPicker
+                              photo={player.photo}
+                              onPick={() => triggerImageUpload(`__photo:extendedSquad:${index}`)}
+                              onClear={() => {
+                                const np = [...localContent.extendedSquad];
+                                np[index] = { ...player, photo: undefined };
+                                updateField('extendedSquad', np);
+                              }}
+                            />
                             <div className="w-16">
                               <label className="block text-sm font-medium mb-2">#</label>
                               <input
@@ -969,6 +987,15 @@ const CMS = () => {
                         {localContent.notablePlayers.map((player, index) => (
                           <div key={index} className="p-4 border border-border rounded-xl space-y-4">
                             <div className="flex items-end gap-4">
+                              <HeadshotPicker
+                                photo={player.photo}
+                                onPick={() => triggerImageUpload(`__photo:notablePlayers:${index}`)}
+                                onClear={() => {
+                                  const np = [...localContent.notablePlayers];
+                                  np[index] = { ...player, photo: undefined };
+                                  updateField('notablePlayers', np);
+                                }}
+                              />
                               <div className="flex-1">
                                 <label className="block text-sm font-medium mb-2">Name</label>
                                 <input
@@ -1370,6 +1397,15 @@ const CMS = () => {
                                   <input type="text" placeholder="Date" value={n.date} onChange={(e) => set({ date: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
                                   <input type="text" placeholder="Link (optional)" value={n.link || ''} onChange={(e) => set({ link: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
                                 </div>
+                                <input type="text" placeholder="Standfirst — one line under the headline (optional)" value={n.standfirst || ''} onChange={(e) => set({ standfirst: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
+                                <textarea
+                                  rows={6}
+                                  placeholder="Full story — leave empty and readers see 'Story coming soon'. Separate paragraphs with a blank line; start a line with ## for a subheading."
+                                  value={n.body || ''}
+                                  onChange={(e) => set({ body: e.target.value })}
+                                  className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                                />
+                                <input type="text" placeholder="Author (optional)" value={n.author || ''} onChange={(e) => set({ author: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
                               </div>
                               <button onClick={() => updateField('news', arr.filter((_, x) => x !== i))} className="px-3 py-3 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500/20">
                                 <X className="w-4 h-4" />
