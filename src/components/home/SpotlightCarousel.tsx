@@ -28,8 +28,21 @@ const shortPosition = (position: string) => {
 
 export const SpotlightCarousel = () => {
   const { content } = useContent();
-  const spotlights = content.spotlights ?? [];
-  if (spotlights.length === 0) return null;
+
+  /** Starting XI players with an uploaded headshot only. */
+  const players = (content.startingXI ?? [])
+    .filter((p) => Boolean(p.photo))
+    .map((p) => ({
+      id: `xi-${p.number}-${p.name}`,
+      name: p.name,
+      number: String(p.number),
+      position: p.position,
+      image: p.photo as string,
+      line1: p.role || p.position,
+      line2: p.captain ? 'Club captain' : '',
+    }));
+
+  if (players.length === 0) return null;
 
   return (
     <section className="pt-12 pb-10 sm:pt-20 sm:pb-14 bg-background">
