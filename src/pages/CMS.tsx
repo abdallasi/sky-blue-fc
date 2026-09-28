@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
 import { useContent } from '@/context/ContentContext';
 import { useAuth } from '@/hooks/useAuth';
-import { Save, RotateCcw, ChevronDown, ChevronRight, Upload, X, Image, Rocket, Eye, EyeOff, Loader2, Lock } from 'lucide-react';
+import { Save, RotateCcw, ChevronDown, ChevronRight, Upload, X, Image, Rocket, Eye, EyeOff, Loader2, Lock, Activity, Users, Newspaper, LayoutGrid, ClipboardList } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { ApplicationsPanel } from '@/components/cms/ApplicationsPanel';
 import { uploadSiteImage, migrateDataUrls, isDataUrl, HEADSHOT_OPTIONS } from '@/lib/mediaUpload';
@@ -62,7 +63,9 @@ const CMS = () => {
   } = useContent();
   const { user, isEditor, isAdmin, loading: authLoading, signOut } = useAuth();
   const { toast } = useToast();
-  const [activeSection, setActiveSection] = useState<string | null>('hero');
+  const [activeTab, setActiveTab] = useState('pulse');
+  const [pendingCount, setPendingCount] = useState(0);
+  const [activeSection, setActiveSection] = useState<string | null>('siteStatus');
   const [localContent, setLocalContent] = useState(draft);
   const [busy, setBusy] = useState<null | 'save' | 'publish' | 'unpublish' | 'reset' | 'migrate'>(null);
   const [uploading, setUploading] = useState(false);
@@ -85,6 +88,28 @@ const CMS = () => {
   useEffect(() => {
     setLocalContent(JSON.parse(draftKey));
   }, [draftKey]);
+
+  // Live count of applications still waiting for review
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      const { count } = await supabase
+        .from('player_applications')
+        .select('id', { count: 'exact', head: true })
+        .eq('status', 'pending');
+      if (!cancelled) setPendingCount(count ?? 0);
+    };
+    void load();
+    const channel = supabase
+      .channel('cms-pending-applications')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'player_applications' }, () => void load())
+      .subscribe();
+    return () => {
+      cancelled = true;
+      void supabase.removeChannel(channel);
+    };
+  }, []);
+
 
 
   const handleSave = async () => {
@@ -256,26 +281,34 @@ const CMS = () => {
     updateField(`images.${fieldName}`, undefined);
   };
 
+  const tabs = [
+    { id: 'pulse', label: 'Pulse', short: 'Pulse', icon: Activity, hint: 'Site status and club numbers' },
+    { id: 'squad', label: 'Squad & Staff', short: 'Squad', icon: Users, hint: 'Players, photos and leadership' },
+    { id: 'matches', label: 'Matches & Stories', short: 'Matches', icon: Newspaper, hint: 'Fixtures, matchday photos and news' },
+    { id: 'pages', label: 'Pages & Media', short: 'Pages', icon: LayoutGrid, hint: 'Page content, photos and videos' },
+    { id: 'trials', label: 'Applications', short: 'Trials', icon: ClipboardList, hint: 'Everyone who applied for trials' },
+  ];
+
   const sections = [
-    { id: 'siteStatus', label: 'Site Status — Coming Soon / Maintenance' },
-    { id: 'hero', label: 'Hero Section' },
-    { id: 'spotlights', label: 'Player Spotlight Carousel' },
-    { id: 'matchShots', label: 'Matchday Photo Carousel' },
-    { id: 'fixtures', label: 'Fixtures' },
-    { id: 'news', label: 'Club News' },
-    { id: 'stats', label: 'Statistics' },
-    { id: 'snapshot', label: 'Club Snapshot' },
-    { id: 'visionMission', label: 'Join Us' },
-    { id: 'about', label: 'About Page' },
-    { id: 'milestones', label: 'Milestones' },
-    { id: 'facilities', label: 'Facilities' },
-    { id: 'management', label: 'Management Team' },
-    { id: 'players', label: 'Players' },
-    { id: 'academy', label: 'Academy' },
-    { id: 'contact', label: 'Contact Info' },
-    { id: 'trials', label: 'Trials / Player Portal' },
-    { id: 'images', label: 'Images & Media' },
-    { id: 'videos', label: 'Videos (YouTube)' },
+    { id: 'siteStatus', label: 'Site Status — Coming Soon / Maintenance', tab: 'pulse' },
+    { id: 'stats', label: 'Statistics', tab: 'pulse' },
+    { id: 'snapshot', label: 'Club Snapshot', tab: 'pulse' },
+    { id: 'players', label: 'Players', tab: 'squad' },
+    { id: 'management', label: 'Management Team', tab: 'squad' },
+    { id: 'spotlights', label: 'Player Spotlight Carousel', tab: 'matches' },
+    { id: 'fixtures', label: 'Fixtures', tab: 'matches' },
+    { id: 'news', label: 'Club News', tab: 'matches' },
+    { id: 'matchShots', label: 'Matchday Photo Carousel', tab: 'matches' },
+    { id: 'hero', label: 'Hero Section', tab: 'pages' },
+    { id: 'visionMission', label: 'Join Us', tab: 'pages' },
+    { id: 'about', label: 'About Page', tab: 'pages' },
+    { id: 'milestones', label: 'Milestones', tab: 'pages' },
+    { id: 'facilities', label: 'Facilities', tab: 'pages' },
+    { id: 'academy', label: 'Academy', tab: 'pages' },
+    { id: 'trials', label: 'Trials / Player Portal', tab: 'pages' },
+    { id: 'contact', label: 'Contact Info', tab: 'pages' },
+    { id: 'images', label: 'Images & Media', tab: 'pages' },
+    { id: 'videos', label: 'Videos (YouTube)', tab: 'pages' },
   ];
 
   const imageFields = [
@@ -337,7 +370,7 @@ const CMS = () => {
   }
 
   return (
-    <Layout>
+    <div className="min-h-screen bg-muted/20 pb-40 md:pb-32">
       {pendingFile && currentImageField && (
         <ImageCropDialog
           file={pendingFile}
@@ -363,66 +396,129 @@ const CMS = () => {
         className="hidden"
       />
 
-      <section className="pt-32 pb-20 bg-gradient-hero text-white">
+      {/* Command bar */}
+      <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-xl">
         <div className="container-premium">
-          <h1 className="heading-hero max-w-4xl mb-4">Content Management</h1>
-          <p className="text-xl text-white/80">Edit all website content below. Changes go live globally when you publish.</p>
+          <div className="flex items-center gap-3 h-16">
+            <Link to="/" className="flex items-center gap-2.5 shrink-0">
+              <span className="w-9 h-9 rounded-xl bg-primary text-primary-foreground grid place-items-center text-xs font-black tracking-tight">
+                AFC
+              </span>
+              <span className="hidden sm:block">
+                <span className="block text-sm font-bold leading-tight">Amtay FC</span>
+                <span className="block text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Control room</span>
+              </span>
+            </Link>
+
+            <span
+              className={`ml-auto flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold ${
+                localContent.site?.maintenanceMode
+                  ? 'bg-amber-500/15 text-amber-600'
+                  : 'bg-emerald-500/15 text-emerald-600'
+              }`}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-current" />
+              {localContent.site?.maintenanceMode ? 'Coming soon' : 'Public'}
+            </span>
+
+            <button
+              onClick={() => setPreviewMode(!previewMode)}
+              className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl border border-border text-xs font-semibold hover:bg-muted transition-colors"
+            >
+              {previewMode ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              {previewMode ? 'Previewing' : 'Preview'}
+            </button>
+            <button
+              onClick={signOut}
+              className="px-3 py-2 rounded-xl border border-border text-xs font-semibold hover:bg-muted transition-colors"
+            >
+              Sign out
+            </button>
+          </div>
+
+          {/* Desktop tabs */}
+          <nav className="hidden md:flex items-center gap-1 -mb-px overflow-x-auto">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              const active = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setActiveTab(tab.id);
+                    const first = sections.find((s) => s.tab === tab.id);
+                    setActiveSection(first ? first.id : null);
+                  }}
+                  className={`flex items-center gap-2 px-4 py-3 text-sm font-semibold border-b-2 transition-colors whitespace-nowrap ${
+                    active
+                      ? 'border-primary text-primary'
+                      : 'border-transparent text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  {tab.label}
+                  {tab.id === 'trials' && pendingCount > 0 && (
+                    <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center">
+                      {pendingCount}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </nav>
         </div>
-      </section>
+      </header>
 
-      <section className="section-padding">
+      <section className="py-6 md:py-10">
         <div className="container-premium max-w-4xl">
-          <div className="mb-8 p-5 rounded-2xl border border-border bg-muted/40">
-            <div className="flex flex-wrap items-center gap-3 mb-4 text-sm">
-              <span className={`px-3 py-1 rounded-full font-semibold ${dirty ? 'bg-amber-500/15 text-amber-600' : 'bg-emerald-500/15 text-emerald-600'}`}>
-                {dirty ? 'Unsaved changes' : 'Draft saved'}
-              </span>
-              <span className={`px-3 py-1 rounded-full font-semibold ${isPublished ? 'bg-emerald-500/15 text-emerald-600' : 'bg-muted text-muted-foreground'}`}>
-                {isPublished ? 'Live' : 'Not published'}
-              </span>
-              {publishedAt && (
-                <span className="text-muted-foreground">Published {new Date(publishedAt).toLocaleString()}</span>
-              )}
-              {draftUpdatedAt && (
-                <span className="text-muted-foreground">· Draft updated {new Date(draftUpdatedAt).toLocaleString()}</span>
-              )}
-            </div>
+          <div className="md:hidden mb-5">
+            <h1 className="text-2xl font-bold tracking-tight">{tabs.find((t) => t.id === activeTab)?.label}</h1>
+            <p className="text-sm text-muted-foreground mt-1">{tabs.find((t) => t.id === activeTab)?.hint}</p>
+          </div>
 
-            <div className="flex flex-wrap gap-3">
-              <button onClick={handleSave} disabled={busy !== null} className="btn-primary flex items-center gap-2 disabled:opacity-60">
-                {busy === 'save' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} Save Draft
-              </button>
-              <button onClick={handlePublish} disabled={busy !== null} className="px-6 py-3 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition-colors flex items-center gap-2 disabled:opacity-60">
-                {busy === 'publish' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Rocket className="w-4 h-4" />} Publish Live
-              </button>
-              <button
-                onClick={() => setPreviewMode(!previewMode)}
-                className="px-6 py-3 rounded-lg border border-border hover:bg-muted transition-colors flex items-center gap-2"
-              >
-                {previewMode ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                {previewMode ? 'Previewing draft' : 'Preview draft'}
-              </button>
+          <div className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="rounded-2xl border border-border bg-card p-4">
+              <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Draft</p>
+              <p className={`text-sm font-bold mt-1 ${dirty ? 'text-amber-600' : 'text-emerald-600'}`}>
+                {dirty ? 'Unsaved' : 'Saved'}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-border bg-card p-4">
+              <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Website</p>
+              <p className={`text-sm font-bold mt-1 ${isPublished ? 'text-emerald-600' : 'text-muted-foreground'}`}>
+                {isPublished ? 'Live' : 'Not published'}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-border bg-card p-4">
+              <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Applications</p>
+              <p className="text-sm font-bold mt-1">{pendingCount} new</p>
+            </div>
+            <div className="rounded-2xl border border-border bg-card p-4">
+              <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Last published</p>
+              <p className="text-sm font-bold mt-1 truncate">
+                {publishedAt ? new Date(publishedAt).toLocaleDateString() : '—'}
+              </p>
+            </div>
+          </div>
+
+          {uploading && (
+            <p className="text-xs text-primary mb-4 flex items-center gap-2">
+              <Loader2 className="w-3 h-3 animate-spin" /> Uploading photo…
+            </p>
+          )}
+
+          {activeTab === 'pulse' && (
+            <div className="mb-6 flex flex-wrap gap-2">
               {isAdmin && isPublished && (
-                <button onClick={handleUnpublish} disabled={busy !== null} className="px-6 py-3 rounded-lg border border-border hover:bg-muted transition-colors flex items-center gap-2 disabled:opacity-60">
-                  {busy === 'unpublish' ? <Loader2 className="w-4 h-4 animate-spin" /> : <EyeOff className="w-4 h-4" />} Unpublish
+                <button onClick={handleUnpublish} disabled={busy !== null} className="px-4 py-2.5 rounded-xl border border-border text-sm font-semibold hover:bg-muted transition-colors flex items-center gap-2 disabled:opacity-60">
+                  {busy === 'unpublish' ? <Loader2 className="w-4 h-4 animate-spin" /> : <EyeOff className="w-4 h-4" />} Take offline
                 </button>
               )}
-              <button onClick={handleReset} disabled={busy !== null} className="px-6 py-3 rounded-lg border border-border hover:bg-muted transition-colors flex items-center gap-2 disabled:opacity-60">
-                {busy === 'reset' ? <Loader2 className="w-4 h-4 animate-spin" /> : <RotateCcw className="w-4 h-4" />} Reset Draft
-              </button>
-              <button onClick={signOut} className="px-6 py-3 rounded-lg border border-border hover:bg-muted transition-colors">
-                Sign out
+              <button onClick={handleReset} disabled={busy !== null} className="px-4 py-2.5 rounded-xl border border-border text-sm font-semibold hover:bg-muted transition-colors flex items-center gap-2 disabled:opacity-60">
+                {busy === 'reset' ? <Loader2 className="w-4 h-4 animate-spin" /> : <RotateCcw className="w-4 h-4" />} Reset draft
               </button>
             </div>
-            <p className="text-xs text-muted-foreground mt-3">
-              Preview shows the draft on this browser only. Publishing writes to the database and updates every visitor instantly.
-            </p>
-            {uploading && (
-              <p className="text-xs text-primary mt-2 flex items-center gap-2">
-                <Loader2 className="w-3 h-3 animate-spin" /> Uploading photo…
-              </p>
-            )}
-          </div>
+          )}
 
           {embeddedPhotoCount > 0 && (
             <div className="mb-8 p-5 rounded-2xl border border-amber-500/40 bg-amber-500/10">
@@ -448,13 +544,13 @@ const CMS = () => {
 
 
           <div className="space-y-4">
-            {sections.map((section) => (
+            {sections.filter((s) => s.tab === activeTab).map((section) => (
               <div key={section.id} className="border border-border rounded-2xl overflow-hidden">
                 <button
                   onClick={() => toggleSection(section.id)}
                   className="w-full flex items-center justify-between p-6 bg-muted/50 hover:bg-muted transition-colors"
                 >
-                  <span className="font-semibold text-lg">{section.label}</span>
+                  <span className="font-semibold text-base md:text-lg text-left pr-3">{section.label}</span>
                   {activeSection === section.id ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
                 </button>
                 
@@ -1624,12 +1720,68 @@ const CMS = () => {
               </div>
             ))}
 
-            <ApplicationsPanel />
+            {activeTab === 'trials' && <ApplicationsPanel />}
           </div>
 
         </div>
       </section>
-    </Layout>
+
+      {/* Mobile tab bar */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-background/95 backdrop-blur-xl">
+        <div className="flex">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            const active = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  const first = sections.find((s) => s.tab === tab.id);
+                  setActiveSection(first ? first.id : null);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className={`relative flex-1 flex flex-col items-center gap-1 py-3 text-[10px] font-semibold tracking-wide transition-colors ${
+                  active ? 'text-primary' : 'text-muted-foreground'
+                }`}
+              >
+                <Icon className="w-5 h-5" />
+                {tab.short}
+                {tab.id === 'trials' && pendingCount > 0 && (
+                  <span className="absolute top-1.5 right-1/2 translate-x-4 min-w-[16px] h-4 px-1 rounded-full bg-primary text-primary-foreground text-[9px] font-bold flex items-center justify-center">
+                    {pendingCount}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </nav>
+
+      {/* Floating save / publish island */}
+      <div className="fixed left-0 right-0 bottom-[68px] md:bottom-6 z-40 px-4 pointer-events-none">
+        <div className="mx-auto max-w-md md:max-w-lg pointer-events-auto flex items-center gap-2 rounded-2xl border border-border bg-background/95 backdrop-blur-xl p-2 shadow-xl">
+          <span className={`w-2.5 h-2.5 rounded-full shrink-0 ml-2 ${dirty ? 'bg-amber-500 animate-pulse' : 'bg-emerald-500'}`} />
+          <span className="text-xs font-medium text-muted-foreground flex-1 truncate">
+            {dirty ? 'Unsaved changes' : isPublished ? 'Live & saved' : 'Saved, not live'}
+          </span>
+          <button
+            onClick={handleSave}
+            disabled={busy !== null}
+            className="px-4 py-2.5 rounded-xl border border-border text-sm font-semibold hover:bg-muted transition-colors disabled:opacity-60 flex items-center gap-2"
+          >
+            {busy === 'save' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} Save
+          </button>
+          <button
+            onClick={handlePublish}
+            disabled={busy !== null}
+            className="px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 transition-colors disabled:opacity-60 flex items-center gap-2"
+          >
+            {busy === 'publish' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Rocket className="w-4 h-4" />} Publish
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 
