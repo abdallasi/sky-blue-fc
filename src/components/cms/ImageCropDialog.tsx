@@ -15,7 +15,9 @@ export const CROP_PRESETS: AspectPreset[] = [
 
 /** Suggested shape per CMS field so the frame matches where the photo will show. */
 export function suggestedRatio(field: string): number | null {
+  if (field.startsWith('__photo:')) return 1; // square headshots
   if (/Mobile$/.test(field)) return 3 / 4;
+
   if (/^hero|Hero$/.test(field) || field.startsWith('__item:matchShots')) return 16 / 9;
   if (field.startsWith('__item:spotlights')) return 4 / 5;
   if (field.startsWith('__item:news')) return 16 / 10;
