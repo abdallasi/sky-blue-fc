@@ -57,7 +57,7 @@ export const SpotlightCarousel = () => {
           </Link>
         }
       >
-        {spotlights.map((p) => (
+        {players.map((p) => (
           <article
             key={p.id}
             className="group relative shrink-0 w-[66vw] sm:w-[260px] lg:w-[290px] snap-start overflow-hidden rounded-[1.5rem] bg-[hsl(var(--midnight-blue))]"
