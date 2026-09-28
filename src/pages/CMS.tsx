@@ -469,8 +469,8 @@ const CMS = () => {
         </div>
       </header>
 
-      <section className="py-6 md:py-10">
-        <div className="container-premium max-w-4xl">
+      <section className="py-5 md:py-10">
+        <div className="container-premium max-w-4xl !px-3 sm:!px-6">
           <div className="md:hidden mb-5">
             <h1 className="text-2xl font-bold tracking-tight">{tabs.find((t) => t.id === activeTab)?.label}</h1>
             <p className="text-sm text-muted-foreground mt-1">{tabs.find((t) => t.id === activeTab)?.hint}</p>
@@ -548,14 +548,14 @@ const CMS = () => {
               <div key={section.id} className="border border-border rounded-2xl overflow-hidden">
                 <button
                   onClick={() => toggleSection(section.id)}
-                  className="w-full flex items-center justify-between p-6 bg-muted/50 hover:bg-muted transition-colors"
+                  className="w-full flex items-center justify-between p-4 md:p-6 bg-muted/50 hover:bg-muted transition-colors"
                 >
                   <span className="font-semibold text-base md:text-lg text-left pr-3">{section.label}</span>
                   {activeSection === section.id ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
                 </button>
                 
                 {activeSection === section.id && (
-                  <div className="p-6 space-y-6">
+                  <div className="cms-editor-fields p-4 md:p-6 space-y-7 md:space-y-6">
                     {section.id === 'siteStatus' && (
                       <>
                         <div className={`rounded-xl border p-5 ${localContent.site?.maintenanceMode ? 'border-amber-500/50 bg-amber-500/10' : 'border-emerald-500/40 bg-emerald-500/10'}`}>
@@ -642,7 +642,7 @@ const CMS = () => {
                             rows={3}
                           />
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div>
                             <label className="block text-sm font-medium mb-2">Button 1</label>
                             <input
@@ -666,7 +666,7 @@ const CMS = () => {
                     )}
                     
                     {section.id === 'stats' && localContent.stats.map((stat, index) => (
-                      <div key={index} className="grid grid-cols-2 gap-4">
+                      <div key={index} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-medium mb-2">Value {index + 1}</label>
                           <input
@@ -824,7 +824,7 @@ const CMS = () => {
                     {section.id === 'milestones' && (
                       <>
                         {localContent.milestones.map((milestone, index) => (
-                          <div key={index} className="flex items-end gap-4 p-4 border border-border rounded-xl">
+                          <div key={index} className="cms-mobile-stack flex items-end gap-4 p-4 border border-border rounded-xl">
                             <div className="w-24">
                               <label className="block text-sm font-medium mb-2">Year</label>
                               <input type="text" value={milestone.year} onChange={(e) => { const nm = [...localContent.milestones]; nm[index] = { ...milestone, year: e.target.value }; updateField('milestones', nm); }} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
@@ -847,7 +847,7 @@ const CMS = () => {
                     {section.id === 'facilities' && (
                       <>
                         {localContent.facilities.map((facility, index) => (
-                          <div key={index} className="flex items-end gap-4 p-4 border border-border rounded-xl">
+                          <div key={index} className="cms-mobile-stack flex items-end gap-4 p-4 border border-border rounded-xl">
                             <div className="flex-1">
                               <label className="block text-sm font-medium mb-2">Name</label>
                               <input type="text" value={facility.name} onChange={(e) => { const nf = [...localContent.facilities]; nf[index] = { ...facility, name: e.target.value }; updateField('facilities', nf); }} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
@@ -870,7 +870,7 @@ const CMS = () => {
                     {section.id === 'management' && (
                       <>
                         {localContent.management.map((member, index) => (
-                          <div key={index} className="flex items-end gap-4 p-4 border border-border rounded-xl">
+                          <div key={index} className="cms-mobile-stack flex items-end gap-4 p-4 border border-border rounded-xl">
                             <HeadshotPicker
                               photo={member.photo}
                               onPick={() => triggerImageUpload(`__photo:management:${index}`)}
@@ -930,7 +930,7 @@ const CMS = () => {
                       <>
                         <h3 className="font-bold text-lg">Starting XI</h3>
                         {localContent.startingXI.map((player, index) => (
-                          <div key={index} className="flex items-end gap-4 p-4 border border-border rounded-xl">
+                          <div key={index} className="cms-mobile-stack flex items-end gap-4 p-4 border border-border rounded-xl">
                             <HeadshotPicker
                               photo={player.photo}
                               onPick={() => triggerImageUpload(`__photo:startingXI:${index}`)}
@@ -1012,7 +1012,7 @@ const CMS = () => {
 
                         <h3 className="font-bold text-lg mt-8">Extended Squad</h3>
                         {localContent.extendedSquad.map((player, index) => (
-                          <div key={index} className="flex items-end gap-4 p-4 border border-border rounded-xl">
+                          <div key={index} className="cms-mobile-stack flex items-end gap-4 p-4 border border-border rounded-xl">
                             <HeadshotPicker
                               photo={player.photo}
                               onPick={() => triggerImageUpload(`__photo:extendedSquad:${index}`)}
@@ -1082,7 +1082,7 @@ const CMS = () => {
                         <h3 className="font-bold text-lg mt-8">Notable Players</h3>
                         {localContent.notablePlayers.map((player, index) => (
                           <div key={index} className="p-4 border border-border rounded-xl space-y-4">
-                            <div className="flex items-end gap-4">
+                            <div className="cms-mobile-stack flex items-end gap-4">
                               <HeadshotPicker
                                 photo={player.photo}
                                 onPick={() => triggerImageUpload(`__photo:notablePlayers:${index}`)}
@@ -1115,7 +1115,7 @@ const CMS = () => {
                                 <X className="w-4 h-4" />
                               </button>
                             </div>
-                            <div className="grid grid-cols-5 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
                               <div>
                                 <label className="block text-sm font-medium mb-2">Age</label>
                                 <input type="number" value={player.age} onChange={(e) => { const np = [...localContent.notablePlayers]; np[index] = { ...player, age: parseInt(e.target.value) }; updateField('notablePlayers', np); }} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
@@ -1334,7 +1334,7 @@ const CMS = () => {
                           };
                           return (
                             <div key={p.id} className="p-4 border border-border rounded-xl space-y-4">
-                              <div className="flex items-start gap-4">
+                              <div className="cms-mobile-stack flex items-start gap-4">
                                 {p.image ? (
                                   <div className="relative shrink-0">
                                     <img src={p.image} alt={p.name} className="w-24 h-32 object-cover rounded-lg" />
@@ -1384,7 +1384,7 @@ const CMS = () => {
                             updateField('matchShots', next);
                           };
                           return (
-                            <div key={s.id} className="p-4 border border-border rounded-xl flex items-start gap-4">
+                            <div key={s.id} className="cms-mobile-stack p-4 border border-border rounded-xl flex items-start gap-4">
                               {s.image ? (
                                 <div className="relative shrink-0">
                                   <img src={s.image} alt={s.caption} className="w-32 h-24 object-cover rounded-lg" />
@@ -1430,7 +1430,7 @@ const CMS = () => {
                           };
                           return (
                             <div key={f.id} className="p-4 border border-border rounded-xl space-y-3">
-                              <div className="flex items-start gap-3">
+                              <div className="cms-mobile-stack flex items-start gap-3">
                                 <div className="flex-1 grid sm:grid-cols-2 gap-3">
                                   <input type="text" placeholder="Opponent" value={f.opponent} onChange={(e) => set({ opponent: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
                                   <input type="text" placeholder="Competition" value={f.competition} onChange={(e) => set({ competition: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-border bg-background" />
@@ -1472,7 +1472,7 @@ const CMS = () => {
                             updateField('news', next);
                           };
                           return (
-                            <div key={n.id} className="p-4 border border-border rounded-xl flex items-start gap-4">
+                            <div key={n.id} className="cms-mobile-stack p-4 border border-border rounded-xl flex items-start gap-4">
                               {n.image ? (
                                 <div className="relative shrink-0">
                                   <img src={n.image} alt={n.title} className="w-32 h-24 object-cover rounded-lg" />
@@ -1579,7 +1579,7 @@ const CMS = () => {
                           <label className="block text-sm font-medium mb-4">Gallery Images</label>
                           <div className="space-y-4 mb-4">
                             {(localContent.images.galleryImages || []).map((item, index) => (
-                              <div key={item.id} className="flex items-start gap-4 p-3 border border-border rounded-xl">
+                              <div key={item.id} className="cms-mobile-stack flex items-start gap-4 p-3 border border-border rounded-xl">
                                 <img src={item.src} alt={item.alt} className="w-20 h-20 object-cover rounded-lg shrink-0" />
                                 <div className="flex-1 space-y-2">
                                   <input
@@ -1593,7 +1593,7 @@ const CMS = () => {
                                     }}
                                     className="w-full px-3 py-2 rounded-lg border border-border bg-background text-sm"
                                   />
-                                  <div className="flex gap-2">
+                                  <div className="cms-mobile-fields-row flex gap-2">
                                     <input
                                       type="text"
                                       value={item.category}
