@@ -1624,12 +1624,68 @@ const CMS = () => {
               </div>
             ))}
 
-            <ApplicationsPanel />
+            {activeTab === 'trials' && <ApplicationsPanel />}
           </div>
 
         </div>
       </section>
-    </Layout>
+
+      {/* Mobile tab bar */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-background/95 backdrop-blur-xl">
+        <div className="flex">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            const active = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  const first = sections.find((s) => s.tab === tab.id);
+                  setActiveSection(first ? first.id : null);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className={`relative flex-1 flex flex-col items-center gap-1 py-3 text-[10px] font-semibold tracking-wide transition-colors ${
+                  active ? 'text-primary' : 'text-muted-foreground'
+                }`}
+              >
+                <Icon className="w-5 h-5" />
+                {tab.short}
+                {tab.id === 'trials' && pendingCount > 0 && (
+                  <span className="absolute top-1.5 right-1/2 translate-x-4 min-w-[16px] h-4 px-1 rounded-full bg-primary text-primary-foreground text-[9px] font-bold flex items-center justify-center">
+                    {pendingCount}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </nav>
+
+      {/* Floating save / publish island */}
+      <div className="fixed left-0 right-0 bottom-[68px] md:bottom-6 z-40 px-4 pointer-events-none">
+        <div className="mx-auto max-w-md md:max-w-lg pointer-events-auto flex items-center gap-2 rounded-2xl border border-border bg-background/95 backdrop-blur-xl p-2 shadow-xl">
+          <span className={`w-2.5 h-2.5 rounded-full shrink-0 ml-2 ${dirty ? 'bg-amber-500 animate-pulse' : 'bg-emerald-500'}`} />
+          <span className="text-xs font-medium text-muted-foreground flex-1 truncate">
+            {dirty ? 'Unsaved changes' : isPublished ? 'Live & saved' : 'Saved, not live'}
+          </span>
+          <button
+            onClick={handleSave}
+            disabled={busy !== null}
+            className="px-4 py-2.5 rounded-xl border border-border text-sm font-semibold hover:bg-muted transition-colors disabled:opacity-60 flex items-center gap-2"
+          >
+            {busy === 'save' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} Save
+          </button>
+          <button
+            onClick={handlePublish}
+            disabled={busy !== null}
+            className="px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 transition-colors disabled:opacity-60 flex items-center gap-2"
+          >
+            {busy === 'publish' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Rocket className="w-4 h-4" />} Publish
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 
