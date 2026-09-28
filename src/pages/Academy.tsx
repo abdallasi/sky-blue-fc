@@ -3,6 +3,7 @@ import { useContent } from '@/context/ContentContext';
 import { GraduationCap, Target, Users, Award, ArrowRight, CheckCircle } from 'lucide-react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { PageHero } from '@/components/layout/PageHero';
+import { AcademyApplication } from '@/components/academy/AcademyApplication';
 import academyFallback from '@/assets/placeholder-academy-training.jpg';
 
 const Academy = () => {
@@ -15,12 +16,15 @@ const Academy = () => {
   return (
     <Layout>
       <PageHero
-        eyebrow="Youth development"
+        eyebrow="Academy & trials"
         title={content.academy.heroTitle}
         subtitle={content.academy.heroSubtitle}
         image={content.images?.academyHero || academyFallback}
         imageMobile={content.images?.academyHeroMobile}
+        ctaLabel="Apply for trials"
+        ctaHref="#apply"
       />
+
 
 
       {/* Philosophy Section - Split Screen */}
