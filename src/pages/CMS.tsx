@@ -363,66 +363,129 @@ const CMS = () => {
         className="hidden"
       />
 
-      <section className="pt-32 pb-20 bg-gradient-hero text-white">
+      {/* Command bar */}
+      <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-xl">
         <div className="container-premium">
-          <h1 className="heading-hero max-w-4xl mb-4">Content Management</h1>
-          <p className="text-xl text-white/80">Edit all website content below. Changes go live globally when you publish.</p>
+          <div className="flex items-center gap-3 h-16">
+            <Link to="/" className="flex items-center gap-2.5 shrink-0">
+              <span className="w-9 h-9 rounded-xl bg-primary text-primary-foreground grid place-items-center text-xs font-black tracking-tight">
+                AFC
+              </span>
+              <span className="hidden sm:block">
+                <span className="block text-sm font-bold leading-tight">Amtay FC</span>
+                <span className="block text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Control room</span>
+              </span>
+            </Link>
+
+            <span
+              className={`ml-auto flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold ${
+                localContent.site?.maintenanceMode
+                  ? 'bg-amber-500/15 text-amber-600'
+                  : 'bg-emerald-500/15 text-emerald-600'
+              }`}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-current" />
+              {localContent.site?.maintenanceMode ? 'Coming soon' : 'Public'}
+            </span>
+
+            <button
+              onClick={() => setPreviewMode(!previewMode)}
+              className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl border border-border text-xs font-semibold hover:bg-muted transition-colors"
+            >
+              {previewMode ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              {previewMode ? 'Previewing' : 'Preview'}
+            </button>
+            <button
+              onClick={signOut}
+              className="px-3 py-2 rounded-xl border border-border text-xs font-semibold hover:bg-muted transition-colors"
+            >
+              Sign out
+            </button>
+          </div>
+
+          {/* Desktop tabs */}
+          <nav className="hidden md:flex items-center gap-1 -mb-px overflow-x-auto">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              const active = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setActiveTab(tab.id);
+                    const first = sections.find((s) => s.tab === tab.id);
+                    setActiveSection(first ? first.id : null);
+                  }}
+                  className={`flex items-center gap-2 px-4 py-3 text-sm font-semibold border-b-2 transition-colors whitespace-nowrap ${
+                    active
+                      ? 'border-primary text-primary'
+                      : 'border-transparent text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  {tab.label}
+                  {tab.id === 'trials' && pendingCount > 0 && (
+                    <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center">
+                      {pendingCount}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </nav>
         </div>
-      </section>
+      </header>
 
-      <section className="section-padding">
+      <section className="py-6 md:py-10">
         <div className="container-premium max-w-4xl">
-          <div className="mb-8 p-5 rounded-2xl border border-border bg-muted/40">
-            <div className="flex flex-wrap items-center gap-3 mb-4 text-sm">
-              <span className={`px-3 py-1 rounded-full font-semibold ${dirty ? 'bg-amber-500/15 text-amber-600' : 'bg-emerald-500/15 text-emerald-600'}`}>
-                {dirty ? 'Unsaved changes' : 'Draft saved'}
-              </span>
-              <span className={`px-3 py-1 rounded-full font-semibold ${isPublished ? 'bg-emerald-500/15 text-emerald-600' : 'bg-muted text-muted-foreground'}`}>
-                {isPublished ? 'Live' : 'Not published'}
-              </span>
-              {publishedAt && (
-                <span className="text-muted-foreground">Published {new Date(publishedAt).toLocaleString()}</span>
-              )}
-              {draftUpdatedAt && (
-                <span className="text-muted-foreground">· Draft updated {new Date(draftUpdatedAt).toLocaleString()}</span>
-              )}
-            </div>
+          <div className="md:hidden mb-5">
+            <h1 className="text-2xl font-bold tracking-tight">{tabs.find((t) => t.id === activeTab)?.label}</h1>
+            <p className="text-sm text-muted-foreground mt-1">{tabs.find((t) => t.id === activeTab)?.hint}</p>
+          </div>
 
-            <div className="flex flex-wrap gap-3">
-              <button onClick={handleSave} disabled={busy !== null} className="btn-primary flex items-center gap-2 disabled:opacity-60">
-                {busy === 'save' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} Save Draft
-              </button>
-              <button onClick={handlePublish} disabled={busy !== null} className="px-6 py-3 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition-colors flex items-center gap-2 disabled:opacity-60">
-                {busy === 'publish' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Rocket className="w-4 h-4" />} Publish Live
-              </button>
-              <button
-                onClick={() => setPreviewMode(!previewMode)}
-                className="px-6 py-3 rounded-lg border border-border hover:bg-muted transition-colors flex items-center gap-2"
-              >
-                {previewMode ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                {previewMode ? 'Previewing draft' : 'Preview draft'}
-              </button>
+          <div className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="rounded-2xl border border-border bg-card p-4">
+              <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Draft</p>
+              <p className={`text-sm font-bold mt-1 ${dirty ? 'text-amber-600' : 'text-emerald-600'}`}>
+                {dirty ? 'Unsaved' : 'Saved'}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-border bg-card p-4">
+              <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Website</p>
+              <p className={`text-sm font-bold mt-1 ${isPublished ? 'text-emerald-600' : 'text-muted-foreground'}`}>
+                {isPublished ? 'Live' : 'Not published'}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-border bg-card p-4">
+              <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Applications</p>
+              <p className="text-sm font-bold mt-1">{pendingCount} new</p>
+            </div>
+            <div className="rounded-2xl border border-border bg-card p-4">
+              <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Last published</p>
+              <p className="text-sm font-bold mt-1 truncate">
+                {publishedAt ? new Date(publishedAt).toLocaleDateString() : '—'}
+              </p>
+            </div>
+          </div>
+
+          {uploading && (
+            <p className="text-xs text-primary mb-4 flex items-center gap-2">
+              <Loader2 className="w-3 h-3 animate-spin" /> Uploading photo…
+            </p>
+          )}
+
+          {activeTab === 'pulse' && (
+            <div className="mb-6 flex flex-wrap gap-2">
               {isAdmin && isPublished && (
-                <button onClick={handleUnpublish} disabled={busy !== null} className="px-6 py-3 rounded-lg border border-border hover:bg-muted transition-colors flex items-center gap-2 disabled:opacity-60">
-                  {busy === 'unpublish' ? <Loader2 className="w-4 h-4 animate-spin" /> : <EyeOff className="w-4 h-4" />} Unpublish
+                <button onClick={handleUnpublish} disabled={busy !== null} className="px-4 py-2.5 rounded-xl border border-border text-sm font-semibold hover:bg-muted transition-colors flex items-center gap-2 disabled:opacity-60">
+                  {busy === 'unpublish' ? <Loader2 className="w-4 h-4 animate-spin" /> : <EyeOff className="w-4 h-4" />} Take offline
                 </button>
               )}
-              <button onClick={handleReset} disabled={busy !== null} className="px-6 py-3 rounded-lg border border-border hover:bg-muted transition-colors flex items-center gap-2 disabled:opacity-60">
-                {busy === 'reset' ? <Loader2 className="w-4 h-4 animate-spin" /> : <RotateCcw className="w-4 h-4" />} Reset Draft
-              </button>
-              <button onClick={signOut} className="px-6 py-3 rounded-lg border border-border hover:bg-muted transition-colors">
-                Sign out
+              <button onClick={handleReset} disabled={busy !== null} className="px-4 py-2.5 rounded-xl border border-border text-sm font-semibold hover:bg-muted transition-colors flex items-center gap-2 disabled:opacity-60">
+                {busy === 'reset' ? <Loader2 className="w-4 h-4 animate-spin" /> : <RotateCcw className="w-4 h-4" />} Reset draft
               </button>
             </div>
-            <p className="text-xs text-muted-foreground mt-3">
-              Preview shows the draft on this browser only. Publishing writes to the database and updates every visitor instantly.
-            </p>
-            {uploading && (
-              <p className="text-xs text-primary mt-2 flex items-center gap-2">
-                <Loader2 className="w-3 h-3 animate-spin" /> Uploading photo…
-              </p>
-            )}
-          </div>
+          )}
 
           {embeddedPhotoCount > 0 && (
             <div className="mb-8 p-5 rounded-2xl border border-amber-500/40 bg-amber-500/10">
