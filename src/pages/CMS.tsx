@@ -448,7 +448,7 @@ const CMS = () => {
 
 
           <div className="space-y-4">
-            {sections.map((section) => (
+            {sections.filter((s) => s.tab === activeTab).map((section) => (
               <div key={section.id} className="border border-border rounded-2xl overflow-hidden">
                 <button
                   onClick={() => toggleSection(section.id)}
