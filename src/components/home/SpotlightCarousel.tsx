@@ -85,7 +85,7 @@ export const SpotlightCarousel = () => {
               <h3 className="text-lg font-black tracking-tight text-white sm:text-xl">{p.name}</h3>
               <div className="mt-2 h-px w-8 bg-white/30" />
               <p className="mt-2 text-xs text-white/75">{p.line1}</p>
-              <p className="text-xs text-white/55">{p.line2}</p>
+              {p.line2 && <p className="text-xs text-white/55">{p.line2}</p>}
             </div>
           </article>
         ))}
