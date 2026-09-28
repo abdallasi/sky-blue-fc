@@ -21,9 +21,14 @@ const Academy = () => {
         subtitle={content.academy.heroSubtitle}
         image={content.images?.academyHero || academyFallback}
         imageMobile={content.images?.academyHeroMobile}
-        ctaLabel="Apply for trials"
-        ctaHref="#apply"
-      />
+      >
+        <a
+          href="#apply"
+          className="mt-7 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-[11px] font-bold uppercase tracking-[0.18em] text-[hsl(var(--midnight-blue))] transition-transform hover:scale-[1.03]"
+        >
+          Apply for trials
+        </a>
+      </PageHero>
 
 
 
