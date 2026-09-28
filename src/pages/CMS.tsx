@@ -137,7 +137,14 @@ const CMS = () => {
   const applyUpload = async (file: File, field: string) => {
     setUploading(true);
     try {
-      const url = await uploadSiteImage(file, 'cms');
+      const isHeadshot = field.startsWith('__photo:');
+      const url = await uploadSiteImage(
+        file,
+        isHeadshot ? 'headshots' : 'cms',
+        isHeadshot ? HEADSHOT_OPTIONS : undefined
+      );
+
+
 
       if (field === '__aboutStory') {
         const current = localContent.images.aboutStoryImages || [];
