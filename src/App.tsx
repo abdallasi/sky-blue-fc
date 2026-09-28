@@ -54,6 +54,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <ScrollToTop />
             <Routes>
               <Route path="/" element={<PublicGate><Index /></PublicGate>} />
               <Route path="/about" element={<PublicGate><About /></PublicGate>} />
@@ -62,13 +63,17 @@ const App = () => (
               <Route path="/stats" element={<PublicGate><Stats /></PublicGate>} />
               <Route path="/contact" element={<PublicGate><Contact /></PublicGate>} />
               <Route path="/gallery" element={<PublicGate><Gallery /></PublicGate>} />
-              <Route path="/apply" element={<PublicGate><Apply /></PublicGate>} />
+              <Route path="/news/:id" element={<PublicGate><NewsStory /></PublicGate>} />
+              {/* Trials now live inside the Academy page */}
+              <Route path="/apply" element={<Navigate to="/academy#apply" replace />} />
+              <Route path="/trials" element={<Navigate to="/academy#apply" replace />} />
 
               <Route path="/auth" element={<Auth />} />
               <Route path="/cms" element={<CMS />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<PublicGate><NotFound /></PublicGate>} />
             </Routes>
+
           </BrowserRouter>
         </ContentProvider>
       </AuthProvider>
