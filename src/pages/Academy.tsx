@@ -165,7 +165,13 @@ const Academy = () => {
           </div>
         </div>
       </section>
+
+      {/* Trials application — merged in from the old separate trials page */}
+      <div className="border-t border-border bg-muted/30">
+        <AcademyApplication />
+      </div>
     </Layout>
+
   );
 };
 
