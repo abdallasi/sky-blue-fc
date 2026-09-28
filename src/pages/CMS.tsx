@@ -12,6 +12,40 @@ import { ImageCropDialog, suggestedRatio } from '@/components/cms/ImageCropDialo
 
 
 
+/** Square portrait picker used for every named person in the squad and staff. */
+const HeadshotPicker = ({
+  photo,
+  onPick,
+  onClear,
+}: {
+  photo?: string;
+  onPick: () => void;
+  onClear: () => void;
+}) => (
+  <div className="shrink-0">
+    <label className="block text-sm font-medium mb-2">Photo</label>
+    {photo ? (
+      <div className="relative">
+        <img src={photo} alt="Headshot" className="w-20 h-20 rounded-xl object-cover object-top" />
+        <button
+          onClick={onClear}
+          className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center"
+        >
+          <X className="w-3 h-3" />
+        </button>
+      </div>
+    ) : (
+      <button
+        onClick={onPick}
+        className="w-20 h-20 border-2 border-dashed border-border rounded-xl flex items-center justify-center hover:bg-muted/50"
+        title="Upload headshot"
+      >
+        <Upload className="w-4 h-4 text-muted-foreground" />
+      </button>
+    )}
+  </div>
+);
+
 const CMS = () => {
   const {
     draft,
@@ -741,6 +775,15 @@ const CMS = () => {
                       <>
                         {localContent.management.map((member, index) => (
                           <div key={index} className="flex items-end gap-4 p-4 border border-border rounded-xl">
+                            <HeadshotPicker
+                              photo={member.photo}
+                              onPick={() => triggerImageUpload(`__photo:management:${index}`)}
+                              onClear={() => {
+                                const nm = [...localContent.management];
+                                nm[index] = { ...member, photo: undefined };
+                                updateField('management', nm);
+                              }}
+                            />
                             <div className="flex-1">
                               <label className="block text-sm font-medium mb-2">Name</label>
                               <input
