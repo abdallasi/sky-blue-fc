@@ -16,11 +16,14 @@ import Contact from "./pages/Contact";
 import CMS from "./pages/CMS";
 import Gallery from "./pages/Gallery";
 import Apply from "./pages/Apply";
+import NewsStory from "./pages/NewsStory";
 
 import NotFound from "./pages/NotFound";
 import { ComingSoon } from "./components/ComingSoon";
+import { ScrollToTop } from "./components/layout/ScrollToTop";
 import { useContent } from "./context/ContentContext";
 import { useAuth } from "./hooks/useAuth";
+
 
 const queryClient = new QueryClient();
 
