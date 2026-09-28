@@ -8,7 +8,6 @@ const navLinks = [
   { name: 'Home', href: '/' },
   { name: 'First Team', href: '/team' },
   { name: 'Academy', href: '/academy' },
-  { name: 'Trials', href: '/apply' },
   { name: 'About', href: '/about' },
   { name: 'Stats', href: '/stats' },
   { name: 'Gallery', href: '/gallery' },
@@ -115,7 +114,7 @@ export const Navbar = () => {
           {/* CTA */}
           <div className="hidden lg:block">
             <Link
-              to="/apply"
+              to="/academy#apply"
               className={`group inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-[13px] font-bold tracking-wide transition-all duration-300 hover:-translate-y-0.5 ${
                 overImage
                   ? 'bg-white text-[hsl(var(--midnight-blue))]'
@@ -200,7 +199,7 @@ export const Navbar = () => {
           </div>
 
           <Link
-            to="/apply"
+            to="/academy#apply"
             className="mt-5 flex items-center justify-center gap-2 w-full py-4 rounded-full bg-[hsl(var(--electric-cyan))] text-[hsl(var(--midnight-blue))] text-xs font-bold uppercase tracking-[0.2em]"
           >
             Apply for trials
