@@ -514,3 +514,39 @@
 .animate-orbit {
   animation: orbit 20s linear infinite;
 }
+
+/* CMS phone editor: roomy, touch-friendly fields without altering desktop. */
+@media (max-width: 767px) {
+  .cms-editor-fields input:not([type='checkbox']):not([type='range']),
+  .cms-editor-fields select,
+  .cms-editor-fields textarea {
+    min-height: 3rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .cms-editor-fields .cms-mobile-stack {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .cms-editor-fields .cms-mobile-stack > .flex-1,
+  .cms-editor-fields .cms-mobile-stack > div:not(.relative) {
+    width: 100%;
+  }
+
+  .cms-editor-fields .cms-mobile-stack > button:last-child {
+    align-self: flex-end;
+    min-width: 3rem;
+    min-height: 3rem;
+  }
+
+  .cms-editor-fields .cms-mobile-fields-row {
+    flex-direction: column;
+  }
+
+  .cms-editor-fields .cms-mobile-fields-row > * {
+    width: 100%;
+  }
+}
