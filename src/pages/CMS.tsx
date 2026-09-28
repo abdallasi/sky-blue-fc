@@ -256,26 +256,34 @@ const CMS = () => {
     updateField(`images.${fieldName}`, undefined);
   };
 
+  const tabs = [
+    { id: 'pulse', label: 'Pulse', short: 'Pulse', icon: Activity, hint: 'Site status and club numbers' },
+    { id: 'squad', label: 'Squad & Staff', short: 'Squad', icon: Users, hint: 'Players, photos and leadership' },
+    { id: 'matches', label: 'Matches & Stories', short: 'Matches', icon: Newspaper, hint: 'Fixtures, matchday photos and news' },
+    { id: 'pages', label: 'Pages & Media', short: 'Pages', icon: LayoutGrid, hint: 'Page content, photos and videos' },
+    { id: 'trials', label: 'Applications', short: 'Trials', icon: ClipboardList, hint: 'Everyone who applied for trials' },
+  ];
+
   const sections = [
-    { id: 'siteStatus', label: 'Site Status — Coming Soon / Maintenance' },
-    { id: 'hero', label: 'Hero Section' },
-    { id: 'spotlights', label: 'Player Spotlight Carousel' },
-    { id: 'matchShots', label: 'Matchday Photo Carousel' },
-    { id: 'fixtures', label: 'Fixtures' },
-    { id: 'news', label: 'Club News' },
-    { id: 'stats', label: 'Statistics' },
-    { id: 'snapshot', label: 'Club Snapshot' },
-    { id: 'visionMission', label: 'Join Us' },
-    { id: 'about', label: 'About Page' },
-    { id: 'milestones', label: 'Milestones' },
-    { id: 'facilities', label: 'Facilities' },
-    { id: 'management', label: 'Management Team' },
-    { id: 'players', label: 'Players' },
-    { id: 'academy', label: 'Academy' },
-    { id: 'contact', label: 'Contact Info' },
-    { id: 'trials', label: 'Trials / Player Portal' },
-    { id: 'images', label: 'Images & Media' },
-    { id: 'videos', label: 'Videos (YouTube)' },
+    { id: 'siteStatus', label: 'Site Status — Coming Soon / Maintenance', tab: 'pulse' },
+    { id: 'stats', label: 'Statistics', tab: 'pulse' },
+    { id: 'snapshot', label: 'Club Snapshot', tab: 'pulse' },
+    { id: 'players', label: 'Players', tab: 'squad' },
+    { id: 'management', label: 'Management Team', tab: 'squad' },
+    { id: 'spotlights', label: 'Player Spotlight Carousel', tab: 'matches' },
+    { id: 'fixtures', label: 'Fixtures', tab: 'matches' },
+    { id: 'news', label: 'Club News', tab: 'matches' },
+    { id: 'matchShots', label: 'Matchday Photo Carousel', tab: 'matches' },
+    { id: 'hero', label: 'Hero Section', tab: 'pages' },
+    { id: 'visionMission', label: 'Join Us', tab: 'pages' },
+    { id: 'about', label: 'About Page', tab: 'pages' },
+    { id: 'milestones', label: 'Milestones', tab: 'pages' },
+    { id: 'facilities', label: 'Facilities', tab: 'pages' },
+    { id: 'academy', label: 'Academy', tab: 'pages' },
+    { id: 'trials', label: 'Trials / Player Portal', tab: 'pages' },
+    { id: 'contact', label: 'Contact Info', tab: 'pages' },
+    { id: 'images', label: 'Images & Media', tab: 'pages' },
+    { id: 'videos', label: 'Videos (YouTube)', tab: 'pages' },
   ];
 
   const imageFields = [
