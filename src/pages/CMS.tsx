@@ -550,7 +550,7 @@ const CMS = () => {
                   onClick={() => toggleSection(section.id)}
                   className="w-full flex items-center justify-between p-6 bg-muted/50 hover:bg-muted transition-colors"
                 >
-                  <span className="font-semibold text-lg">{section.label}</span>
+                  <span className="font-semibold text-base md:text-lg text-left pr-3">{section.label}</span>
                   {activeSection === section.id ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
                 </button>
                 
