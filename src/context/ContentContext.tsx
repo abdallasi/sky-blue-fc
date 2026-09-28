@@ -262,7 +262,7 @@ const defaultContent: SiteContent = {
   ],
   snapshot: {
     headline: "A Club Built for Excellence.",
-    description: "AMTAY FC is one of Kano's fastest-rising football institutions. Built in 2023 with a mission to develop young athletes, the club has earned recognition for its professionalism, dominance, and player development approach.",
+    description: "AMTAY FC is one of Kano's fastest-rising football institutions. Built in 2022 with a mission to develop young athletes, the club has earned recognition for its professionalism, dominance, and player development approach.",
     achievements: [
       "Promotion to the International League",
       "Strong performance in the Ahlan League",
@@ -283,7 +283,7 @@ const defaultContent: SiteContent = {
     heroSubtitle: "From humble beginnings to national recognition, discover the journey of AMTAY FC.",
     storyTitle: "Our Club Story",
     storyParagraphs: [
-      "AMTAY FC was founded in 2023 by Engr. Muhammad T. Abdulwahab, a visionary leader, philanthropist, and football enthusiast committed to youth empowerment.",
+      "AMTAY FC was founded in 2022 by Engr. Muhammad T. Abdulwahab, a visionary leader, philanthropist, and football enthusiast committed to youth empowerment.",
       "Established to identify, train, and elevate young players, the club quickly gained recognition for its strong performances in the Kano Ahlan League.",
       "With disciplined management and a clear philosophy, the club earned a deserved promotion to the International League—marking a major milestone in its mission to shape the next generation of Nigerian stars."
     ],
@@ -292,8 +292,8 @@ const defaultContent: SiteContent = {
     founderBio: "A visionary engineer and philanthropist, Engr. Muhammad T. Abdulwahab created AMTAY FC to empower youth through structured football development. His commitment to community upliftment and excellence has shaped the club's identity and its rapidly rising status among Nigeria's most promising football institutions."
   },
   milestones: [
-    { year: '2023', title: 'Club Founded', description: 'AMTAY FC established by Engr. Muhammad T. Abdulwahab' },
-    { year: '2023', title: 'Ahlan League Debut', description: 'First competitive season in Kano Ahlan League' },
+    { year: '2022', title: 'Club Founded', description: 'AMTAY FC established by Engr. Muhammad T. Abdulwahab' },
+    { year: '2022', title: 'Ahlan League Debut', description: 'First competitive season in Kano Ahlan League' },
     { year: '2023', title: 'National Recognition', description: '4 players invited to Nigeria U-17 screening' },
     { year: '2024', title: 'League Champions', description: 'Recognized as top team in the league' },
     { year: '2024', title: 'International League', description: 'Promotion to International League' },
