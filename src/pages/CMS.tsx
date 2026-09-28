@@ -62,7 +62,9 @@ const CMS = () => {
   } = useContent();
   const { user, isEditor, isAdmin, loading: authLoading, signOut } = useAuth();
   const { toast } = useToast();
-  const [activeSection, setActiveSection] = useState<string | null>('hero');
+  const [activeTab, setActiveTab] = useState('pulse');
+  const [pendingCount, setPendingCount] = useState(0);
+  const [activeSection, setActiveSection] = useState<string | null>('siteStatus');
   const [localContent, setLocalContent] = useState(draft);
   const [busy, setBusy] = useState<null | 'save' | 'publish' | 'unpublish' | 'reset' | 'migrate'>(null);
   const [uploading, setUploading] = useState(false);
