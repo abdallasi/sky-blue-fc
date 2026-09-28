@@ -370,7 +370,7 @@ const CMS = () => {
   }
 
   return (
-    <Layout>
+    <div className="min-h-screen bg-muted/20 pb-40 md:pb-32">
       {pendingFile && currentImageField && (
         <ImageCropDialog
           file={pendingFile}
