@@ -16,55 +16,106 @@ export type Database = {
     Tables: {
       player_applications: {
         Row: {
+          address: string | null
           admin_notes: string | null
+          city: string | null
           created_at: string
           current_club: string | null
+          current_medications: string | null
           date_of_birth: string | null
-          email: string
+          email: string | null
+          fa_status: string | null
           full_name: string
+          highest_level: string | null
           id: string
+          jersey_number: string | null
+          lga: string | null
           location: string | null
+          medical_conditions: string | null
           message: string | null
+          nationality: string | null
+          nin: string | null
+          nok_name: string | null
+          nok_phone: string | null
+          nok_relationship: string | null
           phone: string | null
+          player_license: string | null
           position: string | null
+          preferred_foot: string | null
+          previous_club_contact: string | null
           reviewed_at: string | null
           reviewed_by: string | null
+          state_of_origin: string | null
           status: Database["public"]["Enums"]["application_status"]
           updated_at: string
           video_url: string | null
         }
         Insert: {
+          address?: string | null
           admin_notes?: string | null
+          city?: string | null
           created_at?: string
           current_club?: string | null
+          current_medications?: string | null
           date_of_birth?: string | null
-          email: string
+          email?: string | null
+          fa_status?: string | null
           full_name: string
+          highest_level?: string | null
           id?: string
+          jersey_number?: string | null
+          lga?: string | null
           location?: string | null
+          medical_conditions?: string | null
           message?: string | null
+          nationality?: string | null
+          nin?: string | null
+          nok_name?: string | null
+          nok_phone?: string | null
+          nok_relationship?: string | null
           phone?: string | null
+          player_license?: string | null
           position?: string | null
+          preferred_foot?: string | null
+          previous_club_contact?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
+          state_of_origin?: string | null
           status?: Database["public"]["Enums"]["application_status"]
           updated_at?: string
           video_url?: string | null
         }
         Update: {
+          address?: string | null
           admin_notes?: string | null
+          city?: string | null
           created_at?: string
           current_club?: string | null
+          current_medications?: string | null
           date_of_birth?: string | null
-          email?: string
+          email?: string | null
+          fa_status?: string | null
           full_name?: string
+          highest_level?: string | null
           id?: string
+          jersey_number?: string | null
+          lga?: string | null
           location?: string | null
+          medical_conditions?: string | null
           message?: string | null
+          nationality?: string | null
+          nin?: string | null
+          nok_name?: string | null
+          nok_phone?: string | null
+          nok_relationship?: string | null
           phone?: string | null
+          player_license?: string | null
           position?: string | null
+          preferred_foot?: string | null
+          previous_club_contact?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
+          state_of_origin?: string | null
           status?: Database["public"]["Enums"]["application_status"]
           updated_at?: string
           video_url?: string | null
