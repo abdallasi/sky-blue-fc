@@ -152,6 +152,15 @@ const CMS = () => {
           caption: '',
         };
         updateField('images.galleryImages', [...current, newItem]);
+      } else if (field.startsWith('__photo:')) {
+        // __photo:<arrayName>:<index> — headshot portrait for a named person
+        const [, arrayName, idxRaw] = field.split(':');
+        const idx = parseInt(idxRaw, 10);
+        const arr = [...((localContent as any)[arrayName] || [])];
+        if (arr[idx]) {
+          arr[idx] = { ...arr[idx], photo: url };
+          updateField(arrayName, arr);
+        }
       } else if (field.startsWith('__item:')) {
         // __item:<arrayName>:<index> — photo attached to a carousel entry
         const [, arrayName, idxRaw] = field.split(':');
@@ -161,6 +170,7 @@ const CMS = () => {
           arr[idx] = { ...arr[idx], image: url };
           updateField(arrayName, arr);
         }
+
       } else {
         updateField(`images.${field}`, url);
       }
