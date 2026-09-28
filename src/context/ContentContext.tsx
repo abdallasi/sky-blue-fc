@@ -52,6 +52,8 @@ export interface Facility {
 export interface ManagementMember {
   name: string;
   role: string;
+  /** Small square headshot (cloud storage URL) */
+  photo?: string;
 }
 
 export interface Player {
@@ -60,6 +62,8 @@ export interface Player {
   position: string;
   role?: string;
   captain?: boolean;
+  /** Small square headshot (cloud storage URL) */
+  photo?: string;
 }
 
 export interface NotablePlayer {
@@ -69,7 +73,10 @@ export interface NotablePlayer {
   matches: number;
   goals: number;
   assists: number;
+  /** Small square headshot (cloud storage URL) */
+  photo?: string;
 }
+
 
 export interface AcademyContent {
   heroTitle: string;
