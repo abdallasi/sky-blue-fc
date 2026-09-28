@@ -6,13 +6,13 @@ const MAX_EDGE = 2000; // px — plenty for full-bleed hero photography
 const QUALITY = 0.82;
 
 /** Shrink a large camera photo in the browser before it ever leaves the device. */
-async function compressImage(file: File): Promise<Blob> {
+async function compressImage(file: File, maxEdge = MAX_EDGE, quality = QUALITY): Promise<Blob> {
   if (!file.type.startsWith('image/') || file.type === 'image/svg+xml') return file;
 
   const bitmap = await createImageBitmap(file).catch(() => null);
   if (!bitmap) return file;
 
-  const scale = Math.min(1, MAX_EDGE / Math.max(bitmap.width, bitmap.height));
+  const scale = Math.min(1, maxEdge / Math.max(bitmap.width, bitmap.height));
   const width = Math.round(bitmap.width * scale);
   const height = Math.round(bitmap.height * scale);
 
@@ -25,10 +25,11 @@ async function compressImage(file: File): Promise<Blob> {
   bitmap.close?.();
 
   const blob = await new Promise<Blob | null>((resolve) =>
-    canvas.toBlob(resolve, 'image/jpeg', QUALITY)
+    canvas.toBlob(resolve, 'image/jpeg', quality)
   );
   if (!blob) return file;
-  // Keep whichever is smaller
+  // Keep whichever is smaller, unless we deliberately downsized for a thumbnail
+  if (scale < 1) return blob;
   return blob.size < file.size ? blob : file;
 }
 
@@ -37,8 +38,12 @@ function randomName(ext = 'jpg') {
 }
 
 /** Upload an image to Cloud Storage and return a long-lived link for the database. */
-export async function uploadSiteImage(file: File, folder = 'uploads'): Promise<string> {
-  const blob = await compressImage(file);
+export async function uploadSiteImage(
+  file: File,
+  folder = 'uploads',
+  options?: { maxEdge?: number; quality?: number }
+): Promise<string> {
+  const blob = await compressImage(file, options?.maxEdge ?? MAX_EDGE, options?.quality ?? QUALITY);
   const isJpeg = blob.type === 'image/jpeg' || blob instanceof Blob === false;
   const ext = isJpeg ? 'jpg' : (file.name.split('.').pop() || 'jpg').toLowerCase();
   const path = `${folder}/${randomName(ext)}`;
@@ -57,6 +62,10 @@ export async function uploadSiteImage(file: File, folder = 'uploads'): Promise<s
 
   return data.signedUrl;
 }
+
+/** Headshots only need to be small — keeps the database and page weight tiny. */
+export const HEADSHOT_OPTIONS = { maxEdge: 400, quality: 0.8 };
+
 
 /** Upload a base64 data URL that is already stored in content, returning the new link. */
 export async function uploadDataUrl(dataUrl: string, folder = 'migrated'): Promise<string> {
