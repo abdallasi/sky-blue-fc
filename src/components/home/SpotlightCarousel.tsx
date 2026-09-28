@@ -28,8 +28,21 @@ const shortPosition = (position: string) => {
 
 export const SpotlightCarousel = () => {
   const { content } = useContent();
-  const spotlights = content.spotlights ?? [];
-  if (spotlights.length === 0) return null;
+
+  /** Starting XI players with an uploaded headshot only. */
+  const players = (content.startingXI ?? [])
+    .filter((p) => Boolean(p.photo))
+    .map((p) => ({
+      id: `xi-${p.number}-${p.name}`,
+      name: p.name,
+      number: String(p.number),
+      position: p.position,
+      image: p.photo as string,
+      line1: p.role || p.position,
+      line2: p.captain ? 'Club captain' : '',
+    }));
+
+  if (players.length === 0) return null;
 
   return (
     <section className="pt-12 pb-10 sm:pt-20 sm:pb-14 bg-background">
@@ -44,7 +57,7 @@ export const SpotlightCarousel = () => {
           </Link>
         }
       >
-        {spotlights.map((p) => (
+        {players.map((p) => (
           <article
             key={p.id}
             className="group relative shrink-0 w-[66vw] sm:w-[260px] lg:w-[290px] snap-start overflow-hidden rounded-[1.5rem] bg-[hsl(var(--midnight-blue))]"
@@ -72,7 +85,7 @@ export const SpotlightCarousel = () => {
               <h3 className="text-lg font-black tracking-tight text-white sm:text-xl">{p.name}</h3>
               <div className="mt-2 h-px w-8 bg-white/30" />
               <p className="mt-2 text-xs text-white/75">{p.line1}</p>
-              <p className="text-xs text-white/55">{p.line2}</p>
+              {p.line2 && <p className="text-xs text-white/55">{p.line2}</p>}
             </div>
           </article>
         ))}
