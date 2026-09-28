@@ -89,6 +89,28 @@ const CMS = () => {
     setLocalContent(JSON.parse(draftKey));
   }, [draftKey]);
 
+  // Live count of applications still waiting for review
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      const { count } = await supabase
+        .from('player_applications')
+        .select('id', { count: 'exact', head: true })
+        .eq('status', 'pending');
+      if (!cancelled) setPendingCount(count ?? 0);
+    };
+    void load();
+    const channel = supabase
+      .channel('cms-pending-applications')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'player_applications' }, () => void load())
+      .subscribe();
+    return () => {
+      cancelled = true;
+      void supabase.removeChannel(channel);
+    };
+  }, []);
+
+
 
   const handleSave = async () => {
     setBusy('save');
