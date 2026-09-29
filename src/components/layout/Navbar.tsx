@@ -6,7 +6,7 @@ import { useContent } from '@/context/ContentContext';
 
 const navLinks = [
   { name: 'Home', href: '/' },
-  { name: 'First Team', href: '/team' },
+  { name: 'Team', href: '/team' },
   { name: 'Academy', href: '/academy' },
   { name: 'About', href: '/about' },
   { name: 'Stats', href: '/stats' },

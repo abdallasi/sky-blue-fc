@@ -73,7 +73,7 @@ export const Footer = () => {
             <ul className="space-y-3">
               {[
                 { name: 'About Us', href: '/about' },
-                { name: 'First Team', href: '/team' },
+                { name: 'Team', href: '/team' },
                 { name: 'Academy', href: '/academy' },
                 { name: 'Statistics', href: '/stats' },
                 { name: 'Contact', href: '/contact' },
