@@ -1006,27 +1006,14 @@ const CMS = () => {
                               />
                             </div>
                             <div className="flex-1">
-                              <label className="block text-sm font-medium mb-2">Role</label>
-                              <input
-                                type="text"
-                                value={player.role || ''}
-                                onChange={(e) => {
-                                  const newPlayers = [...localContent.extendedSquad];
-                                  newPlayers[index] = { ...player, role: e.target.value };
-                                  updateField('extendedSquad', newPlayers);
-                                }}
-                                className="w-full px-4 py-3 rounded-xl border border-border bg-background"
-                              />
-                            </div>
-                            <div className="flex-1">
                               <label className="block text-sm font-medium mb-2">Level</label>
                               <input
                                 type="text"
                                 value={player.level || ''}
                                 onChange={(e) => {
-                                  const newPlayers = [...localContent.extendedSquad];
+                                  const newPlayers = [...localContent.startingXI];
                                   newPlayers[index] = { ...player, level: e.target.value };
-                                  updateField('extendedSquad', newPlayers);
+                                  updateField('startingXI', newPlayers);
                                 }}
                                 className="w-full px-4 py-3 rounded-xl border border-border bg-background"
                               />
@@ -1095,6 +1082,32 @@ const CMS = () => {
                                 onChange={(e) => {
                                   const newPlayers = [...localContent.extendedSquad];
                                   newPlayers[index] = { ...player, position: e.target.value };
+                                  updateField('extendedSquad', newPlayers);
+                                }}
+                                className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <label className="block text-sm font-medium mb-2">Role</label>
+                              <input
+                                type="text"
+                                value={player.role || ''}
+                                onChange={(e) => {
+                                  const newPlayers = [...localContent.extendedSquad];
+                                  newPlayers[index] = { ...player, role: e.target.value };
+                                  updateField('extendedSquad', newPlayers);
+                                }}
+                                className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <label className="block text-sm font-medium mb-2">Level</label>
+                              <input
+                                type="text"
+                                value={player.level || ''}
+                                onChange={(e) => {
+                                  const newPlayers = [...localContent.extendedSquad];
+                                  newPlayers[index] = { ...player, level: e.target.value };
                                   updateField('extendedSquad', newPlayers);
                                 }}
                                 className="w-full px-4 py-3 rounded-xl border border-border bg-background"
