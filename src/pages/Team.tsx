@@ -4,7 +4,6 @@ import { Star } from 'lucide-react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { useCountUp } from '@/hooks/useCountUp';
 import { PageHero } from '@/components/layout/PageHero';
-import { SpotlightCarousel } from '@/components/home/SpotlightCarousel';
 import { Headshot } from '@/components/team/Headshot';
 import teamFallback from '@/assets/placeholder-hero-matchday.jpg';
 
@@ -43,57 +42,56 @@ const Team = () => {
   return (
     <Layout>
       <PageHero
-        eyebrow="First team"
+        eyebrow="Team"
         title="Eleven start. One club they all carry."
         subtitle="Goalkeepers to strikers, and the staff who prepare them week after week."
         image={content.images?.teamHero || teamFallback}
         imageMobile={content.images?.teamHeroMobile}
       />
 
-      {/* 1 — Selected players */}
-      <SpotlightCarousel />
-
-      {/* 2 — Starting XI */}
+      {/* Starting XI */}
       <section className="section-padding bg-muted/50">
         <div className="container-premium">
           <div className="text-center mb-12 sm:mb-16">
-            <span className="text-label-blue">First Team</span>
+            <span className="text-label-blue">Team</span>
             <h2 className="heading-section mt-2">Starting XI</h2>
           </div>
 
           <div
             ref={xiAnim.ref as React.RefObject<HTMLDivElement>}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7"
+            className="grid grid-cols-2 gap-3 sm:gap-7 lg:grid-cols-3"
           >
             {content.startingXI.map((player, index) => (
               <div
                 key={index}
-                className={`group relative min-h-[340px] overflow-hidden rounded-[1.25rem] bg-[hsl(var(--midnight-blue))] p-5 text-white shadow-xl transition-all duration-700 hover:-translate-y-1 sm:min-h-[390px] sm:p-7 ${xiAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                className={`group relative flex min-w-0 flex-col items-center overflow-hidden rounded-lg bg-card px-2.5 pb-4 pt-4 text-center text-card-foreground shadow-[var(--shadow-card)] transition-all duration-700 hover:-translate-y-1 sm:block sm:min-h-[390px] sm:rounded-[1.25rem] sm:bg-[hsl(var(--midnight-blue))] sm:p-7 sm:text-left sm:text-white sm:shadow-xl ${xiAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 style={{ transitionDelay: `${index * 80}ms` }}
               >
-                <span className="pointer-events-none absolute -right-1 -top-3 select-none text-6xl font-black leading-none text-white/[0.09] sm:text-7xl">
+                <span className="pointer-events-none absolute -right-1 -top-3 hidden select-none text-6xl font-black leading-none text-white/[0.09] sm:block sm:text-7xl">
                   {player.number}
                 </span>
 
                 {player.captain && (
-                  <span className="absolute right-3 top-3 flex h-6 w-6 items-center justify-center rounded-full bg-amber-500 text-[10px] font-black">
+                  <span className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-[10px] font-black text-primary-foreground sm:right-3 sm:top-3 sm:bg-amber-500">
                     C
                   </span>
                 )}
 
-                <div className="relative">
-                  <Headshot name={player.name} photo={player.photo} tone="dark" size="h-32 w-32 sm:h-36 sm:w-36" shape="rounded-[1.25rem]" className="shadow-2xl" />
+                <div className="relative flex w-full min-w-0 flex-col items-center sm:block">
+                  <Headshot name={player.name} photo={player.photo} size="h-32 w-full max-w-32" shape="rounded-md" className="sm:hidden" />
+                  <Headshot name={player.name} photo={player.photo} tone="dark" size="h-36 w-36" shape="rounded-[1.25rem]" className="hidden shadow-2xl sm:block" />
+                  <span className="mt-3 text-xs font-bold text-primary sm:hidden">#{player.number} · {player.position}</span>
                   <span
-                    className={`mt-4 inline-block rounded-full px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.16em] ${positionColors[player.position] || 'bg-white/10 text-white/70'}`}
+                    className={`mt-4 hidden rounded-full px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.16em] sm:inline-block ${positionColors[player.position] || 'bg-white/10 text-white/70'}`}
                   >
                     {player.position}
                   </span>
-                  <h3 className="mt-3 text-xl font-black leading-tight sm:text-2xl">{player.name}</h3>
-                  <div className="mt-2 h-px w-6 bg-[hsl(var(--electric-cyan))]/70 transition-all duration-500 group-hover:w-12" />
-                  <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.18em] text-white/50">
+                  <h3 className="mt-2 w-full break-words text-sm font-bold leading-snug sm:mt-3 sm:text-2xl sm:font-black sm:leading-tight">{player.name}</h3>
+                  <div className="mt-3 h-px w-8 bg-border sm:mt-2 sm:w-6 sm:bg-[hsl(var(--electric-cyan))]/70 sm:group-hover:w-12" />
+                  <p className="mt-2 text-[10px] font-semibold text-muted-foreground sm:font-bold sm:uppercase sm:tracking-[0.18em] sm:text-white/50">
                     {player.role || player.position}
                   </p>
-                  {player.level && <p className="mt-1 text-xs font-semibold text-white/70">{player.level}</p>}
+                  {player.level && <p className="mt-1 text-[10px] text-muted-foreground sm:text-xs sm:font-semibold sm:text-white/70">{player.level}</p>}
                 </div>
               </div>
             ))}
@@ -101,7 +99,7 @@ const Team = () => {
         </div>
       </section>
 
-      {/* 3 — Notable players */}
+      {/* Notable players */}
       <section className="section-padding bg-[hsl(var(--midnight-blue))] text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-noise opacity-30" />
         <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-[hsl(var(--royal-blue))]/10 rounded-full blur-[150px]" />
@@ -152,7 +150,7 @@ const Team = () => {
         </div>
       </section>
 
-      {/* 4 — Extended squad */}
+      {/* Extended squad */}
       <section className="section-padding">
         <div className="container-premium">
           <div className="text-center mb-12 sm:mb-16">
@@ -162,22 +160,24 @@ const Team = () => {
 
           <div
             ref={extAnim.ref as React.RefObject<HTMLDivElement>}
-            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7"
+            className="grid grid-cols-2 gap-3 sm:gap-7 lg:grid-cols-3"
           >
             {content.extendedSquad.map((player, index) => (
               <div
                 key={index}
-                className={`group flex min-h-[180px] items-center gap-5 rounded-[1.25rem] border border-border bg-card p-5 shadow-md transition-all duration-700 hover:-translate-y-1 hover:shadow-xl sm:min-h-[220px] sm:p-6 ${extAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+                className={`group flex min-w-0 flex-col items-center gap-0 rounded-lg bg-card px-2.5 pb-4 pt-4 text-center text-card-foreground shadow-[var(--shadow-card)] transition-all duration-700 hover:-translate-y-1 hover:shadow-xl sm:min-h-[220px] sm:flex-row sm:gap-5 sm:rounded-[1.25rem] sm:border sm:border-border sm:p-6 sm:text-left sm:shadow-md ${extAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
                 style={{ transitionDelay: `${index * 80}ms` }}
               >
-                <Headshot name={player.name} photo={player.photo} size="h-24 w-24 sm:h-28 sm:w-28" shape="rounded-[1.25rem]" className="shadow-lg" />
-                <div className="min-w-0">
-                  <h3 className="text-lg font-black leading-tight sm:text-xl">{player.name}</h3>
-                  <div className="flex items-center gap-2">
+                <Headshot name={player.name} photo={player.photo} size="h-32 w-full max-w-32 sm:h-28 sm:w-28" shape="rounded-md sm:rounded-[1.25rem]" className="sm:shadow-lg" />
+                <div className="flex w-full min-w-0 flex-col items-center sm:block">
+                  <div className="mt-3 text-xs font-bold text-primary sm:hidden">#{player.number} · {player.position}</div>
+                  <h3 className="mt-2 w-full break-words text-sm font-bold leading-snug sm:mt-0 sm:text-xl sm:font-black sm:leading-tight">{player.name}</h3>
+                  <div className="hidden items-center gap-2 sm:flex">
                     <span className="text-xs font-bold text-[hsl(var(--primary-blue))]">#{player.number}</span>
                     <span className="text-xs font-medium text-muted-foreground">{player.position}</span>
                   </div>
-                  <p className="mt-2 text-xs font-medium text-muted-foreground">{player.level || player.role}</p>
+                  <div className="mt-3 h-px w-8 bg-border sm:hidden" />
+                  <p className="mt-2 text-[10px] text-muted-foreground sm:text-xs sm:font-medium">{player.level || player.role}</p>
                 </div>
               </div>
             ))}
@@ -185,7 +185,7 @@ const Team = () => {
         </div>
       </section>
 
-      {/* 5 — Leadership */}
+      {/* Leadership */}
       <section className="section-padding bg-muted/40">
         <div className="container-premium">
           <div className="text-center mb-12 sm:mb-16">
