@@ -63,12 +63,12 @@ const Team = () => {
 
           <div
             ref={xiAnim.ref as React.RefObject<HTMLDivElement>}
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7"
           >
             {content.startingXI.map((player, index) => (
               <div
                 key={index}
-                className={`group relative overflow-hidden rounded-[1.25rem] bg-[hsl(var(--midnight-blue))] p-4 text-white transition-all duration-700 hover:-translate-y-1 sm:p-5 ${xiAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                className={`group relative min-h-[340px] overflow-hidden rounded-[1.25rem] bg-[hsl(var(--midnight-blue))] p-5 text-white shadow-xl transition-all duration-700 hover:-translate-y-1 sm:min-h-[390px] sm:p-7 ${xiAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 style={{ transitionDelay: `${index * 80}ms` }}
               >
                 <span className="pointer-events-none absolute -right-1 -top-3 select-none text-6xl font-black leading-none text-white/[0.09] sm:text-7xl">
@@ -82,17 +82,18 @@ const Team = () => {
                 )}
 
                 <div className="relative">
-                  <Headshot name={player.name} photo={player.photo} tone="dark" size="h-16 w-16" shape="rounded-2xl" />
+                  <Headshot name={player.name} photo={player.photo} tone="dark" size="h-32 w-32 sm:h-36 sm:w-36" shape="rounded-[1.25rem]" className="shadow-2xl" />
                   <span
                     className={`mt-4 inline-block rounded-full px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.16em] ${positionColors[player.position] || 'bg-white/10 text-white/70'}`}
                   >
                     {player.position}
                   </span>
-                  <h3 className="mt-2 text-sm font-black leading-tight tracking-tight sm:text-base">{player.name}</h3>
+                  <h3 className="mt-3 text-xl font-black leading-tight sm:text-2xl">{player.name}</h3>
                   <div className="mt-2 h-px w-6 bg-[hsl(var(--electric-cyan))]/70 transition-all duration-500 group-hover:w-12" />
                   <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.18em] text-white/50">
                     {player.role || player.position}
                   </p>
+                  {player.level && <p className="mt-1 text-xs font-semibold text-white/70">{player.level}</p>}
                 </div>
               </div>
             ))}
@@ -122,7 +123,7 @@ const Team = () => {
               >
                 <div className="flex items-start justify-between mb-4 gap-4">
                   <div className="flex items-center gap-4 min-w-0">
-                    <Headshot name={player.name} photo={player.photo} tone="dark" size="h-14 w-14" shape="rounded-full" />
+                    <Headshot name={player.name} photo={player.photo} tone="dark" size="h-28 w-28" shape="rounded-[1.25rem]" />
                     <div className="min-w-0">
                       <h3 className="font-bold text-xl mb-1 truncate">{player.name}</h3>
                       <div className="flex items-center gap-2 text-white/60 text-sm">
@@ -161,21 +162,22 @@ const Team = () => {
 
           <div
             ref={extAnim.ref as React.RefObject<HTMLDivElement>}
-            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4"
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7"
           >
             {content.extendedSquad.map((player, index) => (
               <div
                 key={index}
-                className={`flex items-center gap-4 p-4 rounded-2xl bg-muted/50 hover:bg-muted hover-lift transition-all duration-700 ${extAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+                className={`group flex min-h-[180px] items-center gap-5 rounded-[1.25rem] border border-border bg-card p-5 shadow-md transition-all duration-700 hover:-translate-y-1 hover:shadow-xl sm:min-h-[220px] sm:p-6 ${extAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
                 style={{ transitionDelay: `${index * 80}ms` }}
               >
-                <Headshot name={player.name} photo={player.photo} size="h-12 w-12" shape="rounded-xl" />
+                <Headshot name={player.name} photo={player.photo} size="h-24 w-24 sm:h-28 sm:w-28" shape="rounded-[1.25rem]" className="shadow-lg" />
                 <div className="min-w-0">
-                  <h3 className="font-semibold truncate">{player.name}</h3>
+                  <h3 className="text-lg font-black leading-tight sm:text-xl">{player.name}</h3>
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-bold text-[hsl(var(--primary-blue))]">#{player.number}</span>
                     <span className="text-xs font-medium text-muted-foreground">{player.position}</span>
                   </div>
+                  <p className="mt-2 text-xs font-medium text-muted-foreground">{player.level || player.role}</p>
                 </div>
               </div>
             ))}
@@ -193,18 +195,18 @@ const Team = () => {
 
           <div
             ref={mgmtAnim.ref as React.RefObject<HTMLDivElement>}
-            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="grid sm:grid-cols-2 gap-6 sm:gap-8"
           >
             {content.management.map((member, index) => (
               <div
                 key={index}
-                className={`group relative overflow-hidden rounded-[1.5rem] border border-border bg-card p-6 transition-all duration-700 hover:-translate-y-1 hover:shadow-[0_30px_60px_-40px_hsl(217_100%_12%/0.3)] ${mgmtAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                className={`group relative min-h-[250px] overflow-hidden rounded-[1.25rem] border border-border bg-card p-6 shadow-md transition-all duration-700 hover:-translate-y-1 hover:shadow-xl sm:min-h-[290px] sm:p-8 ${mgmtAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
                 <div className="flex items-center gap-4">
-                  <Headshot name={member.name} photo={member.photo} size="h-14 w-14" shape="rounded-2xl" />
+                  <Headshot name={member.name} photo={member.photo} size="h-28 w-28 sm:h-32 sm:w-32" shape="rounded-[1.25rem]" className="shadow-lg" />
                   <div className="min-w-0">
-                    <h3 className="font-black text-lg tracking-tight truncate">{member.name}</h3>
+                    <h3 className="text-xl font-black leading-tight sm:text-2xl">{member.name}</h3>
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[hsl(var(--royal-blue))]">
                       {member.role}
                     </p>
