@@ -43,7 +43,7 @@ const Team = () => {
     <Layout>
       <PageHero
         eyebrow="Team"
-        title="Eleven start. One club they all carry."
+        title="Team"
         subtitle="Goalkeepers to strikers, and the staff who prepare them week after week."
         image={content.images?.teamHero || teamFallback}
         imageMobile={content.images?.teamHeroMobile}
