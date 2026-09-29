@@ -9,6 +9,8 @@
 7. [x] Merge /apply into /academy with 4-step growth.design application funnel
 8. [x] Extend player_applications schema + upgrade CMS ApplicationsPanel dossier
 9. [x] About page redesign with soul
+10. [x] Replace the previous roster with the 29-player September 2026 squad and registration levels
+11. [x] Enlarge Team player and leadership portraits/cards for a premium editorial presentation
 
 ## Waiting on club content
 - Real contact details, fixtures, news stories, and photos (uploaded via admin area)
