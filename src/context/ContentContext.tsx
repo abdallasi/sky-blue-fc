@@ -99,6 +99,8 @@ export interface ContactInfo {
   locationDetail: string;
   whatsapp?: string;
   telegram?: string;
+  youtube?: string;
+  instagram?: string;
 }
 
 
@@ -284,29 +286,29 @@ const defaultContent: SiteContent = {
     heroSubtitle: "From humble beginnings to national recognition, discover the journey of AMTAY FC.",
     storyTitle: "Our Club Story",
     storyParagraphs: [
-      "AMTAY FC was founded in 2022 by Engr. Muhammad T. Abdulwahab, a visionary leader, philanthropist, and football enthusiast committed to youth empowerment.",
+      "AMTAY FC was founded in 2022 by Engr. Dr. Muhammad T. Abdulwahab, a visionary leader, philanthropist, and football enthusiast committed to youth empowerment.",
       "Established to identify, train, and elevate young players, the club quickly gained recognition for its strong performances in the Kano Ahlan League.",
       "With disciplined management and a clear philosophy, the club earned a deserved promotion to the International League—marking a major milestone in its mission to shape the next generation of Nigerian stars."
     ],
-    founderName: "Engr. Muhammad T. Abdulwahab",
+    founderName: "Engr. Dr. Muhammad T. Abdulwahab",
     founderTitle: "Founder & President",
-    founderBio: "A visionary engineer and philanthropist, Engr. Muhammad T. Abdulwahab created AMTAY FC to empower youth through structured football development. His commitment to community upliftment and excellence has shaped the club's identity and its rapidly rising status among Nigeria's most promising football institutions."
+    founderBio: "A visionary engineer and philanthropist, Engr. Dr. Muhammad T. Abdulwahab created AMTAY FC to empower youth through structured football development. His commitment to community upliftment and excellence has shaped the club's identity and its rapidly rising status among Nigeria's most promising football institutions."
   },
   milestones: [
-    { year: '2022', title: 'Club Founded', description: 'AMTAY FC established by Engr. Muhammad T. Abdulwahab' },
+    { year: '2022', title: 'Club Founded', description: 'AMTAY FC established by Engr. Dr. Muhammad T. Abdulwahab' },
     { year: '2022', title: 'Ahlan League Debut', description: 'First competitive season in Kano Ahlan League' },
     { year: '2023', title: 'National Recognition', description: '4 players invited to Nigeria U-17 screening' },
     { year: '2024', title: 'League Champions', description: 'Recognized as top team in the league' },
     { year: '2024', title: 'International League', description: 'Promotion to International League' },
   ],
   facilities: [
-    { name: 'Training Ground', location: 'Federal College of Education, Kano', description: 'Professional-grade training facilities' },
+    { name: 'Training Ground', location: 'Bayero University Kano, New Site', description: 'Professional-grade training facilities' },
     { name: 'Fitness Center', location: 'Meeqat Gym', description: 'State-of-the-art fitness equipment' },
     { name: 'Youth Academy', location: 'Dedicated Development Center', description: 'Programs for emerging talents' },
     { name: 'Medical Recovery Hub', location: 'Integrated Care Facility', description: 'Free recovery and rehabilitation' },
   ],
   management: [
-    { name: 'Engr. Muhammad T. Abdulwahab', role: 'President' },
+    { name: 'Engr. Dr. Muhammad T. Abdulwahab', role: 'President' },
     { name: 'Auwal T. Tahir', role: 'Team Secretary & Media Team' },
     { name: 'Barr. Bashir Adam', role: 'Legal Advisor' },
     { name: 'Abubakar Nuhu Muhammad', role: 'Financial Secretary' },
@@ -377,7 +379,9 @@ const defaultContent: SiteContent = {
     email: 'info@amtayfc.com',
     phone: '+234 XXX XXX XXXX',
     location: 'Kano, Nigeria',
-    locationDetail: 'Federal College of Education'
+    locationDetail: 'Bayero University Kano, New Site',
+    youtube: 'https://youtube.com/@amtayfc?si=gZh9YsnJGPAQJrhi',
+    instagram: 'https://www.instagram.com/amtayfc?stkn=MWRkZHo1bTgwNDVicg=='
   },
   images: {},
   trials: {
@@ -438,7 +442,7 @@ const defaultContent: SiteContent = {
   ],
 
   matchShots: [
-    { id: 'ms-1', caption: 'The whistle goes. Kano holds its breath.', meta: 'Matchday · Federal College of Education' },
+    { id: 'ms-1', caption: 'The whistle goes. Kano holds its breath.', meta: 'Matchday · Bayero University Kano, New Site' },
     { id: 'ms-2', caption: 'Ninety minutes of pressing, one moment of calm.', meta: 'International League' },
     { id: 'ms-3', caption: 'The bench is on its feet before the net settles.', meta: 'Home · AMTAY FC' },
     { id: 'ms-4', caption: 'Work finished. Shirts swapped. Standards kept.', meta: 'Full time' },
@@ -470,7 +474,7 @@ const defaultContent: SiteContent = {
       tag: 'Players',
       body: `Buhari Sani Shaho did not arrive at AMTAY FC as a finished product. He arrived hungry.
 
-Four matches into the Nationwide League One window, the centre forward had scored seven goals — the most productive return of any attacker on the board. Not penalties. Not tap-ins gifted by chaos. Goals built out of the movement our technical crew drills every week at the Federal College of Education: the first touch away from pressure, the second into space, the third into the net.
+Four matches into the Nationwide League One window, the centre forward had scored seven goals — the most productive return of any attacker on the board. Not penalties. Not tap-ins gifted by chaos. Goals built out of the movement our technical crew drills every week at the Bayero University Kano, New Site: the first touch away from pressure, the second into space, the third into the net.
 
 ## The numbers behind the noise
 
@@ -494,9 +498,9 @@ Wear the shirt. Earn the shirt.`,
   ],
 
   fixtures: [
-    { id: 'fx-1', opponent: 'Sumaila Strikers', competition: 'International League', date: 'Sat 12 Oct', kickoff: '16:00', venue: 'Federal College of Education, Kano', home: true },
+    { id: 'fx-1', opponent: 'Sumaila Strikers', competition: 'International League', date: 'Sat 12 Oct', kickoff: '16:00', venue: 'Bayero University Kano, New Site', home: true },
     { id: 'fx-2', opponent: 'Kano Pillars Feeders', competition: 'International League', date: 'Sat 19 Oct', kickoff: '16:00', venue: 'Away', home: false },
-    { id: 'fx-3', opponent: 'Ahlan Select', competition: 'Friendly', date: 'Wed 23 Oct', kickoff: '15:30', venue: 'Federal College of Education, Kano', home: true },
+    { id: 'fx-3', opponent: 'Ahlan Select', competition: 'Friendly', date: 'Wed 23 Oct', kickoff: '15:30', venue: 'Bayero University Kano, New Site', home: true },
   ],
 
 };
