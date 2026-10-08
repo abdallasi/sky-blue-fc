@@ -47,14 +47,14 @@ export const Footer = () => {
             {/* Social Links */}
             <div className="flex gap-3">
               {[
-                { Icon: Facebook, label: 'Facebook' },
-                { Icon: Twitter, label: 'Twitter' },
-                { Icon: Instagram, label: 'Instagram' },
-                { Icon: Youtube, label: 'YouTube' },
-              ].map(({ Icon, label }) => (
+                { Icon: Instagram, label: 'Instagram', href: contact.instagram },
+                { Icon: Youtube, label: 'YouTube', href: contact.youtube },
+              ].filter((s) => s.href).map(({ Icon, label, href }) => (
                 <a 
                   key={label}
-                  href="#" 
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   className="w-11 h-11 rounded-xl bg-white/5 flex items-center justify-center hover:bg-[hsl(var(--electric-cyan))] hover:text-[hsl(var(--midnight-blue))] transition-all duration-300 hover:scale-110"
                 >

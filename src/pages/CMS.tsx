@@ -1286,6 +1286,17 @@ const CMS = () => {
                             className="w-full px-4 py-3 rounded-xl border border-border bg-background"
                           />
                         </div>
+                        {(['youtube', 'instagram'] as const).map((k) => (
+                          <div key={k}>
+                            <label className="block text-sm font-medium mb-2">{k === 'youtube' ? 'YouTube' : 'Instagram'} URL</label>
+                            <input
+                              type="url"
+                              value={localContent.contact[k] ?? ''}
+                              onChange={(e) => updateField(`contact.${k}`, e.target.value)}
+                              className="w-full px-4 py-3 rounded-xl border border-border bg-background"
+                            />
+                          </div>
+                        ))}
                       </>
                     )}
 

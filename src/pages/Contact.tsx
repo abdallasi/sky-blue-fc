@@ -110,11 +110,16 @@ const Contact = () => {
               <div>
                 <h3 className="font-semibold mb-4">Follow Us</h3>
                 <div className="flex gap-3">
-                  {[Facebook, Twitter, Instagram, Youtube].map((Icon, index) => (
+                  {[
+                    { Icon: Instagram, href: content.contact.instagram, label: 'Instagram' },
+                    { Icon: Youtube, href: content.contact.youtube, label: 'YouTube' },
+                  ].filter((s) => s.href).map(({ Icon, href, label }) => (
                     <a
-                      key={index}
-                      href="#"
-                      aria-label="Social profile"
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={label}
                       className="w-12 h-12 rounded-xl bg-[hsl(var(--primary-blue))]/10 flex items-center justify-center hover:bg-[hsl(var(--primary-blue))] hover:text-white transition-all hover-lift"
                     >
                       <Icon className="w-5 h-5" />
