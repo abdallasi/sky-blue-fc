@@ -265,7 +265,7 @@ const defaultContent: SiteContent = {
   ],
   snapshot: {
     headline: "A Club Built for Excellence.",
-    description: "AMTAY FC is one of Kano's fastest-rising football institutions. Built in 2022 with a mission to develop young athletes, the club has earned recognition for its professionalism, dominance, and player development approach.",
+    description: "AMTAY FC is one of Kano's fastest-rising football institutions. Established in 2022 with a mission to develop young athletes, the club has earned recognition for its professionalism, dominance, and player development approach.",
     achievements: [
       "Promotion to the International League",
       "Strong performance in the Ahlan League",
