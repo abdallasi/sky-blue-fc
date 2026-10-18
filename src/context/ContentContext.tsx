@@ -254,7 +254,7 @@ const defaultContent: SiteContent = {
     subheadline: "From Kano to National Stardom: Developing Nigeria's future football legends.",
     button1: "Meet the Squad",
     button2: "Our Vision",
-    badge: "International League"
+    badge: "Nationwide League One"
   },
   stats: [
     { value: '310', label: 'Clean Sheets' },
