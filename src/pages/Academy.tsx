@@ -145,7 +145,7 @@ const Academy = () => {
               { icon: Users, value: '50+', label: 'Academy Players' },
               { icon: GraduationCap, value: '15+', label: 'Graduated to Senior Team' },
               { icon: Target, value: '4', label: 'National Team Invites' },
-              { icon: Award, value: '100%', label: 'Scholarship Rate' },
+              { icon: Award, value: '100%', label: 'Completion Rate' },
             ].map((stat, index) => {
               const Icon = stat.icon;
               return (

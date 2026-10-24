@@ -922,7 +922,7 @@ const CMS = () => {
                               <X className="w-4 h-4" />
                             </button>
                           </div>
-                        ))}
+                        ); })}
                         <button
                           onClick={() => updateField('management', [...localContent.management, { name: '', role: '' }])}
                           className="w-full py-3 rounded-xl border-2 border-dashed border-border hover:bg-muted/50 transition-colors text-sm font-medium text-muted-foreground"
@@ -1022,7 +1022,7 @@ const CMS = () => {
                               <X className="w-4 h-4" />
                             </button>
                           </div>
-                        ))}
+                        ); })}
                         <button
                           onClick={() => updateField('startingXI', [...localContent.startingXI, { number: localContent.startingXI.length + 1, name: '', position: '', role: '' }])}
                           className="w-full py-3 rounded-xl border-2 border-dashed border-border hover:bg-muted/50 transition-colors text-sm font-medium text-muted-foreground"
@@ -1118,7 +1118,7 @@ const CMS = () => {
                               <X className="w-4 h-4" />
                             </button>
                           </div>
-                        ))}
+                        ); })}
                         <button
                           onClick={() => updateField('extendedSquad', [...localContent.extendedSquad, { number: localContent.extendedSquad.length + 12, name: '', position: '' }])}
                           className="w-full py-3 rounded-xl border-2 border-dashed border-border hover:bg-muted/50 transition-colors text-sm font-medium text-muted-foreground"
