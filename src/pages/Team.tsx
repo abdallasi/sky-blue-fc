@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Layout } from '@/components/layout/Layout';
 import { useContent } from '@/context/ContentContext';
 import { Star } from 'lucide-react';
@@ -38,6 +39,8 @@ const Team = () => {
   const xiAnim = useScrollAnimation({ threshold: 0.1 });
   const extAnim = useScrollAnimation({ threshold: 0.1 });
   const notableAnim = useScrollAnimation({ threshold: 0.1 });
+  const [view, setView] = useState<'squad' | 'management'>('squad');
+  const squadCount = content.startingXI.length + content.extendedSquad.length;
 
   return (
     <Layout>
@@ -49,6 +52,23 @@ const Team = () => {
         imageMobile={content.images?.teamHeroMobile}
       />
 
+      <div className="sticky top-[72px] z-30 flex justify-center bg-background/85 py-4 backdrop-blur-xl lg:top-20">
+        <div role="tablist" aria-label="Team view" className="inline-flex rounded-full bg-muted p-1 shadow-[var(--shadow-card)]">
+          {([['squad', `Squad (${squadCount})`], ['management', `Management (${content.management.length})`]] as const).map(([key, label]) => (
+            <button
+              key={key}
+              role="tab"
+              aria-selected={view === key}
+              onClick={() => { setView(key); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+              className={`rounded-full px-5 py-2 text-xs font-bold uppercase tracking-[0.14em] transition-all duration-300 sm:px-7 ${view === key ? 'bg-card text-foreground shadow-md' : 'text-muted-foreground hover:text-foreground'}`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {view === 'squad' && (<>
       {/* Starting XI */}
       <section className="section-padding bg-muted/50">
         <div className="container-premium">
@@ -185,6 +205,9 @@ const Team = () => {
         </div>
       </section>
 
+      </>)}
+
+      {view === 'management' && (<>
       {/* Leadership */}
       <section className="section-padding bg-muted/40">
         <div className="container-premium">
@@ -200,7 +223,7 @@ const Team = () => {
             {content.management.map((member, index) => (
               <div
                 key={index}
-                className={`group relative min-h-[250px] overflow-hidden rounded-[1.25rem] border border-border bg-card p-6 shadow-md transition-all duration-700 hover:-translate-y-1 hover:shadow-xl sm:min-h-[290px] sm:p-8 ${mgmtAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                className={`group relative min-h-[250px] overflow-hidden rounded-[1.25rem] border border-border bg-card p-6 shadow-md transition-all duration-700 hover:-translate-y-1 hover:shadow-xl sm:min-h-[290px] sm:p-8 animate-fade-in`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
                 <div className="flex items-center gap-4">
@@ -221,6 +244,7 @@ const Team = () => {
           </div>
         </div>
       </section>
+      </>)}
     </Layout>
   );
 };
