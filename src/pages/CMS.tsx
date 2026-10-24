@@ -9,7 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { ApplicationsPanel } from '@/components/cms/ApplicationsPanel';
 import { uploadSiteImage, migrateDataUrls, isDataUrl, HEADSHOT_OPTIONS } from '@/lib/mediaUpload';
 import { ImageCropDialog, suggestedRatio } from '@/components/cms/ImageCropDialog';
-import { useReorder } from '@/components/cms/ReorderControls';
+import { OrganizeOrderSheet } from '@/components/cms/OrganizeOrderSheet';
 
 
 
@@ -183,9 +183,6 @@ const CMS = () => {
     });
   };
 
-  const mgmtReorder = useReorder(localContent.management, (n) => updateField('management', n));
-  const xiReorder = useReorder(localContent.startingXI, (n) => updateField('startingXI', n));
-  const extReorder = useReorder(localContent.extendedSquad, (n) => updateField('extendedSquad', n));
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -874,10 +871,10 @@ const CMS = () => {
 
                     {section.id === 'management' && (
                       <>
-                        {localContent.management.map((member, index) => { const rp = mgmtReorder.rowProps(index); return (
-                          <div key={index} data-reorder-row onDragOver={rp.onDragOver} onDrop={rp.onDrop} className={`cms-mobile-stack flex items-end gap-4 p-4 border border-border rounded-xl transition-shadow ${rp.className}`}>
-                            {mgmtReorder.controls(index)}
-                            <HeadshotPicker
+                        <div className="flex items-center justify-between"><h3 className="font-bold text-lg">Leadership</h3><OrganizeOrderSheet title="Leadership" items={localContent.management} onDone={(n) => updateField('management', n)} /></div>
+                        {localContent.management.map((member, index) => (
+                          <div key={index} className="cms-mobile-stack flex items-end gap-4 p-4 border border-border rounded-xl">
+                                                        <HeadshotPicker
                               photo={member.photo}
                               onPick={() => triggerImageUpload(`__photo:management:${index}`)}
                               onClear={() => {
@@ -922,7 +919,7 @@ const CMS = () => {
                               <X className="w-4 h-4" />
                             </button>
                           </div>
-                        ); })}
+                        ))}
                         <button
                           onClick={() => updateField('management', [...localContent.management, { name: '', role: '' }])}
                           className="w-full py-3 rounded-xl border-2 border-dashed border-border hover:bg-muted/50 transition-colors text-sm font-medium text-muted-foreground"
@@ -934,11 +931,10 @@ const CMS = () => {
 
                     {section.id === 'players' && (
                       <>
-                        <h3 className="font-bold text-lg">Starting XI</h3>
-                        {localContent.startingXI.map((player, index) => { const rp = xiReorder.rowProps(index); return (
-                          <div key={index} data-reorder-row onDragOver={rp.onDragOver} onDrop={rp.onDrop} className={`cms-mobile-stack flex items-end gap-4 p-4 border border-border rounded-xl transition-shadow ${rp.className}`}>
-                            {xiReorder.controls(index)}
-                            <HeadshotPicker
+                        <div className="flex items-center justify-between"><h3 className="font-bold text-lg">Starting XI</h3><OrganizeOrderSheet title="Starting XI" items={localContent.startingXI} onDone={(n) => updateField('startingXI', n)} /></div>
+                        {localContent.startingXI.map((player, index) => (
+                          <div key={index} className="cms-mobile-stack flex items-end gap-4 p-4 border border-border rounded-xl">
+                                                        <HeadshotPicker
                               photo={player.photo}
                               onPick={() => triggerImageUpload(`__photo:startingXI:${index}`)}
                               onClear={() => {
@@ -1022,7 +1018,7 @@ const CMS = () => {
                               <X className="w-4 h-4" />
                             </button>
                           </div>
-                        ); })}
+                        ))}
                         <button
                           onClick={() => updateField('startingXI', [...localContent.startingXI, { number: localContent.startingXI.length + 1, name: '', position: '', role: '' }])}
                           className="w-full py-3 rounded-xl border-2 border-dashed border-border hover:bg-muted/50 transition-colors text-sm font-medium text-muted-foreground"
@@ -1030,11 +1026,10 @@ const CMS = () => {
                           + Add Player to Starting XI
                         </button>
 
-                        <h3 className="font-bold text-lg mt-8">Extended Squad</h3>
-                        {localContent.extendedSquad.map((player, index) => { const rp = extReorder.rowProps(index); return (
-                          <div key={index} data-reorder-row onDragOver={rp.onDragOver} onDrop={rp.onDrop} className={`cms-mobile-stack flex items-end gap-4 p-4 border border-border rounded-xl transition-shadow ${rp.className}`}>
-                            {extReorder.controls(index)}
-                            <HeadshotPicker
+                        <div className="flex items-center justify-between mt-8"><h3 className="font-bold text-lg">Extended Squad</h3><OrganizeOrderSheet title="Extended Squad" items={localContent.extendedSquad} onDone={(n) => updateField('extendedSquad', n)} /></div>
+                        {localContent.extendedSquad.map((player, index) => (
+                          <div key={index} className="cms-mobile-stack flex items-end gap-4 p-4 border border-border rounded-xl">
+                                                        <HeadshotPicker
                               photo={player.photo}
                               onPick={() => triggerImageUpload(`__photo:extendedSquad:${index}`)}
                               onClear={() => {
@@ -1118,7 +1113,7 @@ const CMS = () => {
                               <X className="w-4 h-4" />
                             </button>
                           </div>
-                        ); })}
+                        ))}
                         <button
                           onClick={() => updateField('extendedSquad', [...localContent.extendedSquad, { number: localContent.extendedSquad.length + 12, name: '', position: '' }])}
                           className="w-full py-3 rounded-xl border-2 border-dashed border-border hover:bg-muted/50 transition-colors text-sm font-medium text-muted-foreground"
