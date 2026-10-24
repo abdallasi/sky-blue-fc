@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { ApplicationsPanel } from '@/components/cms/ApplicationsPanel';
 import { uploadSiteImage, migrateDataUrls, isDataUrl, HEADSHOT_OPTIONS } from '@/lib/mediaUpload';
 import { ImageCropDialog, suggestedRatio } from '@/components/cms/ImageCropDialog';
+import { useReorder } from '@/components/cms/ReorderControls';
 
 
 
@@ -181,6 +182,10 @@ const CMS = () => {
       return updated;
     });
   };
+
+  const mgmtReorder = useReorder(localContent.management, (n) => updateField('management', n));
+  const xiReorder = useReorder(localContent.startingXI, (n) => updateField('startingXI', n));
+  const extReorder = useReorder(localContent.extendedSquad, (n) => updateField('extendedSquad', n));
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -869,8 +874,9 @@ const CMS = () => {
 
                     {section.id === 'management' && (
                       <>
-                        {localContent.management.map((member, index) => (
-                          <div key={index} className="cms-mobile-stack flex items-end gap-4 p-4 border border-border rounded-xl">
+                        {localContent.management.map((member, index) => { const rp = mgmtReorder.rowProps(index); return (
+                          <div key={index} data-reorder-row onDragOver={rp.onDragOver} onDrop={rp.onDrop} className={`cms-mobile-stack flex items-end gap-4 p-4 border border-border rounded-xl transition-shadow ${rp.className}`}>
+                            {mgmtReorder.controls(index)}
                             <HeadshotPicker
                               photo={member.photo}
                               onPick={() => triggerImageUpload(`__photo:management:${index}`)}
@@ -929,8 +935,9 @@ const CMS = () => {
                     {section.id === 'players' && (
                       <>
                         <h3 className="font-bold text-lg">Starting XI</h3>
-                        {localContent.startingXI.map((player, index) => (
-                          <div key={index} className="cms-mobile-stack flex items-end gap-4 p-4 border border-border rounded-xl">
+                        {localContent.startingXI.map((player, index) => { const rp = xiReorder.rowProps(index); return (
+                          <div key={index} data-reorder-row onDragOver={rp.onDragOver} onDrop={rp.onDrop} className={`cms-mobile-stack flex items-end gap-4 p-4 border border-border rounded-xl transition-shadow ${rp.className}`}>
+                            {xiReorder.controls(index)}
                             <HeadshotPicker
                               photo={player.photo}
                               onPick={() => triggerImageUpload(`__photo:startingXI:${index}`)}
@@ -1024,8 +1031,9 @@ const CMS = () => {
                         </button>
 
                         <h3 className="font-bold text-lg mt-8">Extended Squad</h3>
-                        {localContent.extendedSquad.map((player, index) => (
-                          <div key={index} className="cms-mobile-stack flex items-end gap-4 p-4 border border-border rounded-xl">
+                        {localContent.extendedSquad.map((player, index) => { const rp = extReorder.rowProps(index); return (
+                          <div key={index} data-reorder-row onDragOver={rp.onDragOver} onDrop={rp.onDrop} className={`cms-mobile-stack flex items-end gap-4 p-4 border border-border rounded-xl transition-shadow ${rp.className}`}>
+                            {extReorder.controls(index)}
                             <HeadshotPicker
                               photo={player.photo}
                               onPick={() => triggerImageUpload(`__photo:extendedSquad:${index}`)}
