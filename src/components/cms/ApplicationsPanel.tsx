@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, RefreshCw, Trash2, ChevronDown, ChevronRight, Phone, MessageCircle } from 'lucide-react';
+import { Loader2, RefreshCw, Trash2, ChevronDown, ChevronRight, Phone, MessageCircle, Download } from 'lucide-react';
+import { downloadApplicationPdf } from '@/lib/applicationPdf';
 
 type Status = 'pending' | 'reviewing' | 'accepted' | 'rejected';
 
@@ -241,6 +242,12 @@ export const ApplicationsPanel = () => {
                       </div>
 
                       <div className="flex flex-wrap items-center gap-2">
+                        <button
+                          onClick={() => downloadApplicationPdf(app as unknown as Parameters<typeof downloadApplicationPdf>[0])}
+                          className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground hover:opacity-90"
+                        >
+                          <Download className="w-3.5 h-3.5" /> Download PDF
+                        </button>
                         {app.phone && (
                           <>
                             <a
