@@ -223,7 +223,7 @@ const Team = () => {
             {content.management.map((member, index) => (
               <div
                 key={index}
-                className={`group relative min-h-[250px] overflow-hidden rounded-[1.25rem] border border-border bg-card p-6 shadow-md transition-all duration-700 hover:-translate-y-1 hover:shadow-xl sm:min-h-[290px] sm:p-8 ${mgmtAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                className={`group relative min-h-[250px] overflow-hidden rounded-[1.25rem] border border-border bg-card p-6 shadow-md transition-all duration-700 hover:-translate-y-1 hover:shadow-xl sm:min-h-[290px] sm:p-8 animate-fade-in`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
                 <div className="flex items-center gap-4">
